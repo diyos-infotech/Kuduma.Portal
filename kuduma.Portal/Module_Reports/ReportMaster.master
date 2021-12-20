@@ -1,0 +1,44 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/MainMaster.Master" AutoEventWireup="true" CodeBehind="ReportMaster.master.cs" Inherits="Kuduma.Portal.Module_Reports.ReportMaster" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+ <style type="text/css">
+        .style2 {
+            font-size: 10pt;
+            font-weight: bold;
+            color: #333333;
+            background: #cccccc;
+            padding: 5px 5px 2px 10px;
+            border-bottom: 1px solid #999999;
+            height: 26px;
+        }
+    </style>
+         
+             <div id="submenu">
+                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="display: inline">
+                                    <div id="submenu" class="submenu">
+                                        <div class="submenubeforegap">
+                                            &nbsp;
+                                        </div>
+                                        <div class="submenuactions">
+                                            &nbsp;
+                                        </div>
+                                        <ul>
+                                            <li id="sli1" runat="server"><a href="Reports.aspx" id="EmployeeReportLink" runat="server"><span>Employees</span></a></li>
+                                            <li id="sli2" runat="server"><a href="ClientReports.aspx" id="ClientsReportLink" runat="server"><span>Clients</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+              <asp:ContentPlaceHolder id="ContentPlaceHolder3" runat="server">
+              </asp:ContentPlaceHolder>
+</asp:Content>

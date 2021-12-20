@@ -1,0 +1,2532 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F800816E-1238-43C9-B1FC-5F76E215F493}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>kuduma.Portal</RootNamespace>
+    <AssemblyName>kuduma.Portal</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ClosedXML, Version=0.95.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.95.4\lib\net40\ClosedXML.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPPlus, Version=5.7.2.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.5.7.2\lib\net45\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.0.10.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelNumberFormat.1.0.10\lib\net20\ExcelNumberFormat.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\iTextSharp.5.5.13.2\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.0.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.0.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.0.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.0.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.0.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.0.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.4.1\lib\net45\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\Thumbs.db" />
+    <Content Include="bootstrap\css\bootstrap.css.map" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="css\assets\Thumbs.db" />
+    <Content Include="css\boostrap\css\bootstrap-theme.css.map" />
+    <Content Include="css\boostrap\css\bootstrap.css.map" />
+    <Content Include="css\boostrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="css\boostrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="css\boostrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="css\js\bin\App_Code.compiled" />
+    <Content Include="css\js\Controls\web.config" />
+    <Content Include="date\Thumbs.db" />
+    <Content Include="ImportDocuments\51ac36a7-afa5-4a25-9a43-53889a98d40b.xls" />
+    <Content Include="ImportDocuments\b5791fff-a602-4bf4-a505-cbef23be2828.xls" />
+    <Content Include="ImportDocuments\e2a913eb-0d0e-42b2-9efb-79042cd7d46f.xls" />
+    <Content Include="login\Thumbs.db" />
+    <Content Include="Module_Clients\Clients.master" />
+    <Content Include="Module_Employees\EmployeeMaster.master" />
+    <Content Include="Module_Reports\assets\Thumbs.db" />
+    <Content Include="Module_Reports\ReportMaster.master" />
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <Content Include="script\BitString.as" />
+    <Content Include="script\JPGEncoder.as" />
+    <Content Include="script\jscam.as" />
+    <Content Include="script\Makefile" />
+    <Content Include="script\webcam.jquery.json" />
+    <Content Include="Service References\plugins\ckeditor\CHANGES.md" />
+    <Content Include="Service References\plugins\ckeditor\LICENSE.md" />
+    <Content Include="Service References\plugins\ckeditor\plugins\scayt\LICENSE.md" />
+    <Content Include="Service References\plugins\ckeditor\plugins\scayt\README.md" />
+    <Content Include="Service References\plugins\ckeditor\plugins\wsc\LICENSE.md" />
+    <Content Include="Service References\plugins\ckeditor\plugins\wsc\README.md" />
+    <Content Include="Service References\plugins\ckeditor\README.md" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\readme.md" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\Readme.md" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\Readme.md" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\Readme.md" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\css\dataTables.responsive.scss" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\Readme.md" />
+    <Content Include="Service References\plugins\datatables\extensions\Scroller\examples\data\ssp.php" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\images\psd\collection.psd" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\images\psd\copy document.psd" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\images\psd\file_types.psd" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\images\psd\printer.psd" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\Readme.md" />
+    <Content Include="Service References\plugins\input-mask\phone-codes\phone-be.json" />
+    <Content Include="Service References\plugins\input-mask\phone-codes\phone-codes.json" />
+    <Content Include="MainMaster.Master" />
+    <None Include="Properties\PublishProfiles\Kuduma.Portal.pubxml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\Calculator.png" />
+    <Content Include="assets\EPFLogo.png" />
+    <Content Include="assets\Images\addressproof.png" />
+    <Content Include="assets\Images\black-check.png" />
+    <Content Include="assets\Images\cardcharges.png" />
+    <Content Include="assets\Images\checkbox1.png" />
+    <Content Include="assets\Images\commaddress.png" />
+    <Content Include="assets\Images\Declaration.png" />
+    <Content Include="assets\Images\ESIC-LOGO102.png" />
+    <Content Include="assets\Images\ForICICI.png" />
+    <Content Include="assets\Images\icicin.png" />
+    <Content Include="assets\Images\KYC.png" />
+    <Content Include="assets\Images\peraddress.png" />
+    <Content Include="assets\Images\personaldetails.png" />
+    <Content Include="assets\Images\sign.jpg" />
+    <Content Include="assets\Images\Text.png" />
+    <Content Include="assets\Images\yourwork.png" />
+    <Content Include="assets\L1.png" />
+    <Content Include="assets\loader.gif" />
+    <Content Include="assets\logo.png" />
+    <Content Include="assets\logo1.png" />
+    <Content Include="assets\logo12.png" />
+    <Content Include="assets\NoPhoto.jpg" />
+    <Content Include="assets\P.png" />
+    <Content Include="assets\PP.png" />
+    <Content Include="assets\SFSBilllogo.png" />
+    <Content Include="assets\SHFSBillLogo.png" />
+    <Content Include="assets\Status_Active.png" />
+    <Content Include="assets\Status_Archive.png" />
+    <Content Include="assets\UL.png" />
+    <Content Include="assets\WO.png" />
+    <Content Include="AutoCompleteAA.asmx" />
+    <Content Include="Autocompletion.asmx" />
+    <Content Include="bootstrap\css\bootstrap.css" />
+    <Content Include="bootstrap\css\bootstrap.min.css" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="bootstrap\js\bootstrap.js" />
+    <Content Include="bootstrap\js\bootstrap.min.js" />
+    <Content Include="bootstrap\js\npm.js" />
+    <Content Include="companyinfo.aspx" />
+    <Content Include="css\ajax-loader.gif" />
+    <Content Include="css\assets\Approve.png" />
+    <Content Include="css\assets\back.png" />
+    <Content Include="css\assets\bg-crumbs.png" />
+    <Content Include="css\assets\billing.png" />
+    <Content Include="css\assets\birthday.gif" />
+    <Content Include="css\assets\birthday.ico" />
+    <Content Include="css\assets\birthday.png" />
+    <Content Include="css\assets\blank.gif" />
+    <Content Include="css\assets\bullet.png" />
+    <Content Include="css\assets\client.png" />
+    <Content Include="css\assets\clmanicon.png" />
+    <Content Include="css\assets\close-button.png" />
+    <Content Include="css\assets\collapse-icon.png" />
+    <Content Include="css\assets\contract.png" />
+    <Content Include="css\assets\delete.png" />
+    <Content Include="css\assets\edit.png" />
+    <Content Include="css\assets\eicon.png" />
+    <Content Include="css\assets\error_msg_icon.gif" />
+    <Content Include="css\assets\expand-icon.png" />
+    <Content Include="css\assets\filemanagementred.png" />
+    <Content Include="css\assets\filemanament1.png" />
+    <Content Include="css\assets\form_red.gif" />
+    <Content Include="css\assets\gridminus.png" />
+    <Content Include="css\assets\gridplus.png" />
+    <Content Include="css\assets\header-bg.png" />
+    <Content Include="css\assets\iepngfix.htc" />
+    <Content Include="css\assets\image_sprite.png" />
+    <Content Include="css\assets\note_msg_icon.gif" />
+    <Content Include="css\assets\paysheet.png" />
+    <Content Include="css\assets\plus.png" />
+    <Content Include="css\assets\plus_small.png" />
+    <Content Include="css\assets\point_arrow.png" />
+    <Content Include="css\assets\receipt-bill.png" />
+    <Content Include="css\assets\receipt.gif" />
+    <Content Include="css\assets\renewal.png" />
+    <Content Include="css\assets\report.png" />
+    <Content Include="css\assets\required.gif" />
+    <Content Include="css\assets\sbbody-l.gif" />
+    <Content Include="css\assets\sbbody-r.gif" />
+    <Content Include="css\assets\sbhead-l.gif" />
+    <Content Include="css\assets\sbhead-r.gif" />
+    <Content Include="css\assets\settings.png" />
+    <Content Include="css\assets\spacer.png" />
+    <Content Include="css\assets\submenu-lt.png" />
+    <Content Include="css\assets\submenu-overlap.png" />
+    <Content Include="css\assets\submenu-rt.png" />
+    <Content Include="css\assets\subnav-bg.png" />
+    <Content Include="css\assets\success_msg_icon.gif" />
+    <Content Include="css\assets\tab-bg.png" />
+    <Content Include="css\assets\tab-first.png" />
+    <Content Include="css\assets\tab-last.png" />
+    <Content Include="css\assets\tab-overlap.png" />
+    <Content Include="css\assets\tab-selected-bg.png" />
+    <Content Include="css\assets\tab-selected-first.png" />
+    <Content Include="css\assets\tab-selected-last.png" />
+    <Content Include="css\assets\tab-selected-left.png" />
+    <Content Include="css\assets\tab-selected-right.png" />
+    <Content Include="css\assets\toplinks-sep.png" />
+    <Content Include="css\assets\view.png" />
+    <Content Include="css\boostrap\css\bootstrap-theme.css" />
+    <Content Include="css\boostrap\css\bootstrap-theme.min.css" />
+    <Content Include="css\boostrap\css\bootstrap.css" />
+    <Content Include="css\boostrap\css\bootstrap.min.css" />
+    <Content Include="css\boostrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="css\boostrap\js\bootstrap.js" />
+    <Content Include="css\boostrap\js\bootstrap.min.js" />
+    <Content Include="css\boostrap\js\npm.js" />
+    <Content Include="css\chosen.css" />
+    <Content Include="css\global.css" />
+    <Content Include="css\js\bin\AjaxControlToolkit.dll" />
+    <Content Include="css\js\bin\App_Code.dll" />
+    <Content Include="css\js\bin\App_Web_at8yf0c6.dll" />
+    <Content Include="css\js\bin\App_Web_c7zl6uaf.dll" />
+    <Content Include="css\js\bin\App_Web_heugtnz2.dll" />
+    <Content Include="css\js\bin\App_Web_hu2uboqe.dll" />
+    <Content Include="css\js\bin\App_Web_oaj_ueu9.dll" />
+    <Content Include="css\js\bin\App_Web_of9u1jhe.dll" />
+    <Content Include="css\js\bin\App_Web_prohhuut.dll" />
+    <Content Include="css\js\bin\App_Web_qyopfewj.dll" />
+    <Content Include="css\js\bin\App_Web_vewivo--.dll" />
+    <Content Include="css\js\bin\App_Web_x63wxjyy.dll" />
+    <Content Include="css\js\bin\App_Web_xpxkxdbw.dll" />
+    <Content Include="css\js\bin\DropDownCheckBoxes.dll" />
+    <Content Include="css\js\bin\itextsharp.dll" />
+    <Content Include="css\js\jquery.bpopup-x.x.x.min.js" />
+    <Content Include="css\js\jquery.easing.min.js" />
+    <Content Include="css\js\jquery.easy-ticker.js" />
+    <Content Include="css\js\jquery.js" />
+    <Content Include="css\js\jquery.min.js" />
+    <Content Include="css\js\jquery.vticker-min.js" />
+    <Content Include="css\reminders.css" />
+    <Content Include="css\styles.css" />
+    <Content Include="date\calendar.png" />
+    <Content Include="date\date0000.js" />
+    <Content Include="date\datePick.css" />
+    <Content Include="date\jquery00.js" />
+    <Content Include="date\jquery01.js" />
+    <Content Include="date\WebResource.gif" />
+    <Content Include="Default.aspx" />
+    <Content Include="dist\css\AdminLTE.css" />
+    <Content Include="dist\css\AdminLTE.min.css" />
+    <Content Include="dist\css\skins\skin-black-light.css" />
+    <Content Include="dist\css\skins\skin-black-light.min.css" />
+    <Content Include="dist\css\skins\skin-black.css" />
+    <Content Include="dist\css\skins\skin-black.min.css" />
+    <Content Include="dist\css\skins\skin-blue-light.css" />
+    <Content Include="dist\css\skins\skin-blue-light.min.css" />
+    <Content Include="dist\css\skins\skin-blue.css" />
+    <Content Include="dist\css\skins\skin-blue.min.css" />
+    <Content Include="dist\css\skins\skin-green-light.css" />
+    <Content Include="dist\css\skins\skin-green-light.min.css" />
+    <Content Include="dist\css\skins\skin-green.css" />
+    <Content Include="dist\css\skins\skin-green.min.css" />
+    <Content Include="dist\css\skins\skin-purple-light.css" />
+    <Content Include="dist\css\skins\skin-purple-light.min.css" />
+    <Content Include="dist\css\skins\skin-purple.css" />
+    <Content Include="dist\css\skins\skin-purple.min.css" />
+    <Content Include="dist\css\skins\skin-red-light.css" />
+    <Content Include="dist\css\skins\skin-red-light.min.css" />
+    <Content Include="dist\css\skins\skin-red.css" />
+    <Content Include="dist\css\skins\skin-red.min.css" />
+    <Content Include="dist\css\skins\skin-yellow-light.css" />
+    <Content Include="dist\css\skins\skin-yellow-light.min.css" />
+    <Content Include="dist\css\skins\skin-yellow.css" />
+    <Content Include="dist\css\skins\skin-yellow.min.css" />
+    <Content Include="dist\css\skins\_all-skins.css" />
+    <Content Include="dist\css\skins\_all-skins.min.css" />
+    <Content Include="dist\img\avatar.png" />
+    <Content Include="dist\img\avatar04.png" />
+    <Content Include="dist\img\avatar2.png" />
+    <Content Include="dist\img\avatar3.png" />
+    <Content Include="dist\img\avatar5.png" />
+    <Content Include="dist\img\boxed-bg.jpg" />
+    <Content Include="dist\img\boxed-bg.png" />
+    <Content Include="dist\img\credit\american-express.png" />
+    <Content Include="dist\img\credit\cirrus.png" />
+    <Content Include="dist\img\credit\mastercard.png" />
+    <Content Include="dist\img\credit\mestro.png" />
+    <Content Include="dist\img\credit\paypal.png" />
+    <Content Include="dist\img\credit\paypal2.png" />
+    <Content Include="dist\img\credit\visa.png" />
+    <Content Include="dist\img\default-50x50.gif" />
+    <Content Include="dist\img\icons.png" />
+    <Content Include="dist\img\photo1.png" />
+    <Content Include="dist\img\photo2.png" />
+    <Content Include="dist\img\photo3.jpg" />
+    <Content Include="dist\img\photo4.jpg" />
+    <Content Include="dist\img\user1-128x128.jpg" />
+    <Content Include="dist\img\user2-160x160.jpg" />
+    <Content Include="dist\img\user3-128x128.jpg" />
+    <Content Include="dist\img\user4-128x128.jpg" />
+    <Content Include="dist\img\user5-128x128.jpg" />
+    <Content Include="dist\img\user6-128x128.jpg" />
+    <Content Include="dist\img\user7-128x128.jpg" />
+    <Content Include="dist\img\user8-128x128.jpg" />
+    <Content Include="dist\js\app.js" />
+    <Content Include="dist\js\app.min.js" />
+    <Content Include="dist\js\demo.js" />
+    <Content Include="dist\js\pages\dashboard.js" />
+    <Content Include="dist\js\pages\dashboard2.js" />
+    <Content Include="FameService.asmx" />
+    <Content Include="Global.asax" />
+    <Content Include="Home.aspx" />
+    <Content Include="images\minus.png" />
+    <Content Include="images\plus.png" />
+    <Content Include="js\colResizable-1.6.js" />
+    <Content Include="js\colResizable-1.6.min.js" />
+    <Content Include="Login.aspx" />
+    <Content Include="login\bg_silve.jpg" />
+    <Content Include="login\checkbox-off-hover.png" />
+    <Content Include="login\checkbox-off.png" />
+    <Content Include="login\checkbox-on-hover.png" />
+    <Content Include="login\checkbox-on.png" />
+    <Content Include="login\form-bg.png" />
+    <Content Include="login\login-style.css" />
+    <Content Include="login\password-field-hover.png" />
+    <Content Include="login\password-field.png" />
+    <Content Include="login\username-field-hover.png" />
+    <Content Include="login\username-field.png" />
+    <Content Include="Module_Clients\1TimeBill.aspx" />
+    <Content Include="Module_Clients\AddClient.aspx" />
+    <Content Include="Module_Clients\AddContract.aspx" />
+    <Content Include="Module_Clients\AddReceipts.aspx" />
+    <Content Include="Module_Clients\BillVsReceipts.aspx" />
+    <Content Include="Module_Clients\clientattendance.aspx" />
+    <Content Include="Module_Clients\ClientBilling.aspx" />
+    <Content Include="Module_Clients\ClientLicenses.aspx" />
+    <Content Include="Module_Clients\ClientManPowerReq.aspx" />
+    <Content Include="Module_Clients\Clients.aspx" />
+    <Content Include="Module_Clients\contracts.aspx" />
+    <Content Include="Module_Clients\ModifyClient.aspx" />
+    <Content Include="Module_Clients\NewManualBill.aspx" />
+    <Content Include="Module_Clients\ReceiptDetails.aspx" />
+    <Content Include="Module_Clients\Receipts.aspx" />
+    <Content Include="Module_Clients\ReceiveReports.aspx" />
+    <Content Include="Module_Clients\ViewReceipts.aspx" />
+    <Content Include="Module_Employees\AddEmployee.aspx" />
+    <Content Include="Module_Employees\ApproveEmployee.aspx" />
+    <Content Include="Module_Employees\ClientAttendancePage.aspx" />
+    <Content Include="Module_Employees\EmployeePayments.aspx" />
+    <Content Include="Module_Employees\Employees.aspx" />
+    <Content Include="Module_Employees\EmpSalaryStructure.aspx" />
+    <Content Include="Module_Employees\EmpShiftDetails.aspx" />
+    <Content Include="Module_Employees\EmpWeeklyAttendance.aspx" />
+    <Content Include="Module_Employees\EmpWeeklyPayments.aspx" />
+    <Content Include="Module_Employees\ModifyEmployee.aspx" />
+    <Content Include="Module_Employees\NewLoan.aspx" />
+    <Content Include="Module_Employees\NoAccess.aspx" />
+    <Content Include="Module_Employees\PostingOrderList.aspx" />
+    <Content Include="Module_Inventory\AddNewItem.aspx" />
+    <Content Include="Module_Inventory\BranchInvReport.aspx" />
+    <Content Include="Module_Inventory\BranchResourceDetails.aspx" />
+    <Content Include="Module_Inventory\BranchResourceReturn.aspx" />
+    <Content Include="Module_Inventory\EmpInvReport.aspx" />
+    <Content Include="Module_Inventory\EmpResourceAllocation.aspx" />
+    <Content Include="Module_Inventory\InvClientMaster.aspx" />
+    <Content Include="Module_Inventory\InvInflowDetails.aspx" />
+    <Content Include="Module_Inventory\InvModifyPODetails.aspx" />
+    <Content Include="Module_Inventory\InvPODetails.aspx" />
+    <Content Include="Module_Inventory\InvVendorMaster.aspx" />
+    <Content Include="Module_Inventory\ItemwisestockList.aspx" />
+    <Content Include="Module_Inventory\ModifyInflowDetails.aspx" />
+    <Content Include="Module_Inventory\ModifyInvVendorMaster.aspx" />
+    <Content Include="Module_Inventory\ModifyItem.aspx" />
+    <Content Include="Module_Inventory\POInFlowDetailsReport.aspx" />
+    <Content Include="Module_Inventory\POPrint.aspx" />
+    <Content Include="Module_Inventory\POReport.aspx" />
+    <Content Include="Module_Inventory\ReportForStock.aspx" />
+    <Content Include="Module_Inventory\ReportForStockList.aspx" />
+    <Content Include="Module_Inventory\ResourceReturnEmp.aspx" />
+    <Content Include="Module_Inventory\UniformItemIssuedDetails.aspx" />
+    <Content Include="Module_Inventory\UniformPDF.aspx" />
+    <Content Include="Module_Inventory\ViewItems.aspx" />
+    <Content Include="Module_Reports\1TimeBill.aspx" />
+    <Content Include="Module_Reports\ActiveClientReports.aspx" />
+    <Content Include="Module_Reports\ActiveEmployeeReports.aspx" />
+    <Content Include="Module_Reports\AndroidAttendanceSummarisedReport.aspx" />
+    <Content Include="Module_Reports\ArrearWages.aspx" />
+    <Content Include="Module_Reports\ArrearWageSheetReport.aspx" />
+    <Content Include="Module_Reports\assets\Calculator.png" />
+    <Content Include="Module_Reports\assets\EPFLogo.png" />
+    <Content Include="Module_Reports\assets\Images\addressproof.png" />
+    <Content Include="Module_Reports\assets\Images\Authority.png" />
+    <Content Include="Module_Reports\assets\Images\black-check.png" />
+    <Content Include="Module_Reports\assets\Images\cardcharges.png" />
+    <Content Include="Module_Reports\assets\Images\checkbox1.png" />
+    <Content Include="Module_Reports\assets\Images\commaddress.png" />
+    <Content Include="Module_Reports\assets\Images\Declaration.png" />
+    <Content Include="Module_Reports\assets\Images\ESIC-LOGO102.png" />
+    <Content Include="Module_Reports\assets\Images\ForICICI.png" />
+    <Content Include="Module_Reports\assets\Images\icicin.png" />
+    <Content Include="Module_Reports\assets\Images\JGSBilllogo1.png" />
+    <Content Include="Module_Reports\assets\Images\KYC.png" />
+    <Content Include="Module_Reports\assets\Images\peraddress.png" />
+    <Content Include="Module_Reports\assets\Images\personaldetails.png" />
+    <Content Include="Module_Reports\assets\Images\SFBillLogo.png" />
+    <Content Include="Module_Reports\assets\Images\sign.jpg" />
+    <Content Include="Module_Reports\assets\Images\Text.png" />
+    <Content Include="Module_Reports\assets\Images\yourwork.png" />
+    <Content Include="Module_Reports\assets\L1.png" />
+    <Content Include="Module_Reports\assets\loader.gif" />
+    <Content Include="Module_Reports\assets\logo.png" />
+    <Content Include="Module_Reports\assets\logo1.png" />
+    <Content Include="Module_Reports\assets\logo12.png" />
+    <Content Include="Module_Reports\assets\NoPhoto.jpg" />
+    <Content Include="Module_Reports\assets\P.png" />
+    <Content Include="Module_Reports\assets\PP.png" />
+    <Content Include="Module_Reports\assets\SHFSBillLogo.png" />
+    <Content Include="Module_Reports\assets\Status_Active.png" />
+    <Content Include="Module_Reports\assets\Status_Archive.png" />
+    <Content Include="Module_Reports\assets\UL.png" />
+    <Content Include="Module_Reports\assets\WO.png" />
+    <Content Include="Module_Reports\AttendanceReport.aspx" />
+    <Content Include="Module_Reports\BankUploadFormat.aspx" />
+    <Content Include="Module_Reports\BillingReports.aspx" />
+    <Content Include="Module_Reports\BillingWagesReport.aspx" />
+    <Content Include="Module_Reports\BillsVsActuals.aspx" />
+    <Content Include="Module_Reports\BulkWageSlips.aspx" />
+    <Content Include="Module_Reports\ClentwiseEmployeesSalaryreports.aspx" />
+    <Content Include="Module_Reports\ClientForms.aspx" />
+    <Content Include="Module_Reports\ClientReports.aspx" />
+    <Content Include="Module_Reports\ClientWiseEmployeeNetpayReports.aspx" />
+    <Content Include="Module_Reports\ClientWiseFormT.aspx" />
+    <Content Include="Module_Reports\ConractExpiryDetailsReport.aspx" />
+    <Content Include="Module_Reports\ContractDetailsReports.aspx" />
+    <Content Include="Module_Reports\DocumentUpload.aspx" />
+    <Content Include="Module_Reports\EmpBioData.aspx" />
+    <Content Include="Module_Reports\EmpIDCard.aspx" />
+    <Content Include="Module_Reports\EmployeeForms.aspx" />
+    <Content Include="Module_Reports\EmployeeReports.aspx" />
+    <Content Include="Module_Reports\EmpSummary.aspx" />
+    <Content Include="Module_Reports\EmpWageSlips.aspx" />
+    <Content Include="Module_Reports\EmpWisePaysheetDetails.aspx" />
+    <Content Include="Module_Reports\EsiDetailsReport.aspx" />
+    <Content Include="Module_Reports\FullandFinal.aspx" />
+    <Content Include="Module_Reports\GetDaywise_Android_Attendance.aspx" />
+    <Content Include="Module_Reports\GetDaywise_Android_AttendanceMonthwise.aspx" />
+    <Content Include="Module_Reports\GetDaywise_Android_Attendance_ICS.aspx" />
+    <Content Include="Module_Reports\GSTR1InvoiceReport.aspx" />
+    <Content Include="Module_Reports\GSTR1InvoiceReportNew.aspx" />
+    <Content Include="Module_Reports\Images\addressproof.png" />
+    <Content Include="Module_Reports\Images\Arrow.png" />
+    <Content Include="Module_Reports\Images\Authority.png" />
+    <Content Include="Module_Reports\Images\black-check.png" />
+    <Content Include="Module_Reports\Images\cardcharges.png" />
+    <Content Include="Module_Reports\Images\checkbox1.png" />
+    <Content Include="Module_Reports\Images\commaddress.png" />
+    <Content Include="Module_Reports\Images\Declaration.png" />
+    <Content Include="Module_Reports\Images\EPFLogo.png" />
+    <Content Include="Module_Reports\Images\ESIC-LOGO102.png" />
+    <Content Include="Module_Reports\Images\ForICICI.png" />
+    <Content Include="Module_Reports\Images\GDXBillLogo.png" />
+    <Content Include="Module_Reports\Images\icicin.png" />
+    <Content Include="Module_Reports\Images\JGSBilllogo1.png" />
+    <Content Include="Module_Reports\Images\KYC.png" />
+    <Content Include="Module_Reports\Images\minus.png" />
+    <Content Include="Module_Reports\Images\peraddress.png" />
+    <Content Include="Module_Reports\Images\personaldetails.png" />
+    <Content Include="Module_Reports\Images\plus.png" />
+    <Content Include="Module_Reports\Images\SFBillLogo.png" />
+    <Content Include="Module_Reports\Images\sign.jpg" />
+    <Content Include="Module_Reports\Images\Text.png" />
+    <Content Include="Module_Reports\Images\TSLogo.png" />
+    <Content Include="Module_Reports\Images\yourwork.png" />
+    <Content Include="Module_Reports\ImportAttendance.aspx" />
+    <Content Include="Module_Reports\ImportEmpDetails.aspx" />
+    <Content Include="Module_Reports\ImportEmpLoanDetails.aspx" />
+    <Content Include="Module_Reports\LicenceDetailsReports.aspx" />
+    <Content Include="Module_Reports\LicenceExpireDetailsReports.aspx" />
+    <Content Include="Module_Reports\ListOfUsersReport.aspx" />
+    <Content Include="Module_Reports\LoanDeductionReports.aspx" />
+    <Content Include="Module_Reports\LoanDetailsMonthlyWise.aspx" />
+    <Content Include="Module_Reports\LoanPendingDetails.aspx" />
+    <Content Include="Module_Reports\LoanReports.aspx" />
+    <Content Include="Module_Reports\LWFReport.aspx" />
+    <Content Include="Module_Reports\ModificationLoanReport.aspx" />
+    <Content Include="Module_Reports\ModifyEmpAttendance.aspx" />
+    <Content Include="Module_Reports\ModifyLoanDetails.aspx" />
+    <Content Include="Module_Reports\MonthlyReport.aspx" />
+    <Content Include="Module_Reports\MonthWiseFreezeandUnfreeze.aspx" />
+    <Content Include="Module_Reports\Monthwisefreezebillsandpaysheets.aspx" />
+    <Content Include="Module_Reports\NYARejectedListBranchWise.aspx" />
+    <Content Include="Module_Reports\PaySheetWagesReport.aspx" />
+    <Content Include="Module_Reports\PFDetailsReport.aspx" />
+    <Content Include="Module_Reports\PFDetailsReportNew.aspx" />
+    <Content Include="Module_Reports\PinMyVisits.aspx" />
+    <Content Include="Module_Reports\PTReport.aspx" />
+    <Content Include="Module_Reports\ReportforBillingAndPaysheet.aspx" />
+    <Content Include="Module_Reports\ReportforBulkClientbillings.aspx" />
+    <Content Include="Module_Reports\ReportForBulkpaysheetforclients.aspx" />
+    <Content Include="Module_Reports\ReportforPBAttendance.aspx" />
+    <Content Include="Module_Reports\ReportforProfitLoss.aspx" />
+    <Content Include="Module_Reports\Reports.aspx" />
+    <Content Include="Module_Reports\SampleAttendance.aspx" />
+    <Content Include="Module_Reports\SubClientsWithMainClientReports.aspx" />
+    <Content Include="Module_Reports\WagesheetReportctc.aspx" />
+    <Content Include="Module_Reports\WageSheetReports.aspx" />
+    <Content Include="Module_Reports\WageSheetReportsNew.aspx" />
+    <Content Include="Module_Settings\AccessPrevilegers.aspx" />
+    <Content Include="Module_Settings\ActivateEmployee.aspx" />
+    <Content Include="Module_Settings\BankNames.aspx" />
+    <Content Include="Module_Settings\BillingAndSalary.aspx" />
+    <Content Include="Module_Settings\BloodGroups.aspx" />
+    <Content Include="Module_Settings\Branches.aspx" />
+    <Content Include="Module_Settings\BranchSetUp.aspx" />
+    <Content Include="Module_Settings\Categories.aspx" />
+    <Content Include="Module_Settings\ChangePassword.aspx" />
+    <Content Include="Module_Settings\CreateLogin.aspx" />
+    <Content Include="Module_Settings\CreateLoginPocketFame.aspx" />
+    <Content Include="Module_Settings\Department.aspx" />
+    <Content Include="Module_Settings\Designation.aspx" />
+    <Content Include="Module_Settings\Division.aspx" />
+    <Content Include="Module_Settings\ESIBranches.aspx" />
+    <Content Include="Module_Settings\HSNNumberList.aspx" />
+    <Content Include="Module_Settings\LWFMaster.aspx" />
+    <Content Include="Module_Settings\MeasuredUnits.aspx" />
+    <Content Include="Module_Settings\Menu.aspx" />
+    <Content Include="Module_Settings\Minimum_Wages_Categories.aspx" />
+    <Content Include="Module_Settings\PFBranches.aspx" />
+    <Content Include="Module_Settings\Previligers.aspx" />
+    <Content Include="Module_Settings\Resources.aspx" />
+    <Content Include="Module_Settings\Segment.aspx" />
+    <Content Include="Module_Settings\Settings.aspx" />
+    <Content Include="Module_Settings\TaxComponents.aspx" />
+    <Content Include="Reminders.aspx" />
+    <Content Include="scripts\ai.0.22.9-build00167.js" />
+    <Content Include="scripts\ai.0.22.9-build00167.min.js" />
+    <Content Include="script\chosen.jquery.js" />
+    <Content Include="script\Extension.min.js" />
+    <Content Include="script\global00.css" />
+    <Content Include="script\gridviewScroll.js" />
+    <Content Include="script\gridviewScroll.min.js" />
+    <Content Include="script\jquery-1.4.2.min.js" />
+    <Content Include="script\jquery-ui.css" />
+    <Content Include="script\jquery-ui.js" />
+    <Content Include="script\jquery.fullpage.extensions.min.js" />
+    <Content Include="script\jquery.min.js" />
+    <Content Include="script\jquery.stickytableheaders.js" />
+    <Content Include="script\jquery.webcam.js" />
+    <Content Include="script\jquery00.js" />
+    <Content Include="script\jscam.swf" />
+    <Content Include="script\jscam.xml" />
+    <Content Include="script\jscam_canvas_only.swf" />
+    <Content Include="script\JScript.js" />
+    <Content Include="script\Nitgen.js" />
+    <Content Include="Service References\plugins\bootstrap-slider\bootstrap-slider.js" />
+    <Content Include="Service References\plugins\bootstrap-slider\slider.css" />
+    <Content Include="Service References\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.all.js" />
+    <Content Include="Service References\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.all.min.js" />
+    <Content Include="Service References\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.css" />
+    <Content Include="Service References\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.min.css" />
+    <Content Include="Service References\plugins\chartjs\Chart.js" />
+    <Content Include="Service References\plugins\chartjs\Chart.min.js" />
+    <Content Include="Service References\plugins\ckeditor\adapters\jquery.js" />
+    <Content Include="Service References\plugins\ckeditor\build-config.js" />
+    <Content Include="Service References\plugins\ckeditor\ckeditor.js" />
+    <Content Include="Service References\plugins\ckeditor\config.js" />
+    <Content Include="Service References\plugins\ckeditor\contents.css" />
+    <Content Include="Service References\plugins\ckeditor\lang\af.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\ar.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\bg.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\bn.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\bs.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\ca.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\cs.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\cy.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\da.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\de.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\el.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\en-au.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\en-ca.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\en-gb.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\en.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\eo.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\es.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\et.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\eu.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\fa.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\fi.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\fo.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\fr-ca.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\fr.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\gl.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\gu.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\he.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\hi.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\hr.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\hu.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\id.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\is.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\it.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\ja.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\ka.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\km.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\ko.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\ku.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\lt.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\lv.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\mk.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\mn.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\ms.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\nb.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\nl.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\no.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\pl.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\pt-br.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\pt.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\ro.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\ru.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\si.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\sk.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\sl.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\sq.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\sr-latn.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\sr.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\sv.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\th.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\tr.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\ug.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\uk.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\vi.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\zh-cn.js" />
+    <Content Include="Service References\plugins\ckeditor\lang\zh.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\a11yhelp.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ar.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\bg.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ca.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\cs.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\cy.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\da.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\de.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\el.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\en.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\eo.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\es.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\et.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\fa.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\fi.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\fr-ca.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\fr.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\gl.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\gu.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\he.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\hi.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\hr.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\hu.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\id.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\it.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ja.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\km.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ko.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ku.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\lt.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\lv.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\mk.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\mn.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\nb.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\nl.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\no.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\pl.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\pt-br.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\pt.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ro.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ru.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\si.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\sk.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\sl.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\sq.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\sr-latn.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\sr.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\sv.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\th.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\tr.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ug.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\uk.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\vi.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\zh-cn.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\zh.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\_translationstatus.txt" />
+    <Content Include="Service References\plugins\ckeditor\plugins\about\dialogs\about.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\about\dialogs\hidpi\logo_ckeditor.png" />
+    <Content Include="Service References\plugins\ckeditor\plugins\about\dialogs\logo_ckeditor.png" />
+    <Content Include="Service References\plugins\ckeditor\plugins\clipboard\dialogs\paste.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\dialog\dialogDefinition.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\fakeobjects\images\spacer.gif" />
+    <Content Include="Service References\plugins\ckeditor\plugins\icons.png" />
+    <Content Include="Service References\plugins\ckeditor\plugins\icons_hidpi.png" />
+    <Content Include="Service References\plugins\ckeditor\plugins\image\dialogs\image.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\image\images\noimage.png" />
+    <Content Include="Service References\plugins\ckeditor\plugins\link\dialogs\anchor.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\link\dialogs\link.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\link\images\anchor.png" />
+    <Content Include="Service References\plugins\ckeditor\plugins\link\images\hidpi\anchor.png" />
+    <Content Include="Service References\plugins\ckeditor\plugins\magicline\images\hidpi\icon.png" />
+    <Content Include="Service References\plugins\ckeditor\plugins\magicline\images\icon.png" />
+    <Content Include="Service References\plugins\ckeditor\plugins\pastefromword\filter\default.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\scayt\dialogs\options.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\scayt\dialogs\toolbar.css" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\ar.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\bg.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\ca.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\cs.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\cy.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\de.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\el.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\en.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\eo.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\es.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\et.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\fa.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\fi.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\fr-ca.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\fr.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\gl.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\he.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\hr.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\hu.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\id.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\it.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\ja.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\km.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\ku.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\lv.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\nb.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\nl.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\no.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\pl.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\pt-br.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\pt.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\ru.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\si.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\sk.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\sl.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\sq.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\sv.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\th.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\tr.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\ug.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\uk.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\vi.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\zh-cn.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\zh.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\lang\_translationstatus.txt" />
+    <Content Include="Service References\plugins\ckeditor\plugins\specialchar\dialogs\specialchar.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\tabletools\dialogs\tableCell.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\table\dialogs\table.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\wsc\dialogs\ciframe.html" />
+    <Content Include="Service References\plugins\ckeditor\plugins\wsc\dialogs\tmp.html" />
+    <Content Include="Service References\plugins\ckeditor\plugins\wsc\dialogs\tmpFrameset.html" />
+    <Content Include="Service References\plugins\ckeditor\plugins\wsc\dialogs\wsc.css" />
+    <Content Include="Service References\plugins\ckeditor\plugins\wsc\dialogs\wsc.js" />
+    <Content Include="Service References\plugins\ckeditor\plugins\wsc\dialogs\wsc_ie.js" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\dialog.css" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\dialog_ie.css" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\dialog_ie7.css" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\dialog_ie8.css" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\dialog_iequirks.css" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\dialog_opera.css" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\editor.css" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\editor_gecko.css" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\editor_ie.css" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\editor_ie7.css" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\editor_ie8.css" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\editor_iequirks.css" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\icons.png" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\icons_hidpi.png" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\images\arrow.png" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\images\close.png" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\images\hidpi\close.png" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\images\hidpi\lock-open.png" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\images\hidpi\lock.png" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\images\hidpi\refresh.png" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\images\lock-open.png" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\images\lock.png" />
+    <Content Include="Service References\plugins\ckeditor\skins\moono\images\refresh.png" />
+    <Content Include="Service References\plugins\ckeditor\styles.js" />
+    <Content Include="Service References\plugins\colorpicker\bootstrap-colorpicker.css" />
+    <Content Include="Service References\plugins\colorpicker\bootstrap-colorpicker.js" />
+    <Content Include="Service References\plugins\colorpicker\bootstrap-colorpicker.min.css" />
+    <Content Include="Service References\plugins\colorpicker\bootstrap-colorpicker.min.js" />
+    <Content Include="Service References\plugins\colorpicker\img\alpha-horizontal.png" />
+    <Content Include="Service References\plugins\colorpicker\img\alpha.png" />
+    <Content Include="Service References\plugins\colorpicker\img\hue-horizontal.png" />
+    <Content Include="Service References\plugins\colorpicker\img\hue.png" />
+    <Content Include="Service References\plugins\colorpicker\img\saturation.png" />
+    <Content Include="Service References\plugins\datatables\dataTables.bootstrap.css" />
+    <Content Include="Service References\plugins\datatables\dataTables.bootstrap.js" />
+    <Content Include="Service References\plugins\datatables\dataTables.bootstrap.min.js" />
+    <Content Include="Service References\plugins\datatables\extensions\AutoFill\css\dataTables.autoFill.css" />
+    <Content Include="Service References\plugins\datatables\extensions\AutoFill\css\dataTables.autoFill.min.css" />
+    <Content Include="Service References\plugins\datatables\extensions\AutoFill\examples\columns.html" />
+    <Content Include="Service References\plugins\datatables\extensions\AutoFill\examples\complete-callback.html" />
+    <Content Include="Service References\plugins\datatables\extensions\AutoFill\examples\fill-both.html" />
+    <Content Include="Service References\plugins\datatables\extensions\AutoFill\examples\fill-horizontal.html" />
+    <Content Include="Service References\plugins\datatables\extensions\AutoFill\examples\index.html" />
+    <Content Include="Service References\plugins\datatables\extensions\AutoFill\examples\scrolling.html" />
+    <Content Include="Service References\plugins\datatables\extensions\AutoFill\examples\simple.html" />
+    <Content Include="Service References\plugins\datatables\extensions\AutoFill\examples\step-callback.html" />
+    <Content Include="Service References\plugins\datatables\extensions\AutoFill\images\filler.png" />
+    <Content Include="Service References\plugins\datatables\extensions\AutoFill\js\dataTables.autoFill.js" />
+    <Content Include="Service References\plugins\datatables\extensions\AutoFill\js\dataTables.autoFill.min.js" />
+    <Content Include="Service References\plugins\datatables\extensions\AutoFill\Readme.txt" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\css\dataTables.colReorder.css" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\css\dataTables.colReorder.min.css" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\examples\alt_insert.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\examples\colvis.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\examples\col_filter.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\examples\fixedcolumns.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\examples\fixedheader.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\examples\index.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\examples\jqueryui.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\examples\new_init.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\examples\predefined.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\examples\realtime.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\examples\reset.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\examples\scrolling.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\examples\server_side.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\examples\simple.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\examples\state_save.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\images\insert.png" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\js\dataTables.colReorder.js" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\js\dataTables.colReorder.min.js" />
+    <Content Include="Service References\plugins\datatables\extensions\ColReorder\License.txt" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\css\dataTables.colVis.css" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\css\dataTables.colvis.jqueryui.css" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\css\dataTables.colVis.min.css" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\examples\button_order.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\examples\exclude_columns.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\examples\group_columns.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\examples\index.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\examples\jqueryui.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\examples\mouseover.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\examples\new_init.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\examples\restore.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\examples\simple.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\examples\text.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\examples\title_callback.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\examples\two_tables.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\examples\two_tables_identical.html" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\js\dataTables.colVis.js" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\js\dataTables.colVis.min.js" />
+    <Content Include="Service References\plugins\datatables\extensions\ColVis\License.txt" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\css\dataTables.fixedColumns.css" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\css\dataTables.fixedColumns.min.css" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\examples\bootstrap.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\examples\colvis.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\examples\col_filter.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\examples\css_size.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\examples\index.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\examples\index_column.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\examples\left_right_columns.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\examples\right_column.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\examples\rowspan.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\examples\server-side-processing.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\examples\simple.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\examples\size_fixed.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\examples\size_fluid.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\examples\two_columns.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\js\dataTables.fixedColumns.js" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\js\dataTables.fixedColumns.min.js" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedColumns\License.txt" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedHeader\css\dataTables.fixedHeader.css" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedHeader\css\dataTables.fixedHeader.min.css" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedHeader\examples\header_footer.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedHeader\examples\index.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedHeader\examples\simple.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedHeader\examples\top_left_right.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedHeader\examples\two_tables.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedHeader\examples\zIndexes.html" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedHeader\js\dataTables.fixedHeader.js" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedHeader\js\dataTables.fixedHeader.min.js" />
+    <Content Include="Service References\plugins\datatables\extensions\FixedHeader\Readme.txt" />
+    <Content Include="Service References\plugins\datatables\extensions\KeyTable\css\dataTables.keyTable.css" />
+    <Content Include="Service References\plugins\datatables\extensions\KeyTable\css\dataTables.keyTable.min.css" />
+    <Content Include="Service References\plugins\datatables\extensions\KeyTable\examples\events.html" />
+    <Content Include="Service References\plugins\datatables\extensions\KeyTable\examples\html.html" />
+    <Content Include="Service References\plugins\datatables\extensions\KeyTable\examples\index.html" />
+    <Content Include="Service References\plugins\datatables\extensions\KeyTable\examples\scrolling.html" />
+    <Content Include="Service References\plugins\datatables\extensions\KeyTable\examples\simple.html" />
+    <Content Include="Service References\plugins\datatables\extensions\KeyTable\js\dataTables.keyTable.js" />
+    <Content Include="Service References\plugins\datatables\extensions\KeyTable\js\dataTables.keyTable.min.js" />
+    <Content Include="Service References\plugins\datatables\extensions\KeyTable\Readme.txt" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\css\dataTables.responsive.css" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\child-rows\column-control.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\child-rows\custom-renderer.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\child-rows\disable-child-rows.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\child-rows\index.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\child-rows\right-column.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\child-rows\whole-row-control.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\display-control\auto.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\display-control\classes.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\display-control\complexHeader.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\display-control\fixedHeader.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\display-control\index.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\display-control\init-classes.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\index.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\initialisation\ajax.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\initialisation\className.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\initialisation\default.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\initialisation\index.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\initialisation\new.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\initialisation\option.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\styling\bootstrap.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\styling\compact.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\styling\foundation.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\styling\index.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\examples\styling\scrolling.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\js\dataTables.responsive.js" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\js\dataTables.responsive.min.js" />
+    <Content Include="Service References\plugins\datatables\extensions\Responsive\License.txt" />
+    <Content Include="Service References\plugins\datatables\extensions\Scroller\css\dataTables.scroller.css" />
+    <Content Include="Service References\plugins\datatables\extensions\Scroller\css\dataTables.scroller.min.css" />
+    <Content Include="Service References\plugins\datatables\extensions\Scroller\examples\api_scrolling.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Scroller\examples\data\2500.txt" />
+    <Content Include="Service References\plugins\datatables\extensions\Scroller\examples\index.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Scroller\examples\large_js_source.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Scroller\examples\server-side_processing.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Scroller\examples\simple.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Scroller\examples\state_saving.html" />
+    <Content Include="Service References\plugins\datatables\extensions\Scroller\images\loading-background.png" />
+    <Content Include="Service References\plugins\datatables\extensions\Scroller\js\dataTables.scroller.js" />
+    <Content Include="Service References\plugins\datatables\extensions\Scroller\js\dataTables.scroller.min.js" />
+    <Content Include="Service References\plugins\datatables\extensions\Scroller\Readme.txt" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\css\dataTables.tableTools.css" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\css\dataTables.tableTools.min.css" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\ajax.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\alter_buttons.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\bootstrap.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\button_text.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\collection.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\defaults.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\index.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\jqueryui.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\multiple_tables.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\multi_instance.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\new_init.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\pdf_message.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\plug-in.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\select_column.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\select_multi.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\select_os.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\select_single.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\simple.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\examples\swf_path.html" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\images\collection.png" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\images\collection_hover.png" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\images\copy.png" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\images\copy_hover.png" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\images\csv.png" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\images\csv_hover.png" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\images\pdf.png" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\images\pdf_hover.png" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\images\print.png" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\images\print_hover.png" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\images\xls.png" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\images\xls_hover.png" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\js\dataTables.tableTools.js" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\js\dataTables.tableTools.min.js" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\swf\copy_csv_xls.swf" />
+    <Content Include="Service References\plugins\datatables\extensions\TableTools\swf\copy_csv_xls_pdf.swf" />
+    <Content Include="Service References\plugins\datatables\images\sort_asc.png" />
+    <Content Include="Service References\plugins\datatables\images\sort_asc_disabled.png" />
+    <Content Include="Service References\plugins\datatables\images\sort_both.png" />
+    <Content Include="Service References\plugins\datatables\images\sort_desc.png" />
+    <Content Include="Service References\plugins\datatables\images\sort_desc_disabled.png" />
+    <Content Include="Service References\plugins\datatables\jquery.dataTables.css" />
+    <Content Include="Service References\plugins\datatables\jquery.dataTables.js" />
+    <Content Include="Service References\plugins\datatables\jquery.dataTables.min.css" />
+    <Content Include="Service References\plugins\datatables\jquery.dataTables.min.js" />
+    <Content Include="Service References\plugins\datatables\jquery.dataTables_themeroller.css" />
+    <Content Include="Service References\plugins\datepicker\bootstrap-datepicker.js" />
+    <Content Include="Service References\plugins\datepicker\datepicker3.css" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.ar.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.az.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.bg.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.ca.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.cs.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.cy.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.da.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.de.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.el.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.es.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.et.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.fa.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.fi.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.fr.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.gl.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.he.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.hr.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.hu.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.id.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.is.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.it.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.ja.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.ka.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.kk.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.kr.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.lt.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.lv.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.mk.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.ms.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.nb.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.nl-BE.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.nl.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.no.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.pl.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.pt-BR.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.pt.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.ro.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.rs-latin.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.rs.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.ru.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.sk.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.sl.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.sq.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.sv.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.sw.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.th.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.tr.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.ua.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.vi.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.zh-CN.js" />
+    <Content Include="Service References\plugins\datepicker\locales\bootstrap-datepicker.zh-TW.js" />
+    <Content Include="Service References\plugins\daterangepicker\daterangepicker-bs3.css" />
+    <Content Include="Service References\plugins\daterangepicker\daterangepicker.js" />
+    <Content Include="Service References\plugins\daterangepicker\moment.js" />
+    <Content Include="Service References\plugins\daterangepicker\moment.min.js" />
+    <Content Include="Service References\plugins\fastclick\fastclick.js" />
+    <Content Include="Service References\plugins\fastclick\fastclick.min.js" />
+    <Content Include="Service References\plugins\flot\excanvas.js" />
+    <Content Include="Service References\plugins\flot\excanvas.min.js" />
+    <Content Include="Service References\plugins\flot\jquery.colorhelpers.js" />
+    <Content Include="Service References\plugins\flot\jquery.colorhelpers.min.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.canvas.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.canvas.min.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.categories.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.categories.min.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.crosshair.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.crosshair.min.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.errorbars.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.errorbars.min.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.fillbetween.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.fillbetween.min.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.image.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.image.min.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.min.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.navigate.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.navigate.min.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.pie.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.pie.min.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.resize.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.resize.min.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.selection.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.selection.min.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.stack.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.stack.min.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.symbol.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.symbol.min.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.threshold.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.threshold.min.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.time.js" />
+    <Content Include="Service References\plugins\flot\jquery.flot.time.min.js" />
+    <Content Include="Service References\plugins\fullcalendar\fullcalendar.css" />
+    <Content Include="Service References\plugins\fullcalendar\fullcalendar.js" />
+    <Content Include="Service References\plugins\fullcalendar\fullcalendar.min.css" />
+    <Content Include="Service References\plugins\fullcalendar\fullcalendar.min.js" />
+    <Content Include="Service References\plugins\fullcalendar\fullcalendar.print.css" />
+    <Content Include="Service References\plugins\iCheck\all.css" />
+    <Content Include="Service References\plugins\iCheck\flat\aero%402x.png" />
+    <Content Include="Service References\plugins\iCheck\flat\aero.css" />
+    <Content Include="Service References\plugins\iCheck\flat\aero.png" />
+    <Content Include="Service References\plugins\iCheck\flat\blue%402x.png" />
+    <Content Include="Service References\plugins\iCheck\flat\blue.css" />
+    <Content Include="Service References\plugins\iCheck\flat\blue.png" />
+    <Content Include="Service References\plugins\iCheck\flat\flat%402x.png" />
+    <Content Include="Service References\plugins\iCheck\flat\flat.css" />
+    <Content Include="Service References\plugins\iCheck\flat\flat.png" />
+    <Content Include="Service References\plugins\iCheck\flat\green%402x.png" />
+    <Content Include="Service References\plugins\iCheck\flat\green.css" />
+    <Content Include="Service References\plugins\iCheck\flat\green.png" />
+    <Content Include="Service References\plugins\iCheck\flat\grey%402x.png" />
+    <Content Include="Service References\plugins\iCheck\flat\grey.css" />
+    <Content Include="Service References\plugins\iCheck\flat\grey.png" />
+    <Content Include="Service References\plugins\iCheck\flat\orange%402x.png" />
+    <Content Include="Service References\plugins\iCheck\flat\orange.css" />
+    <Content Include="Service References\plugins\iCheck\flat\orange.png" />
+    <Content Include="Service References\plugins\iCheck\flat\pink%402x.png" />
+    <Content Include="Service References\plugins\iCheck\flat\pink.css" />
+    <Content Include="Service References\plugins\iCheck\flat\pink.png" />
+    <Content Include="Service References\plugins\iCheck\flat\purple%402x.png" />
+    <Content Include="Service References\plugins\iCheck\flat\purple.css" />
+    <Content Include="Service References\plugins\iCheck\flat\purple.png" />
+    <Content Include="Service References\plugins\iCheck\flat\red%402x.png" />
+    <Content Include="Service References\plugins\iCheck\flat\red.css" />
+    <Content Include="Service References\plugins\iCheck\flat\red.png" />
+    <Content Include="Service References\plugins\iCheck\flat\yellow%402x.png" />
+    <Content Include="Service References\plugins\iCheck\flat\yellow.css" />
+    <Content Include="Service References\plugins\iCheck\flat\yellow.png" />
+    <Content Include="Service References\plugins\iCheck\flat\_all.css" />
+    <Content Include="Service References\plugins\iCheck\futurico\futurico%402x.png" />
+    <Content Include="Service References\plugins\iCheck\futurico\futurico.css" />
+    <Content Include="Service References\plugins\iCheck\futurico\futurico.png" />
+    <Content Include="Service References\plugins\iCheck\icheck.js" />
+    <Content Include="Service References\plugins\iCheck\icheck.min.js" />
+    <Content Include="Service References\plugins\iCheck\line\aero.css" />
+    <Content Include="Service References\plugins\iCheck\line\blue.css" />
+    <Content Include="Service References\plugins\iCheck\line\green.css" />
+    <Content Include="Service References\plugins\iCheck\line\grey.css" />
+    <Content Include="Service References\plugins\iCheck\line\line%402x.png" />
+    <Content Include="Service References\plugins\iCheck\line\line.css" />
+    <Content Include="Service References\plugins\iCheck\line\line.png" />
+    <Content Include="Service References\plugins\iCheck\line\orange.css" />
+    <Content Include="Service References\plugins\iCheck\line\pink.css" />
+    <Content Include="Service References\plugins\iCheck\line\purple.css" />
+    <Content Include="Service References\plugins\iCheck\line\red.css" />
+    <Content Include="Service References\plugins\iCheck\line\yellow.css" />
+    <Content Include="Service References\plugins\iCheck\line\_all.css" />
+    <Content Include="Service References\plugins\iCheck\minimal\aero%402x.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\aero.css" />
+    <Content Include="Service References\plugins\iCheck\minimal\aero.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\blue%402x.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\blue.css" />
+    <Content Include="Service References\plugins\iCheck\minimal\blue.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\green%402x.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\green.css" />
+    <Content Include="Service References\plugins\iCheck\minimal\green.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\grey%402x.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\grey.css" />
+    <Content Include="Service References\plugins\iCheck\minimal\grey.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\minimal%402x.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\minimal.css" />
+    <Content Include="Service References\plugins\iCheck\minimal\minimal.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\orange%402x.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\orange.css" />
+    <Content Include="Service References\plugins\iCheck\minimal\orange.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\pink%402x.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\pink.css" />
+    <Content Include="Service References\plugins\iCheck\minimal\pink.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\purple%402x.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\purple.css" />
+    <Content Include="Service References\plugins\iCheck\minimal\purple.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\red%402x.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\red.css" />
+    <Content Include="Service References\plugins\iCheck\minimal\red.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\yellow%402x.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\yellow.css" />
+    <Content Include="Service References\plugins\iCheck\minimal\yellow.png" />
+    <Content Include="Service References\plugins\iCheck\minimal\_all.css" />
+    <Content Include="Service References\plugins\iCheck\polaris\polaris%402x.png" />
+    <Content Include="Service References\plugins\iCheck\polaris\polaris.css" />
+    <Content Include="Service References\plugins\iCheck\polaris\polaris.png" />
+    <Content Include="Service References\plugins\iCheck\square\aero%402x.png" />
+    <Content Include="Service References\plugins\iCheck\square\aero.css" />
+    <Content Include="Service References\plugins\iCheck\square\aero.png" />
+    <Content Include="Service References\plugins\iCheck\square\blue%402x.png" />
+    <Content Include="Service References\plugins\iCheck\square\blue.css" />
+    <Content Include="Service References\plugins\iCheck\square\blue.png" />
+    <Content Include="Service References\plugins\iCheck\square\green%402x.png" />
+    <Content Include="Service References\plugins\iCheck\square\green.css" />
+    <Content Include="Service References\plugins\iCheck\square\green.png" />
+    <Content Include="Service References\plugins\iCheck\square\grey%402x.png" />
+    <Content Include="Service References\plugins\iCheck\square\grey.css" />
+    <Content Include="Service References\plugins\iCheck\square\grey.png" />
+    <Content Include="Service References\plugins\iCheck\square\orange%402x.png" />
+    <Content Include="Service References\plugins\iCheck\square\orange.css" />
+    <Content Include="Service References\plugins\iCheck\square\orange.png" />
+    <Content Include="Service References\plugins\iCheck\square\pink%402x.png" />
+    <Content Include="Service References\plugins\iCheck\square\pink.css" />
+    <Content Include="Service References\plugins\iCheck\square\pink.png" />
+    <Content Include="Service References\plugins\iCheck\square\purple%402x.png" />
+    <Content Include="Service References\plugins\iCheck\square\purple.css" />
+    <Content Include="Service References\plugins\iCheck\square\purple.png" />
+    <Content Include="Service References\plugins\iCheck\square\red%402x.png" />
+    <Content Include="Service References\plugins\iCheck\square\red.css" />
+    <Content Include="Service References\plugins\iCheck\square\red.png" />
+    <Content Include="Service References\plugins\iCheck\square\square%402x.png" />
+    <Content Include="Service References\plugins\iCheck\square\square.css" />
+    <Content Include="Service References\plugins\iCheck\square\square.png" />
+    <Content Include="Service References\plugins\iCheck\square\yellow%402x.png" />
+    <Content Include="Service References\plugins\iCheck\square\yellow.css" />
+    <Content Include="Service References\plugins\iCheck\square\yellow.png" />
+    <Content Include="Service References\plugins\iCheck\square\_all.css" />
+    <Content Include="Service References\plugins\input-mask\jquery.inputmask.date.extensions.js" />
+    <Content Include="Service References\plugins\input-mask\jquery.inputmask.extensions.js" />
+    <Content Include="Service References\plugins\input-mask\jquery.inputmask.js" />
+    <Content Include="Service References\plugins\input-mask\jquery.inputmask.numeric.extensions.js" />
+    <Content Include="Service References\plugins\input-mask\jquery.inputmask.phone.extensions.js" />
+    <Content Include="Service References\plugins\input-mask\jquery.inputmask.regex.extensions.js" />
+    <Content Include="Service References\plugins\input-mask\phone-codes\readme.txt" />
+    <Content Include="Service References\plugins\ionslider\img\sprite-skin-flat.png" />
+    <Content Include="Service References\plugins\ionslider\img\sprite-skin-nice.png" />
+    <Content Include="Service References\plugins\ionslider\ion.rangeSlider.css" />
+    <Content Include="Service References\plugins\ionslider\ion.rangeSlider.min.js" />
+    <Content Include="Service References\plugins\ionslider\ion.rangeSlider.skinFlat.css" />
+    <Content Include="Service References\plugins\ionslider\ion.rangeSlider.skinNice.css" />
+    <Content Include="Service References\plugins\jQueryUI\jquery-ui.js" />
+    <Content Include="Service References\plugins\jQueryUI\jquery-ui.min.js" />
+    <Content Include="Service References\plugins\jQuery\jQuery-2.1.4.min.js" />
+    <Content Include="Service References\plugins\jvectormap\jquery-jvectormap-1.2.2.css" />
+    <Content Include="Service References\plugins\jvectormap\jquery-jvectormap-1.2.2.min.js" />
+    <Content Include="Service References\plugins\jvectormap\jquery-jvectormap-world-mill-en.js" />
+    <Content Include="Service References\plugins\knob\jquery.knob.js" />
+    <Content Include="Service References\plugins\morris\morris.css" />
+    <Content Include="Service References\plugins\morris\morris.js" />
+    <Content Include="Service References\plugins\morris\morris.min.js" />
+    <Content Include="Service References\plugins\pace\pace.js" />
+    <Content Include="Service References\plugins\select2\i18n\az.js" />
+    <Content Include="Service References\plugins\select2\i18n\bg.js" />
+    <Content Include="Service References\plugins\select2\i18n\ca.js" />
+    <Content Include="Service References\plugins\select2\i18n\cs.js" />
+    <Content Include="Service References\plugins\select2\i18n\da.js" />
+    <Content Include="Service References\plugins\select2\i18n\de.js" />
+    <Content Include="Service References\plugins\select2\i18n\en.js" />
+    <Content Include="Service References\plugins\select2\i18n\es.js" />
+    <Content Include="Service References\plugins\select2\i18n\et.js" />
+    <Content Include="Service References\plugins\select2\i18n\eu.js" />
+    <Content Include="Service References\plugins\select2\i18n\fa.js" />
+    <Content Include="Service References\plugins\select2\i18n\fi.js" />
+    <Content Include="Service References\plugins\select2\i18n\fr.js" />
+    <Content Include="Service References\plugins\select2\i18n\gl.js" />
+    <Content Include="Service References\plugins\select2\i18n\he.js" />
+    <Content Include="Service References\plugins\select2\i18n\hi.js" />
+    <Content Include="Service References\plugins\select2\i18n\hr.js" />
+    <Content Include="Service References\plugins\select2\i18n\hu.js" />
+    <Content Include="Service References\plugins\select2\i18n\id.js" />
+    <Content Include="Service References\plugins\select2\i18n\is.js" />
+    <Content Include="Service References\plugins\select2\i18n\it.js" />
+    <Content Include="Service References\plugins\select2\i18n\ko.js" />
+    <Content Include="Service References\plugins\select2\i18n\lt.js" />
+    <Content Include="Service References\plugins\select2\i18n\lv.js" />
+    <Content Include="Service References\plugins\select2\i18n\mk.js" />
+    <Content Include="Service References\plugins\select2\i18n\nb.js" />
+    <Content Include="Service References\plugins\select2\i18n\nl.js" />
+    <Content Include="Service References\plugins\select2\i18n\pl.js" />
+    <Content Include="Service References\plugins\select2\i18n\pt-BR.js" />
+    <Content Include="Service References\plugins\select2\i18n\pt.js" />
+    <Content Include="Service References\plugins\select2\i18n\ro.js" />
+    <Content Include="Service References\plugins\select2\i18n\ru.js" />
+    <Content Include="Service References\plugins\select2\i18n\sk.js" />
+    <Content Include="Service References\plugins\select2\i18n\sr.js" />
+    <Content Include="Service References\plugins\select2\i18n\sv.js" />
+    <Content Include="Service References\plugins\select2\i18n\th.js" />
+    <Content Include="Service References\plugins\select2\i18n\tr.js" />
+    <Content Include="Service References\plugins\select2\i18n\uk.js" />
+    <Content Include="Service References\plugins\select2\i18n\vi.js" />
+    <Content Include="Service References\plugins\select2\i18n\zh-CN.js" />
+    <Content Include="Service References\plugins\select2\i18n\zh-TW.js" />
+    <Content Include="Service References\plugins\select2\select2.css" />
+    <Content Include="Service References\plugins\select2\select2.full.js" />
+    <Content Include="Service References\plugins\select2\select2.full.min.js" />
+    <Content Include="Service References\plugins\select2\select2.js" />
+    <Content Include="Service References\plugins\select2\select2.min.css" />
+    <Content Include="Service References\plugins\select2\select2.min.js" />
+    <Content Include="Service References\plugins\slimScroll\jquery.slimscroll.js" />
+    <Content Include="Service References\plugins\slimScroll\jquery.slimscroll.min.js" />
+    <Content Include="Service References\plugins\sparkline\jquery.sparkline.js" />
+    <Content Include="Service References\plugins\sparkline\jquery.sparkline.min.js" />
+    <Content Include="Service References\plugins\timepicker\bootstrap-timepicker.css" />
+    <Content Include="Service References\plugins\timepicker\bootstrap-timepicker.js" />
+    <Content Include="Service References\plugins\timepicker\bootstrap-timepicker.min.css" />
+    <Content Include="Service References\plugins\timepicker\bootstrap-timepicker.min.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="companyinfo.aspx.cs">
+      <DependentUpon>companyinfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="companyinfo.aspx.designer.cs">
+      <DependentUpon>companyinfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\AppConfiguration.cs" />
+    <Compile Include="DAL\AutoCompleteAA.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DAL\Autocompletion.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DAL\DatabaseMethods.cs" />
+    <Compile Include="DAL\FameService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DAL\GridViewExportUtil.cs" />
+    <Compile Include="DAL\MenuBAL.cs" />
+    <Compile Include="DAL\MenuDAL.cs" />
+    <Compile Include="DAL\SqlHelper.cs" />
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Home.aspx.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Home.aspx.designer.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MainMaster.Master.cs">
+      <DependentUpon>MainMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MainMaster.Master.designer.cs">
+      <DependentUpon>MainMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Clients\1TimeBill.aspx.cs">
+      <DependentUpon>1TimeBill.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Clients\1TimeBill.aspx.designer.cs">
+      <DependentUpon>1TimeBill.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Clients\AddClient.aspx.cs">
+      <DependentUpon>AddClient.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Clients\AddClient.aspx.designer.cs">
+      <DependentUpon>AddClient.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Clients\AddContract.aspx.cs">
+      <DependentUpon>AddContract.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Clients\AddContract.aspx.designer.cs">
+      <DependentUpon>AddContract.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Clients\AddReceipts.aspx.cs">
+      <DependentUpon>AddReceipts.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Clients\AddReceipts.aspx.designer.cs">
+      <DependentUpon>AddReceipts.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Clients\BillVsReceipts.aspx.cs">
+      <DependentUpon>BillVsReceipts.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Clients\BillVsReceipts.aspx.designer.cs">
+      <DependentUpon>BillVsReceipts.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Clients\clientattendance.aspx.cs">
+      <DependentUpon>clientattendance.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Clients\clientattendance.aspx.designer.cs">
+      <DependentUpon>clientattendance.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Clients\ClientBilling.aspx.cs">
+      <DependentUpon>ClientBilling.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Clients\ClientBilling.aspx.designer.cs">
+      <DependentUpon>ClientBilling.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Clients\ClientLicenses.aspx.cs">
+      <DependentUpon>ClientLicenses.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Clients\ClientLicenses.aspx.designer.cs">
+      <DependentUpon>ClientLicenses.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Clients\ClientManPowerReq.aspx.cs">
+      <DependentUpon>ClientManPowerReq.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Clients\ClientManPowerReq.aspx.designer.cs">
+      <DependentUpon>ClientManPowerReq.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Clients\Clients.aspx.cs">
+      <DependentUpon>Clients.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Clients\Clients.aspx.designer.cs">
+      <DependentUpon>Clients.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Clients\Clients.master.cs">
+      <DependentUpon>Clients.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Clients\Clients.master.designer.cs">
+      <DependentUpon>Clients.master</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Clients\contracts.aspx.cs">
+      <DependentUpon>contracts.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Clients\contracts.aspx.designer.cs">
+      <DependentUpon>contracts.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Clients\ModifyClient.aspx.cs">
+      <DependentUpon>ModifyClient.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Clients\ModifyClient.aspx.designer.cs">
+      <DependentUpon>ModifyClient.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Clients\NewManualBill.aspx.cs">
+      <DependentUpon>NewManualBill.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Clients\NewManualBill.aspx.designer.cs">
+      <DependentUpon>NewManualBill.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Clients\ReceiptDetails.aspx.cs">
+      <DependentUpon>ReceiptDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Clients\ReceiptDetails.aspx.designer.cs">
+      <DependentUpon>ReceiptDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Clients\Receipts.aspx.cs">
+      <DependentUpon>Receipts.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Clients\Receipts.aspx.designer.cs">
+      <DependentUpon>Receipts.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Clients\ReceiveReports.aspx.cs">
+      <DependentUpon>ReceiveReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Clients\ReceiveReports.aspx.designer.cs">
+      <DependentUpon>ReceiveReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Clients\ViewReceipts.aspx.cs">
+      <DependentUpon>ViewReceipts.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Clients\ViewReceipts.aspx.designer.cs">
+      <DependentUpon>ViewReceipts.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Employees\AddEmployee.aspx.cs">
+      <DependentUpon>AddEmployee.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Employees\AddEmployee.aspx.designer.cs">
+      <DependentUpon>AddEmployee.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Employees\ApproveEmployee.aspx.cs">
+      <DependentUpon>ApproveEmployee.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Employees\ApproveEmployee.aspx.designer.cs">
+      <DependentUpon>ApproveEmployee.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Employees\ClientAttendancePage.aspx.cs">
+      <DependentUpon>ClientAttendancePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Employees\ClientAttendancePage.aspx.designer.cs">
+      <DependentUpon>ClientAttendancePage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Employees\EmployeeMaster.master.cs">
+      <DependentUpon>EmployeeMaster.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Employees\EmployeeMaster.master.designer.cs">
+      <DependentUpon>EmployeeMaster.master</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Employees\EmployeePayments.aspx.cs">
+      <DependentUpon>EmployeePayments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Employees\EmployeePayments.aspx.designer.cs">
+      <DependentUpon>EmployeePayments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Employees\Employees.aspx.cs">
+      <DependentUpon>Employees.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Employees\Employees.aspx.designer.cs">
+      <DependentUpon>Employees.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Employees\EmpSalaryStructure.aspx.cs">
+      <DependentUpon>EmpSalaryStructure.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Employees\EmpSalaryStructure.aspx.designer.cs">
+      <DependentUpon>EmpSalaryStructure.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Employees\EmpShiftDetails.aspx.cs">
+      <DependentUpon>EmpShiftDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Employees\EmpShiftDetails.aspx.designer.cs">
+      <DependentUpon>EmpShiftDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Employees\EmpWeeklyAttendance.aspx.cs">
+      <DependentUpon>EmpWeeklyAttendance.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Employees\EmpWeeklyAttendance.aspx.designer.cs">
+      <DependentUpon>EmpWeeklyAttendance.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Employees\EmpWeeklyPayments.aspx.cs">
+      <DependentUpon>EmpWeeklyPayments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Employees\EmpWeeklyPayments.aspx.designer.cs">
+      <DependentUpon>EmpWeeklyPayments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Employees\ModifyEmployee.aspx.cs">
+      <DependentUpon>ModifyEmployee.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Employees\ModifyEmployee.aspx.designer.cs">
+      <DependentUpon>ModifyEmployee.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Employees\NewLoan.aspx.cs">
+      <DependentUpon>NewLoan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Employees\NewLoan.aspx.designer.cs">
+      <DependentUpon>NewLoan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Employees\NoAccess.aspx.cs">
+      <DependentUpon>NoAccess.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Employees\NoAccess.aspx.designer.cs">
+      <DependentUpon>NoAccess.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Employees\PostingOrderList.aspx.cs">
+      <DependentUpon>PostingOrderList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Employees\PostingOrderList.aspx.designer.cs">
+      <DependentUpon>PostingOrderList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\AddNewItem.aspx.cs">
+      <DependentUpon>AddNewItem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\AddNewItem.aspx.designer.cs">
+      <DependentUpon>AddNewItem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\BranchInvReport.aspx.cs">
+      <DependentUpon>BranchInvReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\BranchInvReport.aspx.designer.cs">
+      <DependentUpon>BranchInvReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\BranchResourceDetails.aspx.cs">
+      <DependentUpon>BranchResourceDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\BranchResourceDetails.aspx.designer.cs">
+      <DependentUpon>BranchResourceDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\BranchResourceReturn.aspx.cs">
+      <DependentUpon>BranchResourceReturn.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\BranchResourceReturn.aspx.designer.cs">
+      <DependentUpon>BranchResourceReturn.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\EmpInvReport.aspx.cs">
+      <DependentUpon>EmpInvReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\EmpInvReport.aspx.designer.cs">
+      <DependentUpon>EmpInvReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\EmpResourceAllocation.aspx.cs">
+      <DependentUpon>EmpResourceAllocation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\EmpResourceAllocation.aspx.designer.cs">
+      <DependentUpon>EmpResourceAllocation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\InvClientMaster.aspx.cs">
+      <DependentUpon>InvClientMaster.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\InvClientMaster.aspx.designer.cs">
+      <DependentUpon>InvClientMaster.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\InvInflowDetails.aspx.cs">
+      <DependentUpon>InvInflowDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\InvInflowDetails.aspx.designer.cs">
+      <DependentUpon>InvInflowDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\InvModifyPODetails.aspx.cs">
+      <DependentUpon>InvModifyPODetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\InvModifyPODetails.aspx.designer.cs">
+      <DependentUpon>InvModifyPODetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\InvPODetails.aspx.cs">
+      <DependentUpon>InvPODetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\InvPODetails.aspx.designer.cs">
+      <DependentUpon>InvPODetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\InvVendorMaster.aspx.cs">
+      <DependentUpon>InvVendorMaster.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\InvVendorMaster.aspx.designer.cs">
+      <DependentUpon>InvVendorMaster.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\ItemwisestockList.aspx.cs">
+      <DependentUpon>ItemwisestockList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\ItemwisestockList.aspx.designer.cs">
+      <DependentUpon>ItemwisestockList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\ModifyInflowDetails.aspx.cs">
+      <DependentUpon>ModifyInflowDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\ModifyInflowDetails.aspx.designer.cs">
+      <DependentUpon>ModifyInflowDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\ModifyInvVendorMaster.aspx.cs">
+      <DependentUpon>ModifyInvVendorMaster.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\ModifyInvVendorMaster.aspx.designer.cs">
+      <DependentUpon>ModifyInvVendorMaster.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\ModifyItem.aspx.cs">
+      <DependentUpon>ModifyItem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\ModifyItem.aspx.designer.cs">
+      <DependentUpon>ModifyItem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\POInFlowDetailsReport.aspx.cs">
+      <DependentUpon>POInFlowDetailsReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\POInFlowDetailsReport.aspx.designer.cs">
+      <DependentUpon>POInFlowDetailsReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\POPrint.aspx.cs">
+      <DependentUpon>POPrint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\POPrint.aspx.designer.cs">
+      <DependentUpon>POPrint.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\POReport.aspx.cs">
+      <DependentUpon>POReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\POReport.aspx.designer.cs">
+      <DependentUpon>POReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\ReportForStock.aspx.cs">
+      <DependentUpon>ReportForStock.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\ReportForStock.aspx.designer.cs">
+      <DependentUpon>ReportForStock.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\ReportForStockList.aspx.cs">
+      <DependentUpon>ReportForStockList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\ReportForStockList.aspx.designer.cs">
+      <DependentUpon>ReportForStockList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\ResourceReturnEmp.aspx.cs">
+      <DependentUpon>ResourceReturnEmp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\ResourceReturnEmp.aspx.designer.cs">
+      <DependentUpon>ResourceReturnEmp.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\UniformItemIssuedDetails.aspx.cs">
+      <DependentUpon>UniformItemIssuedDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\UniformItemIssuedDetails.aspx.designer.cs">
+      <DependentUpon>UniformItemIssuedDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\UniformPDF.aspx.cs">
+      <DependentUpon>UniformPDF.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\UniformPDF.aspx.designer.cs">
+      <DependentUpon>UniformPDF.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Inventory\ViewItems.aspx.cs">
+      <DependentUpon>ViewItems.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Inventory\ViewItems.aspx.designer.cs">
+      <DependentUpon>ViewItems.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\1TimeBill.aspx.cs">
+      <DependentUpon>1TimeBill.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\1TimeBill.aspx.designer.cs">
+      <DependentUpon>1TimeBill.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ActiveClientReports.aspx.cs">
+      <DependentUpon>ActiveClientReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ActiveClientReports.aspx.designer.cs">
+      <DependentUpon>ActiveClientReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ActiveEmployeeReports.aspx.cs">
+      <DependentUpon>ActiveEmployeeReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ActiveEmployeeReports.aspx.designer.cs">
+      <DependentUpon>ActiveEmployeeReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\AndroidAttendanceSummarisedReport.aspx.cs">
+      <DependentUpon>AndroidAttendanceSummarisedReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\AndroidAttendanceSummarisedReport.aspx.designer.cs">
+      <DependentUpon>AndroidAttendanceSummarisedReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ArrearWages.aspx.cs">
+      <DependentUpon>ArrearWages.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ArrearWages.aspx.designer.cs">
+      <DependentUpon>ArrearWages.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ArrearWageSheetReport.aspx.cs">
+      <DependentUpon>ArrearWageSheetReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ArrearWageSheetReport.aspx.designer.cs">
+      <DependentUpon>ArrearWageSheetReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\AttendanceReport.aspx.cs">
+      <DependentUpon>AttendanceReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\AttendanceReport.aspx.designer.cs">
+      <DependentUpon>AttendanceReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\BankUploadFormat.aspx.cs">
+      <DependentUpon>BankUploadFormat.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\BankUploadFormat.aspx.designer.cs">
+      <DependentUpon>BankUploadFormat.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\BillingReports.aspx.cs">
+      <DependentUpon>BillingReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\BillingReports.aspx.designer.cs">
+      <DependentUpon>BillingReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\BillingWagesReport.aspx.cs">
+      <DependentUpon>BillingWagesReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\BillingWagesReport.aspx.designer.cs">
+      <DependentUpon>BillingWagesReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\BillsVsActuals.aspx.cs">
+      <DependentUpon>BillsVsActuals.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\BillsVsActuals.aspx.designer.cs">
+      <DependentUpon>BillsVsActuals.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\BulkWageSlips.aspx.cs">
+      <DependentUpon>BulkWageSlips.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\BulkWageSlips.aspx.designer.cs">
+      <DependentUpon>BulkWageSlips.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ClentwiseEmployeesSalaryreports.aspx.cs">
+      <DependentUpon>ClentwiseEmployeesSalaryreports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ClentwiseEmployeesSalaryreports.aspx.designer.cs">
+      <DependentUpon>ClentwiseEmployeesSalaryreports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ClientForms.aspx.cs">
+      <DependentUpon>ClientForms.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ClientForms.aspx.designer.cs">
+      <DependentUpon>ClientForms.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ClientReports.aspx.cs">
+      <DependentUpon>ClientReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ClientReports.aspx.designer.cs">
+      <DependentUpon>ClientReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ClientWiseEmployeeNetpayReports.aspx.cs">
+      <DependentUpon>ClientWiseEmployeeNetpayReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ClientWiseEmployeeNetpayReports.aspx.designer.cs">
+      <DependentUpon>ClientWiseEmployeeNetpayReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ClientWiseFormT.aspx.cs">
+      <DependentUpon>ClientWiseFormT.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ClientWiseFormT.aspx.designer.cs">
+      <DependentUpon>ClientWiseFormT.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ConractExpiryDetailsReport.aspx.cs">
+      <DependentUpon>ConractExpiryDetailsReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ConractExpiryDetailsReport.aspx.designer.cs">
+      <DependentUpon>ConractExpiryDetailsReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ContractDetailsReports.aspx.cs">
+      <DependentUpon>ContractDetailsReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ContractDetailsReports.aspx.designer.cs">
+      <DependentUpon>ContractDetailsReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\DocumentUpload.aspx.cs">
+      <DependentUpon>DocumentUpload.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\DocumentUpload.aspx.designer.cs">
+      <DependentUpon>DocumentUpload.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\EmpBioData.aspx.cs">
+      <DependentUpon>EmpBioData.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\EmpBioData.aspx.designer.cs">
+      <DependentUpon>EmpBioData.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\EmpIDCard.aspx.cs">
+      <DependentUpon>EmpIDCard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\EmpIDCard.aspx.designer.cs">
+      <DependentUpon>EmpIDCard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\EmployeeForms.aspx.cs">
+      <DependentUpon>EmployeeForms.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\EmployeeForms.aspx.designer.cs">
+      <DependentUpon>EmployeeForms.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\EmployeeReports.aspx.cs">
+      <DependentUpon>EmployeeReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\EmployeeReports.aspx.designer.cs">
+      <DependentUpon>EmployeeReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\EmpSummary.aspx.cs">
+      <DependentUpon>EmpSummary.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\EmpSummary.aspx.designer.cs">
+      <DependentUpon>EmpSummary.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\EmpWageSlips.aspx.cs">
+      <DependentUpon>EmpWageSlips.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\EmpWageSlips.aspx.designer.cs">
+      <DependentUpon>EmpWageSlips.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\EmpWisePaysheetDetails.aspx.cs">
+      <DependentUpon>EmpWisePaysheetDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\EmpWisePaysheetDetails.aspx.designer.cs">
+      <DependentUpon>EmpWisePaysheetDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\EsiDetailsReport.aspx.cs">
+      <DependentUpon>EsiDetailsReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\EsiDetailsReport.aspx.designer.cs">
+      <DependentUpon>EsiDetailsReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\FullandFinal.aspx.cs">
+      <DependentUpon>FullandFinal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\FullandFinal.aspx.designer.cs">
+      <DependentUpon>FullandFinal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\GetDaywise_Android_Attendance.aspx.cs">
+      <DependentUpon>GetDaywise_Android_Attendance.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\GetDaywise_Android_Attendance.aspx.designer.cs">
+      <DependentUpon>GetDaywise_Android_Attendance.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\GetDaywise_Android_AttendanceMonthwise.aspx.cs">
+      <DependentUpon>GetDaywise_Android_AttendanceMonthwise.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\GetDaywise_Android_AttendanceMonthwise.aspx.designer.cs">
+      <DependentUpon>GetDaywise_Android_AttendanceMonthwise.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\GetDaywise_Android_Attendance_ICS.aspx.cs">
+      <DependentUpon>GetDaywise_Android_Attendance_ICS.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\GetDaywise_Android_Attendance_ICS.aspx.designer.cs">
+      <DependentUpon>GetDaywise_Android_Attendance_ICS.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\GSTR1InvoiceReport.aspx.cs">
+      <DependentUpon>GSTR1InvoiceReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\GSTR1InvoiceReport.aspx.designer.cs">
+      <DependentUpon>GSTR1InvoiceReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\GSTR1InvoiceReportNew.aspx.cs">
+      <DependentUpon>GSTR1InvoiceReportNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\GSTR1InvoiceReportNew.aspx.designer.cs">
+      <DependentUpon>GSTR1InvoiceReportNew.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ImportAttendance.aspx.cs">
+      <DependentUpon>ImportAttendance.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ImportAttendance.aspx.designer.cs">
+      <DependentUpon>ImportAttendance.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ImportEmpDetails.aspx.cs">
+      <DependentUpon>ImportEmpDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ImportEmpDetails.aspx.designer.cs">
+      <DependentUpon>ImportEmpDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ImportEmpLoanDetails.aspx.cs">
+      <DependentUpon>ImportEmpLoanDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ImportEmpLoanDetails.aspx.designer.cs">
+      <DependentUpon>ImportEmpLoanDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\LicenceDetailsReports.aspx.cs">
+      <DependentUpon>LicenceDetailsReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\LicenceDetailsReports.aspx.designer.cs">
+      <DependentUpon>LicenceDetailsReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\LicenceExpireDetailsReports.aspx.cs">
+      <DependentUpon>LicenceExpireDetailsReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\LicenceExpireDetailsReports.aspx.designer.cs">
+      <DependentUpon>LicenceExpireDetailsReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ListOfUsersReport.aspx.cs">
+      <DependentUpon>ListOfUsersReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ListOfUsersReport.aspx.designer.cs">
+      <DependentUpon>ListOfUsersReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\LoanDeductionReports.aspx.cs">
+      <DependentUpon>LoanDeductionReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\LoanDeductionReports.aspx.designer.cs">
+      <DependentUpon>LoanDeductionReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\LoanDetailsMonthlyWise.aspx.cs">
+      <DependentUpon>LoanDetailsMonthlyWise.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\LoanDetailsMonthlyWise.aspx.designer.cs">
+      <DependentUpon>LoanDetailsMonthlyWise.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\LoanPendingDetails.aspx.cs">
+      <DependentUpon>LoanPendingDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\LoanPendingDetails.aspx.designer.cs">
+      <DependentUpon>LoanPendingDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\LoanReports.aspx.cs">
+      <DependentUpon>LoanReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\LoanReports.aspx.designer.cs">
+      <DependentUpon>LoanReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\LWFReport.aspx.cs">
+      <DependentUpon>LWFReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\LWFReport.aspx.designer.cs">
+      <DependentUpon>LWFReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ModificationLoanReport.aspx.cs">
+      <DependentUpon>ModificationLoanReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ModificationLoanReport.aspx.designer.cs">
+      <DependentUpon>ModificationLoanReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ModifyEmpAttendance.aspx.cs">
+      <DependentUpon>ModifyEmpAttendance.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ModifyEmpAttendance.aspx.designer.cs">
+      <DependentUpon>ModifyEmpAttendance.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ModifyLoanDetails.aspx.cs">
+      <DependentUpon>ModifyLoanDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ModifyLoanDetails.aspx.designer.cs">
+      <DependentUpon>ModifyLoanDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\MonthlyReport.aspx.cs">
+      <DependentUpon>MonthlyReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\MonthlyReport.aspx.designer.cs">
+      <DependentUpon>MonthlyReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\MonthWiseFreezeandUnfreeze.aspx.cs">
+      <DependentUpon>MonthWiseFreezeandUnfreeze.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\MonthWiseFreezeandUnfreeze.aspx.designer.cs">
+      <DependentUpon>MonthWiseFreezeandUnfreeze.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\Monthwisefreezebillsandpaysheets.aspx.cs">
+      <DependentUpon>Monthwisefreezebillsandpaysheets.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\Monthwisefreezebillsandpaysheets.aspx.designer.cs">
+      <DependentUpon>Monthwisefreezebillsandpaysheets.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\NYARejectedListBranchWise.aspx.cs">
+      <DependentUpon>NYARejectedListBranchWise.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\NYARejectedListBranchWise.aspx.designer.cs">
+      <DependentUpon>NYARejectedListBranchWise.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\PaySheetWagesReport.aspx.cs">
+      <DependentUpon>PaySheetWagesReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\PaySheetWagesReport.aspx.designer.cs">
+      <DependentUpon>PaySheetWagesReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\PFDetailsReport.aspx.cs">
+      <DependentUpon>PFDetailsReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\PFDetailsReport.aspx.designer.cs">
+      <DependentUpon>PFDetailsReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\PFDetailsReportNew.aspx.cs">
+      <DependentUpon>PFDetailsReportNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\PFDetailsReportNew.aspx.designer.cs">
+      <DependentUpon>PFDetailsReportNew.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\PinMyVisits.aspx.cs">
+      <DependentUpon>PinMyVisits.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\PinMyVisits.aspx.designer.cs">
+      <DependentUpon>PinMyVisits.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\PTReport.aspx.cs">
+      <DependentUpon>PTReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\PTReport.aspx.designer.cs">
+      <DependentUpon>PTReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ReportforBillingAndPaysheet.aspx.cs">
+      <DependentUpon>ReportforBillingAndPaysheet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ReportforBillingAndPaysheet.aspx.designer.cs">
+      <DependentUpon>ReportforBillingAndPaysheet.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ReportforBulkClientbillings.aspx.cs">
+      <DependentUpon>ReportforBulkClientbillings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ReportforBulkClientbillings.aspx.designer.cs">
+      <DependentUpon>ReportforBulkClientbillings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ReportForBulkpaysheetforclients.aspx.cs">
+      <DependentUpon>ReportForBulkpaysheetforclients.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ReportForBulkpaysheetforclients.aspx.designer.cs">
+      <DependentUpon>ReportForBulkpaysheetforclients.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ReportforPBAttendance.aspx.cs">
+      <DependentUpon>ReportforPBAttendance.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ReportforPBAttendance.aspx.designer.cs">
+      <DependentUpon>ReportforPBAttendance.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ReportforProfitLoss.aspx.cs">
+      <DependentUpon>ReportforProfitLoss.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\ReportforProfitLoss.aspx.designer.cs">
+      <DependentUpon>ReportforProfitLoss.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\ReportMaster.master.cs">
+      <DependentUpon>ReportMaster.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\Reports.aspx.cs">
+      <DependentUpon>Reports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\Reports.aspx.designer.cs">
+      <DependentUpon>Reports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\SampleAttendance.aspx.cs">
+      <DependentUpon>SampleAttendance.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\SampleAttendance.aspx.designer.cs">
+      <DependentUpon>SampleAttendance.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\SubClientsWithMainClientReports.aspx.cs">
+      <DependentUpon>SubClientsWithMainClientReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\SubClientsWithMainClientReports.aspx.designer.cs">
+      <DependentUpon>SubClientsWithMainClientReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\WagesheetReportctc.aspx.cs">
+      <DependentUpon>WagesheetReportctc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\WagesheetReportctc.aspx.designer.cs">
+      <DependentUpon>WagesheetReportctc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\WageSheetReports.aspx.cs">
+      <DependentUpon>WageSheetReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\WageSheetReports.aspx.designer.cs">
+      <DependentUpon>WageSheetReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Reports\WageSheetReportsNew.aspx.cs">
+      <DependentUpon>WageSheetReportsNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Reports\WageSheetReportsNew.aspx.designer.cs">
+      <DependentUpon>WageSheetReportsNew.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\AccessPrevilegers.aspx.cs">
+      <DependentUpon>AccessPrevilegers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\AccessPrevilegers.aspx.designer.cs">
+      <DependentUpon>AccessPrevilegers.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\ActivateEmployee.aspx.cs">
+      <DependentUpon>ActivateEmployee.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\ActivateEmployee.aspx.designer.cs">
+      <DependentUpon>ActivateEmployee.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\BankNames.aspx.cs">
+      <DependentUpon>BankNames.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\BankNames.aspx.designer.cs">
+      <DependentUpon>BankNames.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\BillingAndSalary.aspx.cs">
+      <DependentUpon>BillingAndSalary.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\BillingAndSalary.aspx.designer.cs">
+      <DependentUpon>BillingAndSalary.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\BloodGroups.aspx.cs">
+      <DependentUpon>BloodGroups.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\BloodGroups.aspx.designer.cs">
+      <DependentUpon>BloodGroups.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\Branches.aspx.cs">
+      <DependentUpon>Branches.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\Branches.aspx.designer.cs">
+      <DependentUpon>Branches.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\BranchSetUp.aspx.cs">
+      <DependentUpon>BranchSetUp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\BranchSetUp.aspx.designer.cs">
+      <DependentUpon>BranchSetUp.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\Categories.aspx.cs">
+      <DependentUpon>Categories.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\Categories.aspx.designer.cs">
+      <DependentUpon>Categories.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\ChangePassword.aspx.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\ChangePassword.aspx.designer.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\CreateLogin.aspx.cs">
+      <DependentUpon>CreateLogin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\CreateLogin.aspx.designer.cs">
+      <DependentUpon>CreateLogin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\CreateLoginPocketFame.aspx.cs">
+      <DependentUpon>CreateLoginPocketFame.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\CreateLoginPocketFame.aspx.designer.cs">
+      <DependentUpon>CreateLoginPocketFame.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\Department.aspx.cs">
+      <DependentUpon>Department.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\Department.aspx.designer.cs">
+      <DependentUpon>Department.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\Designation.aspx.cs">
+      <DependentUpon>Designation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\Designation.aspx.designer.cs">
+      <DependentUpon>Designation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\Division.aspx.cs">
+      <DependentUpon>Division.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\Division.aspx.designer.cs">
+      <DependentUpon>Division.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\ESIBranches.aspx.cs">
+      <DependentUpon>ESIBranches.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\ESIBranches.aspx.designer.cs">
+      <DependentUpon>ESIBranches.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\HSNNumberList.aspx.cs">
+      <DependentUpon>HSNNumberList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\HSNNumberList.aspx.designer.cs">
+      <DependentUpon>HSNNumberList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\LWFMaster.aspx.cs">
+      <DependentUpon>LWFMaster.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\LWFMaster.aspx.designer.cs">
+      <DependentUpon>LWFMaster.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\MeasuredUnits.aspx.cs">
+      <DependentUpon>MeasuredUnits.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\MeasuredUnits.aspx.designer.cs">
+      <DependentUpon>MeasuredUnits.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\Menu.aspx.cs">
+      <DependentUpon>Menu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\Menu.aspx.designer.cs">
+      <DependentUpon>Menu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\Minimum_Wages_Categories.aspx.cs">
+      <DependentUpon>Minimum_Wages_Categories.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\Minimum_Wages_Categories.aspx.designer.cs">
+      <DependentUpon>Minimum_Wages_Categories.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\PFBranches.aspx.cs">
+      <DependentUpon>PFBranches.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\PFBranches.aspx.designer.cs">
+      <DependentUpon>PFBranches.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\Previligers.aspx.cs">
+      <DependentUpon>Previligers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\Previligers.aspx.designer.cs">
+      <DependentUpon>Previligers.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\Resources.aspx.cs">
+      <DependentUpon>Resources.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\Resources.aspx.designer.cs">
+      <DependentUpon>Resources.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\Segment.aspx.cs">
+      <DependentUpon>Segment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\Segment.aspx.designer.cs">
+      <DependentUpon>Segment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\Settings.aspx.cs">
+      <DependentUpon>Settings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\Settings.aspx.designer.cs">
+      <DependentUpon>Settings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Settings\TaxComponents.aspx.cs">
+      <DependentUpon>TaxComponents.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Module_Settings\TaxComponents.aspx.designer.cs">
+      <DependentUpon>TaxComponents.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reminders.aspx.cs">
+      <DependentUpon>Reminders.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reminders.aspx.designer.cs">
+      <DependentUpon>Reminders.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
+    <Folder Include="Module_Reports\assets\EmpPhotos\" />
+    <Folder Include="Module_Reports\ImportDocuments\" />
+    <Folder Include="obj\Debug\TempPE\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>63578</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:63578/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

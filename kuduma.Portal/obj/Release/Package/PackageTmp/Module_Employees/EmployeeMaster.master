@@ -1,0 +1,29 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/MainMaster.Master" AutoEventWireup="true" CodeBehind="EmployeeMaster.master.cs" Inherits="Kuduma.Portal.Module_Employees.EmployeeMaster" %>
+<%@ MasterType VirtualPath="~/MainMaster.master" %>  
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+ <div id="submenu">
+            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="display: inline;">
+                                <div id="submenu" class="submenu">
+                                    <ul id="SUBLIST">
+                                        <li id="s2" runat="server"><a href="ClientAttendancePage.aspx" id="AttendanceLink" runat="server"><span>Attendance</span></a></li>
+                                        <li id="s3" runat="server"><a href="NewLoan.aspx" id="LoanLink" runat="server"><span>Loans</span></a></li>
+                                        <li id="s4" runat="server"><a href="EmployeePayments.aspx" id="PaymentLink" runat="server"><span>Payment</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <asp:ContentPlaceHolder id="ContentPlaceHolder3" runat="server">
+        </asp:ContentPlaceHolder>
+
+
+</asp:Content>
