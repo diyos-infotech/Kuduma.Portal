@@ -72,7 +72,7 @@ namespace Kuduma.Portal
 
 
         }
-
+     
         protected void LoginFunction(string UserName, string password)
         {
             Session["uname"] = UserName;
@@ -101,8 +101,57 @@ namespace Kuduma.Portal
                     Session["Emp_Id"] = DtCheckCredentials.Rows[0]["Emp_Id"].ToString();
                     Session["BranchID"] = DtCheckCredentials.Rows[0]["BranchID"].ToString();
 
-                    Response.Redirect(Session["homepage"].ToString());
+                    #region for payment alert
+                    string UpdateLogin = "update logindetails set LastLoggedIn='" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "' ";
+                    //int UpdateStatus = config.ExecuteNonQueryWithQueryAsync(UpdateLogin).Result;
+                    int UpdateStatus = SqlHelper.Instance.ExecuteDMLQry(UpdateLogin);
+                    string qry = "select Loginstatus,LoginStatusRemarks,LoginTypeRemarks,LoginType from logindetails";
+                    DataTable dt = config.ExecuteAdaptorAsyncWithQueryParams(qry).Result;
 
+
+                    string LoginStatusRemarks = "";
+                    string Loginstatus = "";
+                    string LoginTypeRemarks = "";
+                    bool LoginType = false;
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        Loginstatus = dt.Rows[0]["Loginstatus"].ToString().ToUpper();
+                        LoginStatusRemarks = dt.Rows[0]["LoginStatusRemarks"].ToString();
+                        LoginTypeRemarks = dt.Rows[0]["LoginTypeRemarks"].ToString();
+                        LoginType = bool.Parse(dt.Rows[0]["LoginType"].ToString());
+                    }
+
+                    if (Loginstatus == "INACTIVE")
+                    {
+
+                        string title = "Alert!";
+                        hfv.Value = Loginstatus;
+                        string body = LoginStatusRemarks;
+                        string BtnText = "Ok";
+                        string Width = "50";
+                        ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup('" + title + "', '" + body + "','" + BtnText + "','" + Width + "');", true);
+                    }
+                    else
+                    {
+                        if (LoginType == true)
+                        {
+                            string title = "Immediate Action Required!";
+                            hfv.Value = Loginstatus;
+                            string body = LoginTypeRemarks;
+                            string BtnText = "Ok, Proceed";
+                            string Width = "120";
+                            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup('" + title + "', '" + body + "','" + BtnText + "','" + Width + "');", true);
+                        }
+
+                        #endregion
+                        else
+                        {
+
+                            Response.Redirect(Session["homepage"].ToString());
+                        }
+
+                    }
                 }
                 else
                 {
