@@ -6,20 +6,19 @@ using System.Data;
 using System.IO;
 using System.Data.OleDb;
 using Kuduma.Portal.DAL;
+using ClosedXML.Excel;
+
 namespace Kuduma.Portal
 {
     public partial class ImportEmpLoanDetails : System.Web.UI.Page
     {
         AppConfiguration config = new AppConfiguration();
         GridViewExportUtil gve = new GridViewExportUtil();
+
         string EmpIDPrefix = "";
         string CmpIDPrefix = "";
         string UserID = "";
-        string Username = "";
-        string Elength = "";
-        string Clength = "";
-        string Fontstyle = "";
-        string BranchID = "";
+
         protected void GetWebConfigdata()
         {
 
@@ -103,7 +102,7 @@ namespace Kuduma.Portal
 
         protected void LinkSample_Click(object sender, EventArgs e)
         {
-            gve.Export("SampleLoanDetailsSheet.xls", this.GvInputEmpLoanDetails);
+            gve.NewExport("SampleLoanDetailsSheet.xlsx", this.GvInputEmpLoanDetails);
         }
 
         public string GetExcelSheetNames()
@@ -165,41 +164,134 @@ namespace Kuduma.Portal
 
         protected void btnsave_Click(object sender, EventArgs e)
         {
-            string filename = Path.Combine(Server.MapPath("~/ImportDocuments"), Guid.NewGuid().ToString() + Path.GetExtension(FlUploadLoanDetails.PostedFile.FileName));
-            FlUploadLoanDetails.PostedFile.SaveAs(filename);
-            string extn = Path.GetExtension(FlUploadLoanDetails.PostedFile.FileName);
-            string constring = "";
-            if (extn.ToLower() == ".xls")
-            {
-                //constring = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filename + ";Extended properties=\"excel 8.0;HDR=Yes;IMEX=2\"";
-                constring = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filename + ";Extended properties=\"excel 12.0;HDR=Yes;IMEX=2\"";
-            }
-            else if (extn.ToLower() == ".xlsx")
-            {
-                constring = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filename + ";Extended properties=\"excel 12.0;HDR=Yes;IMEX=2\"";
-            }
+            //string filename = Path.Combine(Server.MapPath("~/ImportDocuments"), Guid.NewGuid().ToString() + Path.GetExtension(FlUploadLoanDetails.PostedFile.FileName));
+            //FlUploadLoanDetails.PostedFile.SaveAs(filename);
+            //string extn = Path.GetExtension(FlUploadLoanDetails.PostedFile.FileName);
+            //string constring = "";
+            //if (extn.ToLower() == ".xls")
+            //{
+            //    //constring = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filename + ";Extended properties=\"excel 8.0;HDR=Yes;IMEX=2\"";
+            //    constring = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filename + ";Extended properties=\"excel 12.0;HDR=Yes;IMEX=2\"";
+            //}
+            //else if (extn.ToLower() == ".xlsx")
+            //{
+            //    constring = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filename + ";Extended properties=\"excel 12.0;HDR=Yes;IMEX=2\"";
+            //}
+
+            //string Sheetname = string.Empty;
+
+
+
+
+            //string qry = "select [ID NO],[Loan Type],[Amount],[NoofInstalments],[LoanIssuedDate],[LoanCuttingFrom]" +
+            //"  from  [" + GetExcelSheetNames() + "]" + "";
+
+
+            //OleDbConnection con = new OleDbConnection(constring);
+            //if (con.State == ConnectionState.Closed)
+            //{
+            //    con.Open();
+            //}
+            //OleDbCommand cmd = new OleDbCommand(qry, con);
+            //OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+            //DataSet ds = new DataSet();
+            //da.Fill(ds);
+            //da.Dispose();
+            //con.Close();
+            //con.Dispose();
 
             string Sheetname = string.Empty;
+            Sheetname = FlUploadLoanDetails.PostedFile.FileName;
 
-
-
-
-            string qry = "select [ID NO],[Loan Type],[Amount],[NoofInstalments],[LoanIssuedDate],[LoanCuttingFrom]" +
-            "  from  [" + GetExcelSheetNames() + "]" + "";
-
-
-            OleDbConnection con = new OleDbConnection(constring);
-            if (con.State == ConnectionState.Closed)
+            string qrychk = "select top(1) * from emploanmaster where isnull(SheetName,'')='" + Sheetname + "'";
+            DataTable dtchk = config.ExecuteAdaptorAsyncWithQueryParams(qrychk).Result;
+            if (dtchk.Rows.Count > 0)
             {
-                con.Open();
+                ScriptManager.RegisterStartupScript(this, GetType(), "showlalert", "alert('Attached excel Sheet is already uploaded');", true);
+                return;
             }
-            OleDbCommand cmd = new OleDbCommand(qry, con);
-            OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+
+
+            string filePath = Server.MapPath("~/ImportDocuments/") + Path.GetFileName(FlUploadLoanDetails.PostedFile.FileName);
+            FlUploadLoanDetails.PostedFile.SaveAs(filePath);
+
+            string extn = Path.GetExtension(FlUploadLoanDetails.PostedFile.FileName);
+
+            //Create a new DataTable.
+            DataTable dtexcel = new DataTable();
+
+            if (extn.EndsWith(".xlsx"))
+            {
+                using (XLWorkbook workBook = new XLWorkbook(filePath))
+                {
+                    IXLWorksheet workSheet = workBook.Worksheet(1);
+
+
+                    int lastrow = workSheet.LastRowUsed().RowNumber();
+                    var rows = workSheet.Rows(1, lastrow);
+
+                    //Create a new DataTable.
+
+                    //Loop through the Worksheet rows.
+                    bool firstRow = true;
+                    foreach (IXLRow row in rows)
+                    {
+                        //Use the first row to add columns to DataTable.
+                        if (firstRow)
+                        {
+                            foreach (IXLCell cell in row.Cells())
+                            {
+                                if (!string.IsNullOrEmpty(cell.Value.ToString()))
+                                {
+                                    dtexcel.Columns.Add(cell.Value.ToString());
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            firstRow = false;
+                        }
+                        else
+                        {
+                            int i = 0;
+                            DataRow toInsert = dtexcel.NewRow();
+                            foreach (IXLCell cell in row.Cells(1, dtexcel.Columns.Count))
+                            {
+                                try
+                                {
+                                    toInsert[i] = cell.Value.ToString();
+                                }
+                                catch (Exception ex)
+                                {
+
+                                }
+                                i++;
+                            }
+                            dtexcel.Rows.Add(toInsert);
+                        }
+
+                    }
+                }
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "Show alert", "alert('Please save file in Excel WorkBook(.xlsx) format');", true);
+                return;
+            }
+
+            for (int s = 0; s < dtexcel.Rows.Count; s++)
+            {
+                string clid = dtexcel.Rows[s][1].ToString().Trim();
+
+                if (clid.Length == 0)
+                {
+                    dtexcel.Rows.RemoveAt(s);
+                }
+            }
+
             DataSet ds = new DataSet();
-            da.Fill(ds);
-            da.Dispose();
-            con.Close();
-            con.Dispose();
+            ds.Tables.Add(dtexcel);
 
             #region Begin Getmax Id from DB
             int ExcelNo = 0;
@@ -278,9 +370,9 @@ namespace Kuduma.Portal
                         int Deletestatus = config.ExecuteNonQueryWithQueryAsync(DeleteQry).Result;
 
                         string insertquery = string.Format(" insert into EmpLoanMaster(loandt,empid,loantype,loanamount,NoInstalments,  " +
-                      " LoanStatus,TypeOfLoan,LoanIssuedDate,Created_By,Created_On,Excel_No) values( '{0}','{1}','{2}','{3}',{4},{5},'{6}','{7}','{8}','{9}','{10}') ",
+                      " LoanStatus,TypeOfLoan,LoanIssuedDate,Created_By,Created_On,Excel_No,SheetName) values( '{0}','{1}','{2}','{3}',{4},{5},'{6}','{7}','{8}','{9}','{10}','{11}') ",
                       LoanCuttingMonth, Empid, Loantype,
-                      Amount, NoOfInstalments, loanStatus, TypeOfLoan, LoanIssuedDate, UserID, Date, ExcelNo);
+                      Amount, NoOfInstalments, loanStatus, TypeOfLoan, LoanIssuedDate, UserID, Date, ExcelNo, Sheetname);
                         int status = config.ExecuteNonQueryWithQueryAsync(insertquery).Result;
                         if (status != 0)
                         {
@@ -310,6 +402,11 @@ namespace Kuduma.Portal
                 {
                     btnUnsavedExport.Visible = true;
                 }
+            }
+
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
             }
 
         }
@@ -402,7 +499,7 @@ namespace Kuduma.Portal
             DataTable dt = config.ExecuteAdaptorAsyncWithQueryParams(Qry).Result;
             if (dt.Rows.Count > 0)
             {
-                gve.NewExportExcel("UnsavedLoansdata.xls", dt);
+                gve.NewExportExcel("UnsavedLoansdata.xlsx", dt);
             }
         }
     }

@@ -1,0 +1,119 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MainMaster.master.cs" Inherits="Kuduma.Portal.MainMaster" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>FaME</title>
+    <link rel="shortcut icon" href="assets/Mushroom.ico" />
+    <link href="css/global.css" rel="stylesheet" type="text/css" />
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript">
+    </script>
+   
+   
+
+    <script type="text/javascript">
+
+        function onCalendarShown() {
+
+            var cal = $find("calendar1");
+            //Setting the default mode to month
+            cal._switchMode("months", true);
+
+            //Iterate every month Item and attach click event to it
+            if (cal._monthsBody) {
+                for (var i = 0; i < cal._monthsBody.rows.length; i++) {
+                    var row = cal._monthsBody.rows[i];
+                    for (var j = 0; j < row.cells.length; j++) {
+                        Sys.UI.DomEvent.addHandler(row.cells[j].firstChild, "click", call);
+                    }
+                }
+            }
+        }
+
+        function onCalendarHidden() {
+            var cal = $find("calendar1");
+            //Iterate every month Item and remove click event from it
+            if (cal._monthsBody) {
+                for (var i = 0; i < cal._monthsBody.rows.length; i++) {
+                    var row = cal._monthsBody.rows[i];
+                    for (var j = 0; j < row.cells.length; j++) {
+                        Sys.UI.DomEvent.removeHandler(row.cells[j].firstChild, "click", call);
+                    }
+                }
+            }
+
+        }
+
+        function call(eventElement) {
+            var target = eventElement.target;
+            switch (target.mode) {
+                case "month":
+                    var cal = $find("calendar1");
+                    cal._visibleDate = target.date;
+                    cal.set_selectedDate(target.date);
+                    cal._switchMonth(target.date);
+                    cal._blur.post(true);
+                    cal.raiseDateSelectionChanged();
+                    break;
+            }
+        }
+
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server" autocomplete="off">
+    <div>
+
+         <div id="headerouter">
+                <!-- LOGO AND MAIN MENU SECTION BEGIN -->
+                <div id="header">
+                    <!-- LOGO BEGIN -->
+                    <div id="logo">
+                        <a href="Default.aspx">
+                            <img border="0" src="../assets/logo.png" alt="Product Tracking System" title="FaME" /></a></div>
+                    <!-- LOGO END -->
+                    <!-- TOP INFO BEGIN -->
+                    <div id="toplinks">
+                        <ul>
+                            <li><a href="~/Reminders.aspx" id="r1" visible="false" runat="server"><span>Reminders</span></a></li>
+                            <li class="lang">Welcome <b>
+                                 <asp:Label ID="lblDisplayUser" runat="server" Text="Label" Font-Bold="true"></asp:Label></b></li>
+                        </ul>
+                    </div>
+                    <!-- TOP INFO END -->
+                    <!-- MAIN MENU BEGIN -->
+                    <div id="mainmenu" >
+                        <ul runat="server" id="list">
+                            <li id="li1" runat="server" class="first"><a href="~/Module_Employees/Employees.aspx" id="EmployeesLink" runat="server"><span>Employees</span></a></li>
+                            <li id="li2" runat="server"><a href="~/Module_Clients/Clients.aspx" id="ClientsLink" runat="server"><span>Clients</span></a></li>
+                            <li id="li3" runat="server"><a href="companyinfo.aspx" id="CompanyInfoLink" runat="server"><span>Company Info</span></a></li>
+                            <li id="li4" runat="server"><a href="~/Module_Inventory/ViewItems.aspx" id="InventoryLink" runat="server"><span>Inventory</span></a></li>
+                            <li id="li5" runat="server"><a href="~/Module_Reports/Reports.aspx" id="ReportsLink" runat="server"><span>Reports</span></a></li>
+                            <li id="li6" runat="server"><a href="~/Module_Settings/Settings.aspx" id="SettingsLink" runat="server"><span>Settings</span></a></li>
+                            <li id="li7" runat="server" class="last"><a href="#" id="LogOutLink" onserverclick="LogOutLink_ServerClick" runat="server"><span><span>Log out</span></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+        </div>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+        <div id="footerouter">
+            <div class="footer">
+                <div class="footerlogo">
+                    <a href="http://www.diyostech.Com" target="_blank">Powered by WebWonders</a></div>
+                <div class="footercontent">
+                    <a href="#">Terms &amp; Conditions</a> | <a href="#">Privacy Policy</a> | ©
+                    <asp:Label ID="lblcname" runat="server"></asp:Label>.</div>
+                <div class="clear">
+                </div>
+            </div>
+            <!-- CONTENT AREA END -->
+        </div>
+
+    </form>
+</body>
+</html>
