@@ -33397,7 +33397,7 @@ namespace Kuduma.Portal
                     float ADDL4HR, QTRALLOW, RELALLOW, OTESICWAGES, SITEALLOW, GunAllw, FireAllw,
 FixedADDL4HR, FixedQTRALLOW, FixedRELALLOW, FixedOTESICWAGES, FixedSITEALLOW, FixedGunAllw, FixedFireAllw,
 TelephoneAllw, Reimbursement, HardshipAllw, PaidHolidayAllw, ServiceCharge,
-FixedTelephoneAllw, FixedReimbursement, FixedHardshipAllw, FixedPaidHolidayAllw, FixedServiceCharge = 0, RankAllw = 0, FixedRankAllw = 0;
+FixedTelephoneAllw, FixedReimbursement, FixedHardshipAllw, FixedPaidHolidayAllw, FixedServiceCharge = 0, RankAllw = 0, FixedRankAllw = 0, FixedLeavewages=0, Leavewages=0, OTPerHour=0;
 
 
 
@@ -33518,7 +33518,7 @@ CFixedTelephoneAllw, CFixedReimbursement, CFixedHardshipAllw, CFixedPaidHolidayA
                     string AADDL4HR = ""; string AQTRALLOW = ""; string ARELALLOW = ""; string AOTESICWAGES = ""; string ASITEALLOW = ""; string AGunAllw = ""; string AFireAllw = ""; string
          AFixedADDL4HR = ""; string AFixedQTRALLOW = ""; string AFixedRELALLOW = ""; string AFixedOTESICWAGES = ""; string AFixedSITEALLOW = ""; string AFixedGunAllw = ""; string AFixedFireAllw = ""; string
                  ATelephoneAllw = ""; string AReimbursement = ""; string AHardshipAllw = ""; string APaidHolidayAllw = ""; string AServiceCharge = ""; string
-                       AFixedTelephoneAllw = ""; string AFixedReimbursement = ""; string AFixedHardshipAllw = ""; string AFixedPaidHolidayAllw = ""; string AFixedServiceCharge = ""; string ARankAllw = ""; string AFixedRankAllw = "";
+                       AFixedTelephoneAllw = ""; string AFixedReimbursement = ""; string AFixedHardshipAllw = ""; string AFixedPaidHolidayAllw = ""; string AFixedServiceCharge = ""; string ARankAllw = ""; string AFixedRankAllw = ""; string ALeavewages = ""; string AFixedLeavewages = ""; string AOTPerHour = "";
 
 
 
@@ -33569,6 +33569,8 @@ CFixedTelephoneAllw, CFixedReimbursement, CFixedHardshipAllw, CFixedPaidHolidayA
                     string CdAOtherAllw = "";
                     string CdAIncntives = "";
                     string CdAPerformanceAllw = "";
+
+                    string CdALeavewages = "";
 
                     string CdADDL4HR, CdQTRALLOW, CdRELALLOW, CdOTESICWAGES, CdSITEALLOW, CdGunAllw, CdFireAllw,
    CdFixedADDL4HR, CdFixedQTRALLOW, CdFixedRELALLOW, CdFixedOTESICWAGES, CdFixedSITEALLOW, CdFixedGunAllw, CdFixedFireAllw,
@@ -33676,6 +33678,8 @@ totalFixedTelephoneAllw, totalFixedReimbursement, totalFixedHardshipAllw, totalF
                     float totalattbonus = 0;
                     float totalarrears = 0;
 
+                    float totalLeavewages = 0;
+
                     //
                     string AtotalSalAdv = "";
                     string AtotalAdv2 = "";
@@ -33755,6 +33759,8 @@ totalFixedTelephoneAllw, totalFixedReimbursement, totalFixedHardshipAllw, totalF
                     string AtotalWOAmt = "";
                     string AtotalNpotsAmt = "";
 
+                    string AtotalLeavewages = "";
+
                     string AtotalADDL4HR, AtotalQTRALLOW, AtotalRELALLOW, AtotalOTESICWAGES, AtotalSITEALLOW, AtotalGunAllw, AtotalFireAllw,
 AtotalFixedADDL4HR, AtotalFixedQTRALLOW, AtotalFixedRELALLOW, AtotalFixedOTESICWAGES, AtotalFixedSITEALLOW, AtotalFixedGunAllw, AtotalFixedFireAllw,
 AtotalTelephoneAllw, AtotalReimbursement, AtotalHardshipAllw, AtotalPaidHolidayAllw, AtotalServiceCharge,
@@ -33791,6 +33797,7 @@ AtotalFixedTelephoneAllw, AtotalFixedReimbursement, AtotalFixedHardshipAllw, Ato
                     float TotalCOtherAllw = 0;
                     float TotalCIncentives = 0;
                     float TotalCPerformanceAllw = 0;
+                    float TotalCFixedLeavewages = 0;
 
 
                     float TotalCADDL4HR = 0; float TotalCQTRALLOW = 0; float TotalCRELALLOW = 0; float TotalCOTESICWAGES = 0; float TotalCSITEALLOW = 0; float TotalCGunAllw = 0; float TotalCFireAllw = 0;
@@ -33829,6 +33836,7 @@ AtotalFixedTelephoneAllw, AtotalFixedReimbursement, AtotalFixedHardshipAllw, Ato
                     string AtotalCIncentives = "";
                     string AtotalFixedearning = "";
                     string AtotalCPerformanceAllw = "";
+                    string ATotalCFixedLeavewages = "";
 
                     string ATotalCADDL4HR = ""; string ATotalCQTRALLOW = ""; string ATotalCRELALLOW = ""; string ATotalCOTESICWAGES = ""; string ATotalCSITEALLOW = ""; string ATotalCGunAllw = ""; string ATotalCFireAllw = ""; string
 ATotalCFixedADDL4HR = ""; string ATotalCFixedQTRALLOW = ""; string ATotalCFixedRELALLOW = ""; string ATotalCFixedOTESICWAGES = ""; string ATotalCFixedSITEALLOW = ""; string ATotalCFixedGunAllw = ""; string ATotalCFixedFireAllw = ""; string
@@ -34784,6 +34792,36 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                         {
                             ATelephoneAllw = "-";
                         }
+
+                        Leavewages = float.Parse(dt.Rows[i]["Leavewages"].ToString());
+                        if (Leavewages > 0)
+                        {
+                            ALeavewages = Leavewages.ToString();
+                        }
+                        else
+                        {
+                            ALeavewages = "-";
+                        }
+
+                        OTPerHour = float.Parse(dt.Rows[i]["OTPerHour"].ToString());
+                        if (OTPerHour > 0)
+                        {
+                            AOTPerHour = OTPerHour.ToString();
+                        }
+                        else
+                        {
+                            AOTPerHour = "-";
+                        }
+
+                        FixedLeavewages = float.Parse(dt.Rows[i]["FixedLeavewages"].ToString());
+                        if (FixedLeavewages > 0)
+                        {
+                            AFixedLeavewages = FixedLeavewages.ToString();
+                        }
+                        else
+                        {
+                            AFixedLeavewages = "-";
+                        }
                         Reimbursement = float.Parse(dt.Rows[i]["Reimbursement"].ToString());
                         if (Reimbursement > 0)
                         {
@@ -35235,6 +35273,11 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                             CcellHead6.Add(new Chunk("\nAtbonus", FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
                         }
 
+                        //if (CdALeavewages != "-")
+                        //{
+                        //    CcellHead6.Add(new Chunk("\nLeaveWages", FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
+                        //}
+
                         CcellHead6.SetLeading(0, 1.2f);
                         cell.AddElement(CcellHead6);
                         cell.HorizontalAlignment = 0;
@@ -35571,6 +35614,11 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                             CcellHead18.Add(new Chunk("Per Allw\n", FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
                         }
 
+                        if (AFixedLeavewages != "-")
+                        {
+                            CcellHead18.Add(new Chunk("Per Allw\n", FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
+                        }
+
                         CcellHead18.SetLeading(0, 1.2f);
                         cell.AddElement(CcellHead18);
                         cell.HorizontalAlignment = 0;
@@ -35704,6 +35752,11 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                         if (CdAPerformanceAllw != "-")
                         {
                             CcellHead19.Add(new Chunk(CdAPerformanceAllw + "\n", FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
+                        }
+
+                        if (AFixedLeavewages != "-")
+                        {
+                            CcellHead19.Add(new Chunk(AFixedLeavewages + "\n", FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
                         }
 
                         CcellHead19.SetLeading(0, 1.2f);
@@ -35985,6 +36038,16 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                             AtotalCPerformanceAllw = "-";
                         }
 
+                        TotalCFixedLeavewages += FixedLeavewages;
+                        if (TotalCFixedLeavewages > 0)
+                        {
+                            ATotalCFixedLeavewages = TotalCFixedLeavewages.ToString();
+                        }
+                        else
+                        {
+                            ATotalCFixedLeavewages = "-";
+                        }
+
                         //                   
                         #endregion for total
 
@@ -36125,6 +36188,11 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                             CcellHead116.Add(new Chunk("\nAtBonus", FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
                         }
 
+                        if (ALeavewages != "-")
+                        {
+                            CcellHead116.Add(new Chunk("\nLeave Wages", FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
+                        }
+
                         CcellHead116.SetLeading(0, 1.2f);
                         cell.AddElement(CcellHead116);
                         cell.HorizontalAlignment = 0;
@@ -36200,6 +36268,11 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                         if (AAttBonus != "-")
                         {
                             CcellHead117.Add(new Chunk("\n" + AAttBonus, FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
+                        }
+
+                        if (ALeavewages != "-")
+                        {
+                            CcellHead117.Add(new Chunk("\n" + ALeavewages, FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
                         }
 
                         CcellHead117.SetLeading(0, 1.2f);
@@ -36335,6 +36408,17 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                         {
                             AtotalAttbonus = "-";
                         }
+
+                        totalLeavewages += Leavewages;
+                        if (totalLeavewages > 0)
+                        {
+                            AtotalLeavewages = totalLeavewages.ToString();
+                        }
+                        else
+                        {
+                            AtotalLeavewages = "-";
+                        }
+
                         #endregion for total
 
                         cell = new PdfPCell();
@@ -37575,6 +37659,11 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                         CcellHead110.Add(new Chunk("\nAtt Bonus", FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
                     }
 
+                    if (ATotalCFixedLeavewages != "-")
+                    {
+                        CcellHead110.Add(new Chunk("\nLeave Wages", FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
+                    }
+
 
 
 
@@ -37655,6 +37744,11 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                     if (ATotalCAttBonus != "-")
                     {
                         CcellHead112.Add(new Chunk("\n" + ATotalCAttBonus, FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
+                    }
+
+                    if (ATotalCFixedLeavewages != "-")
+                    {
+                        CcellHead112.Add(new Chunk("\n" + ATotalCFixedLeavewages, FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
                     }
 
                     CcellHead112.SetLeading(0, 1.2f);
@@ -38026,6 +38120,11 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                         CcellHead10.Add(new Chunk("\nAttBonus", FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
                     }
 
+                    if (AtotalLeavewages != "-")
+                    {
+                        CcellHead10.Add(new Chunk("\nLeave Wages", FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
+                    }
+
 
                     CcellHead10.SetLeading(0, 1.2f);
                     CcellHead10.Alignment = 0;
@@ -38104,6 +38203,11 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                     if (AtotalAttbonus != "-")
                     {
                         CcellHead11.Add(new Chunk("\n" + AtotalAttbonus, FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
+                    }
+
+                    if (AtotalLeavewages != "-")
+                    {
+                        CcellHead11.Add(new Chunk("\n" + AtotalLeavewages, FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
                     }
 
                     CcellHead11.SetLeading(0, 1.2f);
