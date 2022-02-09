@@ -1,0 +1,36 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/MainMaster.Master" AutoEventWireup="true" CodeBehind="Clients.master.cs" Inherits="Kuduma.Portal.Module_Clients.Clients" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <script type="text/javascript" src="../script/jscript.js">
+    </script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" />
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+    <div id="submenu">
+        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+                <tr>
+                    <td>
+                        <div style="display: inline;">
+                            <div id="submenu" class="submenu">
+                                <ul>
+                                    <li id="c1" runat="server"><a href="Contracts.aspx" id="ContractLink" runat="server"><span>Contracts</span></a></li>
+                                    <li id="c2" runat="server"><a href="ClientLicenses.aspx" id="LicensesLink" runat="server"><span>Licenses</span></a></li>
+                                    <li id="c3" runat="server"><a href="clientattendance.aspx" id="ClientAttendanceLink" runat="server"><span>Attendance</span></a></li>
+                                    <li id="c4" runat="server"><a href="ClientBilling.aspx" id="BillingLink" runat="server"><span>Billing</span></a>   </li>
+                                    <li id="c5" runat="server"><a href="Receipts.aspx" id="ReceiptsLink" runat="server"><span>Receipts</span></a></li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder3" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>

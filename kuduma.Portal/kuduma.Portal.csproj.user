@@ -3,7 +3,8 @@
   <PropertyGroup>
     <UseIISExpress>true</UseIISExpress>
     <ProjectView>ShowAllFiles</ProjectView>
-    <NameOfLastUsedPublishProfile>Kuduma.Portal</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>D:\GitProjects\Kuduma.Portal\kuduma.Portal\Properties\PublishProfiles\Kuduma.Portal.pubxml</NameOfLastUsedPublishProfile>
+    <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

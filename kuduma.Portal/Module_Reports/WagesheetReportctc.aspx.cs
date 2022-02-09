@@ -340,6 +340,11 @@ namespace Kuduma.Portal.Module_Reports
                 float totalArea = 0;
                 float totalTelephoneBillDed = 0;
                 float totalAdvBonus = 0;
+
+                float totalLeavewages = 0;
+                float totalOTPerHour = 0;
+                float totalfixedLeavewages = 0;
+
                 #endregion Declaring TotalVariables
 
                 // var monthlist = new List<string>();
@@ -1143,6 +1148,28 @@ namespace Kuduma.Portal.Module_Reports
 
                                 }
 
+                                string strleavewages = dt.Rows[i]["Leavewages"].ToString();
+                                if (strleavewages.Trim().Length > 0)
+                                {
+                                    totalLeavewages += Convert.ToSingle(strleavewages);
+
+                                }
+
+                                string strotperhour = dt.Rows[i]["OTPerHour"].ToString();
+                                if (strotperhour.Trim().Length > 0)
+                                {
+                                    totalOTPerHour += Convert.ToSingle(strotperhour);
+
+                                }
+
+                                string strFixedLeavewages = dt.Rows[i]["FixedLeavewages"].ToString();
+                                if (strFixedLeavewages.Trim().Length > 0)
+                                {
+                                    totalfixedLeavewages += Convert.ToSingle(strFixedLeavewages);
+
+                                }
+
+
                                 string strFireAllw = dt.Rows[i]["FireAllw"].ToString();
                                 if (strFireAllw.Trim().Length > 0)
                                 {
@@ -1772,6 +1799,20 @@ namespace Kuduma.Portal.Module_Reports
                         countearnings += 1;
                     }
 
+                    if (totalLeavewages > 0)
+                    {
+                        countearnings += 1;
+                    }
+
+                    if (totalfixedLeavewages > 0)
+                    {
+                        countearnings += 1;
+                    }
+
+                    if (totalOTPerHour > 0)
+                    {
+                        countearnings += 1;
+                    }
                     //Deductions
                     if (totalPF > 0)
                     {
@@ -2254,6 +2295,10 @@ namespace Kuduma.Portal.Module_Reports
         float totalCdrc = 0;
         float totalCdcs = 0;
 
+        float totalLeavewages = 0;
+        float totalOTPerHour = 0;
+        float totalfixedLeavewages = 0;
+
         float totalCdAddlAmount = 0;
         float totalCdFoodAllw = 0;
         float totalCdWOAmt = 0;
@@ -2296,6 +2341,9 @@ namespace Kuduma.Portal.Module_Reports
         float totalfixedReimbursement = 0;
         float totalfixedHardshipAllw = 0;
         float totalfixedPaidHolidayAllw = 0;
+
+      
+
         float totalAdmincharges = 0;
         float totalRegistrationFee = 0;
         float totalcdRankAllowance = 0;
@@ -2667,6 +2715,22 @@ namespace Kuduma.Portal.Module_Reports
                                         totalConveyance += Convert.ToSingle(strConveyance);
 
                                     }
+
+                                    string strleavewages = dt.Rows[i]["Leavewages"].ToString();
+                                    if (strleavewages.Trim().Length > 0)
+                                    {
+                                        totalLeavewages += Convert.ToSingle(strleavewages);
+
+                                    }
+
+                                    string strotperhour = dt.Rows[i]["OTPerHour"].ToString();
+                                    if (strotperhour.Trim().Length > 0)
+                                    {
+                                        totalOTPerHour += Convert.ToSingle(strotperhour);
+
+                                    }
+
+
                                     string strWA = dt.Rows[i]["WashAllowance"].ToString();
                                     if (strWA.Trim().Length > 0)
                                     {
@@ -3042,6 +3106,13 @@ namespace Kuduma.Portal.Module_Reports
                                     if (strfixedADDL4HR.Trim().Length > 0)
                                     {
                                         totalfixedADDL4HR += Convert.ToSingle(strfixedADDL4HR);
+
+                                    }
+
+                                    string strFixedLeavewages = dt.Rows[i]["FixedLeavewages"].ToString();
+                                    if (strFixedLeavewages.Trim().Length > 0)
+                                    {
+                                        totalfixedLeavewages += Convert.ToSingle(strFixedLeavewages);
 
                                     }
 
@@ -4518,11 +4589,14 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotalGross = GVListEmployees1.FooterRow.FindControl("lblTotalGross") as Label;
-                        lblTotalGross.Text = Math.Round(totalGrass).ToString();
-                        if (totalGrass > 0)
+                        //1
+                        Label lblTotalLeavewages = GVListEmployees1.FooterRow.FindControl("lblTotalLeavewages") as Label;
+                        lblTotalLeavewages.Text = Math.Round(totalLeavewages).ToString();
+
+                        if (totalLeavewages > 0)
                         {
                             GVListEmployees1.Columns[95].Visible = true;
+
                         }
                         else
                         {
@@ -4530,11 +4604,14 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotalPF = GVListEmployees1.FooterRow.FindControl("lblTotalPF") as Label;
-                        lblTotalPF.Text = Math.Round(totalPF).ToString();
-                        if (totalPF > 0)
+                        //2
+                        Label lblTotalFixedLeavewages = GVListEmployees1.FooterRow.FindControl("lblTotalFixedLeavewages") as Label;
+                        lblTotalFixedLeavewages.Text = Math.Round(totalfixedLeavewages).ToString();
+
+                        if (totalfixedLeavewages > 0)
                         {
                             GVListEmployees1.Columns[96].Visible = true;
+
                         }
                         else
                         {
@@ -4542,11 +4619,14 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotalESI = GVListEmployees1.FooterRow.FindControl("lblTotalESI") as Label;
-                        lblTotalESI.Text = Math.Round(totalESI).ToString();
-                        if (totalESI > 0)
+                        //3
+                        Label lblTotalOTPerHour = GVListEmployees1.FooterRow.FindControl("lblTotalOTPerHour") as Label;
+                        lblTotalOTPerHour.Text = Math.Round(totalOTPerHour).ToString();
+
+                        if (totalOTPerHour > 0)
                         {
                             GVListEmployees1.Columns[97].Visible = true;
+
                         }
                         else
                         {
@@ -4554,12 +4634,11 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotalProfTax = GVListEmployees1.FooterRow.FindControl("lblTotalProfTax") as Label;
-                        lblTotalProfTax.Text = Math.Round(totalProfTax).ToString();
-                        if (totalProfTax > 0)
+                        Label lblTotalGross = GVListEmployees1.FooterRow.FindControl("lblTotalGross") as Label;
+                        lblTotalGross.Text = Math.Round(totalGrass).ToString();
+                        if (totalGrass > 0)
                         {
                             GVListEmployees1.Columns[98].Visible = true;
-
                         }
                         else
                         {
@@ -4567,14 +4646,11 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-
-                        Label lblTotalsaladv = GVListEmployees1.FooterRow.FindControl("lblTotalsaladv") as Label;
-                        lblTotalsaladv.Text = Math.Round(totalSalAdv).ToString();
-
-                        if (totalSalAdv > 0)
+                        Label lblTotalPF = GVListEmployees1.FooterRow.FindControl("lblTotalPF") as Label;
+                        lblTotalPF.Text = Math.Round(totalPF).ToString();
+                        if (totalPF > 0)
                         {
                             GVListEmployees1.Columns[99].Visible = true;
-
                         }
                         else
                         {
@@ -4582,21 +4658,21 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotaladvded = GVListEmployees1.FooterRow.FindControl("lblTotaladvded") as Label;
-                        lblTotaladvded.Text = Math.Round(totalAdvDed).ToString();
-                        if (totalAdvDed > 0)
+                        Label lblTotalESI = GVListEmployees1.FooterRow.FindControl("lblTotalESI") as Label;
+                        lblTotalESI.Text = Math.Round(totalESI).ToString();
+                        if (totalESI > 0)
                         {
                             GVListEmployees1.Columns[100].Visible = true;
-
                         }
                         else
                         {
                             GVListEmployees1.Columns[100].Visible = false;
 
                         }
-                        Label lblTotalwed = GVListEmployees1.FooterRow.FindControl("lblTotalwed") as Label;
-                        lblTotalwed.Text = Math.Round(totalwed).ToString();
-                        if (totalwed > 0)
+
+                        Label lblTotalProfTax = GVListEmployees1.FooterRow.FindControl("lblTotalProfTax") as Label;
+                        lblTotalProfTax.Text = Math.Round(totalProfTax).ToString();
+                        if (totalProfTax > 0)
                         {
                             GVListEmployees1.Columns[101].Visible = true;
 
@@ -4607,10 +4683,11 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotalUniformDed = GVListEmployees1.FooterRow.FindControl("lblTotalUniformDed") as Label;
-                        lblTotalUniformDed.Text = Math.Round(totalUniformDed).ToString();
 
-                        if (totalUniformDed > 0)
+                        Label lblTotalsaladv = GVListEmployees1.FooterRow.FindControl("lblTotalsaladv") as Label;
+                        lblTotalsaladv.Text = Math.Round(totalSalAdv).ToString();
+
+                        if (totalSalAdv > 0)
                         {
                             GVListEmployees1.Columns[102].Visible = true;
 
@@ -4621,10 +4698,9 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotalOtherDed = GVListEmployees1.FooterRow.FindControl("lblTotalOtherDed") as Label;
-                        lblTotalOtherDed.Text = Math.Round(totalOtherDed).ToString();
-
-                        if (totalOtherDed > 0)
+                        Label lblTotaladvded = GVListEmployees1.FooterRow.FindControl("lblTotaladvded") as Label;
+                        lblTotaladvded.Text = Math.Round(totalAdvDed).ToString();
+                        if (totalAdvDed > 0)
                         {
                             GVListEmployees1.Columns[103].Visible = true;
 
@@ -4634,11 +4710,9 @@ namespace Kuduma.Portal.Module_Reports
                             GVListEmployees1.Columns[103].Visible = false;
 
                         }
-
-                        Label lblTotaltotalloanded = GVListEmployees1.FooterRow.FindControl("lblTotaltotalloanded") as Label;
-                        lblTotaltotalloanded.Text = Math.Round(totalloanded).ToString();
-
-                        if (totalloanded > 0)
+                        Label lblTotalwed = GVListEmployees1.FooterRow.FindControl("lblTotalwed") as Label;
+                        lblTotalwed.Text = Math.Round(totalwed).ToString();
+                        if (totalwed > 0)
                         {
                             GVListEmployees1.Columns[104].Visible = true;
 
@@ -4649,24 +4723,27 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotalcantadv = GVListEmployees1.FooterRow.FindControl("lblTotalcantadv") as Label;
-                        lblTotalcantadv.Text = Math.Round(totalCanteenAdv).ToString();
+                        Label lblTotalUniformDed = GVListEmployees1.FooterRow.FindControl("lblTotalUniformDed") as Label;
+                        lblTotalUniformDed.Text = Math.Round(totalUniformDed).ToString();
 
-                        if (totalCanteenAdv > 0)
+                        if (totalUniformDed > 0)
                         {
                             GVListEmployees1.Columns[105].Visible = true;
+
                         }
                         else
                         {
                             GVListEmployees1.Columns[105].Visible = false;
 
                         }
-                        Label lblTotalSeepDed = GVListEmployees1.FooterRow.FindControl("lblTotalSeepDed") as Label;
-                        lblTotalSeepDed.Text = Math.Round(totalSeepDed).ToString();
 
-                        if (totalSeepDed > 0)
+                        Label lblTotalOtherDed = GVListEmployees1.FooterRow.FindControl("lblTotalOtherDed") as Label;
+                        lblTotalOtherDed.Text = Math.Round(totalOtherDed).ToString();
+
+                        if (totalOtherDed > 0)
                         {
                             GVListEmployees1.Columns[106].Visible = true;
+
                         }
                         else
                         {
@@ -4674,12 +4751,10 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
+                        Label lblTotaltotalloanded = GVListEmployees1.FooterRow.FindControl("lblTotaltotalloanded") as Label;
+                        lblTotaltotalloanded.Text = Math.Round(totalloanded).ToString();
 
-                        Label lblTotalGeneralDed = GVListEmployees1.FooterRow.FindControl("lblTotalGeneralDed") as Label;
-                        lblTotalGeneralDed.Text = Math.Round(totalGenDed).ToString();
-
-
-                        if (totalGenDed > 0)
+                        if (totalloanded > 0)
                         {
                             GVListEmployees1.Columns[107].Visible = true;
 
@@ -4690,28 +4765,24 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotalowf = GVListEmployees1.FooterRow.FindControl("lblTotalowf") as Label;
-                        lblTotalowf.Text = Math.Round(totalOWF).ToString();
+                        Label lblTotalcantadv = GVListEmployees1.FooterRow.FindControl("lblTotalcantadv") as Label;
+                        lblTotalcantadv.Text = Math.Round(totalCanteenAdv).ToString();
 
-                        if (totalOWF > 0)
+                        if (totalCanteenAdv > 0)
                         {
-
                             GVListEmployees1.Columns[108].Visible = true;
-
                         }
                         else
                         {
                             GVListEmployees1.Columns[108].Visible = false;
 
                         }
+                        Label lblTotalSeepDed = GVListEmployees1.FooterRow.FindControl("lblTotalSeepDed") as Label;
+                        lblTotalSeepDed.Text = Math.Round(totalSeepDed).ToString();
 
-                        Label lblTotalPenalty = GVListEmployees1.FooterRow.FindControl("lblTotalPenalty") as Label;
-                        lblTotalPenalty.Text = Math.Round(totalPenalty).ToString();
-
-                        if (totalPenalty > 0)
+                        if (totalSeepDed > 0)
                         {
                             GVListEmployees1.Columns[109].Visible = true;
-
                         }
                         else
                         {
@@ -4720,10 +4791,11 @@ namespace Kuduma.Portal.Module_Reports
                         }
 
 
-                        Label lblTotalRentDed = GVListEmployees1.FooterRow.FindControl("lblTotalRentDed") as Label;
-                        lblTotalRentDed.Text = Math.Round(totalRentDed).ToString();
+                        Label lblTotalGeneralDed = GVListEmployees1.FooterRow.FindControl("lblTotalGeneralDed") as Label;
+                        lblTotalGeneralDed.Text = Math.Round(totalGenDed).ToString();
 
-                        if (totalRentDed > 0)
+
+                        if (totalGenDed > 0)
                         {
                             GVListEmployees1.Columns[110].Visible = true;
 
@@ -4734,12 +4806,12 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
+                        Label lblTotalowf = GVListEmployees1.FooterRow.FindControl("lblTotalowf") as Label;
+                        lblTotalowf.Text = Math.Round(totalOWF).ToString();
 
-                        Label lblTotalMedicalDed = GVListEmployees1.FooterRow.FindControl("lblTotalMedicalDed") as Label;
-                        lblTotalMedicalDed.Text = Math.Round(totalMedicalDed).ToString();
-
-                        if (totalMedicalDed > 0)
+                        if (totalOWF > 0)
                         {
+
                             GVListEmployees1.Columns[111].Visible = true;
 
                         }
@@ -4749,10 +4821,10 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotalMLWFDed = GVListEmployees1.FooterRow.FindControl("lblTotalMLWFDed") as Label;
-                        lblTotalMLWFDed.Text = Math.Round(totalMLWFDed).ToString();
+                        Label lblTotalPenalty = GVListEmployees1.FooterRow.FindControl("lblTotalPenalty") as Label;
+                        lblTotalPenalty.Text = Math.Round(totalPenalty).ToString();
 
-                        if (totalMLWFDed > 0)
+                        if (totalPenalty > 0)
                         {
                             GVListEmployees1.Columns[112].Visible = true;
 
@@ -4763,10 +4835,11 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotalFoodDed = GVListEmployees1.FooterRow.FindControl("lblTotalFoodDed") as Label;
-                        lblTotalFoodDed.Text = Math.Round(totalFoodDed).ToString();
 
-                        if (totalFoodDed > 0)
+                        Label lblTotalRentDed = GVListEmployees1.FooterRow.FindControl("lblTotalRentDed") as Label;
+                        lblTotalRentDed.Text = Math.Round(totalRentDed).ToString();
+
+                        if (totalRentDed > 0)
                         {
                             GVListEmployees1.Columns[113].Visible = true;
 
@@ -4777,10 +4850,11 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotalElectricityDed = GVListEmployees1.FooterRow.FindControl("lblTotalElectricityDed") as Label;
-                        lblTotalElectricityDed.Text = Math.Round(totalElectricityDed).ToString();
 
-                        if (totalElectricityDed > 0)
+                        Label lblTotalMedicalDed = GVListEmployees1.FooterRow.FindControl("lblTotalMedicalDed") as Label;
+                        lblTotalMedicalDed.Text = Math.Round(totalMedicalDed).ToString();
+
+                        if (totalMedicalDed > 0)
                         {
                             GVListEmployees1.Columns[114].Visible = true;
 
@@ -4788,12 +4862,13 @@ namespace Kuduma.Portal.Module_Reports
                         else
                         {
                             GVListEmployees1.Columns[114].Visible = false;
+
                         }
 
-                        Label lblTotalTransportDed = GVListEmployees1.FooterRow.FindControl("lblTotalTransportDed") as Label;
-                        lblTotalTransportDed.Text = Math.Round(totalTransportDed).ToString();
+                        Label lblTotalMLWFDed = GVListEmployees1.FooterRow.FindControl("lblTotalMLWFDed") as Label;
+                        lblTotalMLWFDed.Text = Math.Round(totalMLWFDed).ToString();
 
-                        if (totalTransportDed > 0)
+                        if (totalMLWFDed > 0)
                         {
                             GVListEmployees1.Columns[115].Visible = true;
 
@@ -4801,11 +4876,13 @@ namespace Kuduma.Portal.Module_Reports
                         else
                         {
                             GVListEmployees1.Columns[115].Visible = false;
-                        }
-                        Label lblTotalDced = GVListEmployees1.FooterRow.FindControl("lblTotalDced") as Label;
-                        lblTotalDced.Text = Math.Round(totalDced).ToString();
 
-                        if (totalDced > 0)
+                        }
+
+                        Label lblTotalFoodDed = GVListEmployees1.FooterRow.FindControl("lblTotalFoodDed") as Label;
+                        lblTotalFoodDed.Text = Math.Round(totalFoodDed).ToString();
+
+                        if (totalFoodDed > 0)
                         {
                             GVListEmployees1.Columns[116].Visible = true;
 
@@ -4813,12 +4890,13 @@ namespace Kuduma.Portal.Module_Reports
                         else
                         {
                             GVListEmployees1.Columns[116].Visible = false;
+
                         }
 
-                        Label lblTotalLeaveDed = GVListEmployees1.FooterRow.FindControl("lblTotalLeaveDed") as Label;
-                        lblTotalLeaveDed.Text = Math.Round(totalLeaveDed).ToString();
+                        Label lblTotalElectricityDed = GVListEmployees1.FooterRow.FindControl("lblTotalElectricityDed") as Label;
+                        lblTotalElectricityDed.Text = Math.Round(totalElectricityDed).ToString();
 
-                        if (totalLeaveDed > 0)
+                        if (totalElectricityDed > 0)
                         {
                             GVListEmployees1.Columns[117].Visible = true;
 
@@ -4828,10 +4906,10 @@ namespace Kuduma.Portal.Module_Reports
                             GVListEmployees1.Columns[117].Visible = false;
                         }
 
-                        Label lblTotalLicenseDed = GVListEmployees1.FooterRow.FindControl("lblTotalLicenseDed") as Label;
-                        lblTotalLicenseDed.Text = Math.Round(totalLicenseDed).ToString();
+                        Label lblTotalTransportDed = GVListEmployees1.FooterRow.FindControl("lblTotalTransportDed") as Label;
+                        lblTotalTransportDed.Text = Math.Round(totalTransportDed).ToString();
 
-                        if (totalLicenseDed > 0)
+                        if (totalTransportDed > 0)
                         {
                             GVListEmployees1.Columns[118].Visible = true;
 
@@ -4839,6 +4917,44 @@ namespace Kuduma.Portal.Module_Reports
                         else
                         {
                             GVListEmployees1.Columns[118].Visible = false;
+                        }
+                        Label lblTotalDced = GVListEmployees1.FooterRow.FindControl("lblTotalDced") as Label;
+                        lblTotalDced.Text = Math.Round(totalDced).ToString();
+
+                        if (totalDced > 0)
+                        {
+                            GVListEmployees1.Columns[119].Visible = true;
+
+                        }
+                        else
+                        {
+                            GVListEmployees1.Columns[119].Visible = false;
+                        }
+
+                        Label lblTotalLeaveDed = GVListEmployees1.FooterRow.FindControl("lblTotalLeaveDed") as Label;
+                        lblTotalLeaveDed.Text = Math.Round(totalLeaveDed).ToString();
+
+                        if (totalLeaveDed > 0)
+                        {
+                            GVListEmployees1.Columns[120].Visible = true;
+
+                        }
+                        else
+                        {
+                            GVListEmployees1.Columns[120].Visible = false;
+                        }
+
+                        Label lblTotalLicenseDed = GVListEmployees1.FooterRow.FindControl("lblTotalLicenseDed") as Label;
+                        lblTotalLicenseDed.Text = Math.Round(totalLicenseDed).ToString();
+
+                        if (totalLicenseDed > 0)
+                        {
+                            GVListEmployees1.Columns[121].Visible = true;
+
+                        }
+                        else
+                        {
+                            GVListEmployees1.Columns[121].Visible = false;
                         }
 
 
@@ -4848,12 +4964,12 @@ namespace Kuduma.Portal.Module_Reports
                         lblTotalAdv4Ded.Text = Math.Round(totalAdv4Ded).ToString();
                         if (totalAdv4Ded > 0)
                         {
-                            GVListEmployees1.Columns[119].Visible = true;
+                            GVListEmployees1.Columns[122].Visible = true;
 
                         }
                         else
                         {
-                            GVListEmployees1.Columns[119].Visible = false;
+                            GVListEmployees1.Columns[122].Visible = false;
 
                         }
 
@@ -4861,12 +4977,12 @@ namespace Kuduma.Portal.Module_Reports
                         lblTotalNightRoundDed.Text = Math.Round(totalNightRoundDed).ToString();
                         if (totalNightRoundDed > 0)
                         {
-                            GVListEmployees1.Columns[120].Visible = true;
+                            GVListEmployees1.Columns[123].Visible = true;
 
                         }
                         else
                         {
-                            GVListEmployees1.Columns[120].Visible = false;
+                            GVListEmployees1.Columns[123].Visible = false;
 
                         }
 
@@ -4874,11 +4990,11 @@ namespace Kuduma.Portal.Module_Reports
                         lblTotalManpowerMobDed.Text = Math.Round(totalManpowerMobDed).ToString();
                         if (totalManpowerMobDed > 0)
                         {
-                            GVListEmployees1.Columns[121].Visible = true;
+                            GVListEmployees1.Columns[124].Visible = true;
                         }
                         else
                         {
-                            GVListEmployees1.Columns[121].Visible = false;
+                            GVListEmployees1.Columns[124].Visible = false;
 
                         }
 
@@ -4887,11 +5003,11 @@ namespace Kuduma.Portal.Module_Reports
                         lblTotalMobileusageDed.Text = Math.Round(totalMobileusageDed).ToString();
                         if (totalMobileusageDed > 0)
                         {
-                            GVListEmployees1.Columns[122].Visible = true;
+                            GVListEmployees1.Columns[125].Visible = true;
                         }
                         else
                         {
-                            GVListEmployees1.Columns[122].Visible = false;
+                            GVListEmployees1.Columns[125].Visible = false;
 
                         }
 
@@ -4899,11 +5015,11 @@ namespace Kuduma.Portal.Module_Reports
                         lblTotalMediClaimDed.Text = Math.Round(totalMediClaimDed).ToString();
                         if (totalMediClaimDed > 0)
                         {
-                            GVListEmployees1.Columns[123].Visible = true;
+                            GVListEmployees1.Columns[126].Visible = true;
                         }
                         else
                         {
-                            GVListEmployees1.Columns[123].Visible = false;
+                            GVListEmployees1.Columns[126].Visible = false;
 
                         }
 
@@ -4912,12 +5028,12 @@ namespace Kuduma.Portal.Module_Reports
                         lblTotalCrisisDed.Text = Math.Round(totalCrisisDed).ToString();
                         if (totalCrisisDed > 0)
                         {
-                            GVListEmployees1.Columns[124].Visible = true;
+                            GVListEmployees1.Columns[127].Visible = true;
 
                         }
                         else
                         {
-                            GVListEmployees1.Columns[124].Visible = false;
+                            GVListEmployees1.Columns[127].Visible = false;
 
                         }
 
@@ -4927,12 +5043,12 @@ namespace Kuduma.Portal.Module_Reports
                         lblTotalTelephoneBillDed.Text = Math.Round(totalTelephoneBillDed).ToString();
                         if (totalTelephoneBillDed > 0)
                         {
-                            GVListEmployees1.Columns[125].Visible = true;
+                            GVListEmployees1.Columns[128].Visible = true;
 
                         }
                         else
                         {
-                            GVListEmployees1.Columns[125].Visible = false;
+                            GVListEmployees1.Columns[128].Visible = false;
 
                         }
 
@@ -4940,12 +5056,12 @@ namespace Kuduma.Portal.Module_Reports
                         lblTotalAdminChargesDed.Text = Math.Round(totalAdmincharges).ToString();
                         if (totalAdmincharges > 0)
                         {
-                            GVListEmployees1.Columns[126].Visible = true;
+                            GVListEmployees1.Columns[129].Visible = true;
 
                         }
                         else
                         {
-                            GVListEmployees1.Columns[126].Visible = false;
+                            GVListEmployees1.Columns[129].Visible = false;
 
                         }
 
@@ -4953,11 +5069,11 @@ namespace Kuduma.Portal.Module_Reports
                         lblTotalRegistrationFee.Text = Math.Round(totalRegistrationFee).ToString();
                         if (totalRegistrationFee > 0)
                         {
-                            GVListEmployees1.Columns[127].Visible = true;
+                            GVListEmployees1.Columns[130].Visible = true;
                         }
                         else
                         {
-                            GVListEmployees1.Columns[127].Visible = false;
+                            GVListEmployees1.Columns[130].Visible = false;
 
                         }
 
@@ -4969,11 +5085,11 @@ namespace Kuduma.Portal.Module_Reports
                         lblTotalAdvanceAgainstBonus.Text = Math.Round(totalAdvBonus).ToString();
                         if (totalAdvBonus > 0)
                         {
-                            GVListEmployees1.Columns[129].Visible = true;
+                            GVListEmployees1.Columns[132].Visible = true;
                         }
                         else
                         {
-                            GVListEmployees1.Columns[129].Visible = false;
+                            GVListEmployees1.Columns[132].Visible = false;
 
                         }
 
@@ -4984,44 +5100,6 @@ namespace Kuduma.Portal.Module_Reports
                         lblTotalOTEARNED.Text = Math.Round(totalOTAmt).ToString();
                         if (totalOTAmt > 0)
                         {
-                            GVListEmployees1.Columns[131].Visible = true;
-                        }
-                        else
-                        {
-                            GVListEmployees1.Columns[131].Visible = false;
-
-                        }
-
-                        Label lblTotalOTESIDeduction = GVListEmployees1.FooterRow.FindControl("lblTotalOTESIDeduction") as Label;
-                        lblTotalOTESIDeduction.Text = Math.Round(totalotesi).ToString();
-                        if (totalotesi > 0)
-                        {
-                            GVListEmployees1.Columns[132].Visible = true;
-                        }
-                        else
-                        {
-                            GVListEmployees1.Columns[132].Visible = false;
-
-                        }
-
-
-                        Label lblTotalNETOT = GVListEmployees1.FooterRow.FindControl("lblTotalNETOT") as Label;
-                        lblTotalNETOT.Text = Math.Round(totalnetot).ToString();
-                        if (totalnetot > 0)
-                        {
-                            GVListEmployees1.Columns[133].Visible = true;
-                        }
-                        else
-                        {
-                            GVListEmployees1.Columns[133].Visible = false;
-
-                        }
-
-
-                        Label lblTotalTOTALNETPAY = GVListEmployees1.FooterRow.FindControl("lblTotalTOTALNETPAY") as Label;
-                        lblTotalTOTALNETPAY.Text = Math.Round(totalTOTALNETPAY).ToString();
-                        if (totalTOTALNETPAY > 0)
-                        {
                             GVListEmployees1.Columns[134].Visible = true;
                         }
                         else
@@ -5030,10 +5108,9 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-
-                        Label lblTotalPFEMPR = GVListEmployees1.FooterRow.FindControl("lblTotalPFEMPR") as Label;
-                        lblTotalPFEMPR.Text = Math.Round(totalpfempr).ToString();
-                        if (totalpfempr > 0)
+                        Label lblTotalOTESIDeduction = GVListEmployees1.FooterRow.FindControl("lblTotalOTESIDeduction") as Label;
+                        lblTotalOTESIDeduction.Text = Math.Round(totalotesi).ToString();
+                        if (totalotesi > 0)
                         {
                             GVListEmployees1.Columns[135].Visible = true;
                         }
@@ -5044,10 +5121,9 @@ namespace Kuduma.Portal.Module_Reports
                         }
 
 
-
-                        Label lblTotalESIEMPR = GVListEmployees1.FooterRow.FindControl("lblTotalESIEMPR") as Label;
-                        lblTotalESIEMPR.Text = Math.Round(totalesiempr).ToString();
-                        if (totalesiempr > 0)
+                        Label lblTotalNETOT = GVListEmployees1.FooterRow.FindControl("lblTotalNETOT") as Label;
+                        lblTotalNETOT.Text = Math.Round(totalnetot).ToString();
+                        if (totalnetot > 0)
                         {
                             GVListEmployees1.Columns[136].Visible = true;
                         }
@@ -5058,9 +5134,9 @@ namespace Kuduma.Portal.Module_Reports
                         }
 
 
-                        Label lblTotalESIONOT = GVListEmployees1.FooterRow.FindControl("lblTotalESIONOT") as Label;
-                        lblTotalESIONOT.Text = Math.Round(totalotesi).ToString();
-                        if (totalotesi > 0)
+                        Label lblTotalTOTALNETPAY = GVListEmployees1.FooterRow.FindControl("lblTotalTOTALNETPAY") as Label;
+                        lblTotalTOTALNETPAY.Text = Math.Round(totalTOTALNETPAY).ToString();
+                        if (totalTOTALNETPAY > 0)
                         {
                             GVListEmployees1.Columns[137].Visible = true;
                         }
@@ -5070,9 +5146,10 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotalUniformCharges = GVListEmployees1.FooterRow.FindControl("lblTotalUniformCharges") as Label;
-                        lblTotalUniformCharges.Text = Math.Round(totaluniformcharge).ToString();
-                        if (totaluniformcharge > 0)
+
+                        Label lblTotalPFEMPR = GVListEmployees1.FooterRow.FindControl("lblTotalPFEMPR") as Label;
+                        lblTotalPFEMPR.Text = Math.Round(totalpfempr).ToString();
+                        if (totalpfempr > 0)
                         {
                             GVListEmployees1.Columns[138].Visible = true;
                         }
@@ -5083,9 +5160,10 @@ namespace Kuduma.Portal.Module_Reports
                         }
 
 
-                        Label lblTotalTOTALCTC = GVListEmployees1.FooterRow.FindControl("lblTotalTOTALCTC") as Label;
-                        lblTotalTOTALCTC.Text = Math.Round(totalCTC).ToString();
-                        if (totalCTC > 0)
+
+                        Label lblTotalESIEMPR = GVListEmployees1.FooterRow.FindControl("lblTotalESIEMPR") as Label;
+                        lblTotalESIEMPR.Text = Math.Round(totalesiempr).ToString();
+                        if (totalesiempr > 0)
                         {
                             GVListEmployees1.Columns[139].Visible = true;
                         }
@@ -5095,9 +5173,10 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotalSERVCHRG = GVListEmployees1.FooterRow.FindControl("lblTotalSERVCHRG") as Label;
-                        lblTotalSERVCHRG.Text = Math.Round(totalservicecharge1).ToString();
-                        if (totalservicecharge1 > 0)
+
+                        Label lblTotalESIONOT = GVListEmployees1.FooterRow.FindControl("lblTotalESIONOT") as Label;
+                        lblTotalESIONOT.Text = Math.Round(totalotesi).ToString();
+                        if (totalotesi > 0)
                         {
                             GVListEmployees1.Columns[140].Visible = true;
                         }
@@ -5107,9 +5186,9 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotalGST = GVListEmployees1.FooterRow.FindControl("lblTotalGST") as Label;
-                        lblTotalGST.Text = Math.Round(totalgstper).ToString();
-                        if (totalgstper > 0)
+                        Label lblTotalUniformCharges = GVListEmployees1.FooterRow.FindControl("lblTotalUniformCharges") as Label;
+                        lblTotalUniformCharges.Text = Math.Round(totaluniformcharge).ToString();
+                        if (totaluniformcharge > 0)
                         {
                             GVListEmployees1.Columns[141].Visible = true;
                         }
@@ -5120,10 +5199,9 @@ namespace Kuduma.Portal.Module_Reports
                         }
 
 
-
-                        Label lblTotalGRANDTOTAL = GVListEmployees1.FooterRow.FindControl("lblTotalGRANDTOTAL") as Label;
-                        lblTotalGRANDTOTAL.Text = Math.Round(totalgrandtotal).ToString();
-                        if (totalgrandtotal > 0)
+                        Label lblTotalTOTALCTC = GVListEmployees1.FooterRow.FindControl("lblTotalTOTALCTC") as Label;
+                        lblTotalTOTALCTC.Text = Math.Round(totalCTC).ToString();
+                        if (totalCTC > 0)
                         {
                             GVListEmployees1.Columns[142].Visible = true;
                         }
@@ -5133,9 +5211,9 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotalAdvances = GVListEmployees1.FooterRow.FindControl("lblTotalAdvances") as Label;
-                        lblTotalAdvances.Text = Math.Round(totalAdvances).ToString();
-                        if (totalAdvances > 0)
+                        Label lblTotalSERVCHRG = GVListEmployees1.FooterRow.FindControl("lblTotalSERVCHRG") as Label;
+                        lblTotalSERVCHRG.Text = Math.Round(totalservicecharge1).ToString();
+                        if (totalservicecharge1 > 0)
                         {
                             GVListEmployees1.Columns[143].Visible = true;
                         }
@@ -5145,9 +5223,9 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotalUnifom = GVListEmployees1.FooterRow.FindControl("lblTotalUnifom") as Label;
-                        lblTotalUnifom.Text = Math.Round(totalUnifom).ToString();
-                        if (totalUnifom > 0)
+                        Label lblTotalGST = GVListEmployees1.FooterRow.FindControl("lblTotalGST") as Label;
+                        lblTotalGST.Text = Math.Round(totalgstper).ToString();
+                        if (totalgstper > 0)
                         {
                             GVListEmployees1.Columns[144].Visible = true;
                         }
@@ -5157,9 +5235,11 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotalOthers = GVListEmployees1.FooterRow.FindControl("lblTotalOthers") as Label;
-                        lblTotalOthers.Text = Math.Round(totalOthers).ToString();
-                        if (totalOthers > 0)
+
+
+                        Label lblTotalGRANDTOTAL = GVListEmployees1.FooterRow.FindControl("lblTotalGRANDTOTAL") as Label;
+                        lblTotalGRANDTOTAL.Text = Math.Round(totalgrandtotal).ToString();
+                        if (totalgrandtotal > 0)
                         {
                             GVListEmployees1.Columns[145].Visible = true;
                         }
@@ -5169,9 +5249,9 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-                        Label lblTotalTotalDeductions = GVListEmployees1.FooterRow.FindControl("lblTotalTotalDeductions") as Label;
-                        lblTotalTotalDeductions.Text = Math.Round(totalTotDeductions).ToString();
-                        if (totalTotDeductions > 0)
+                        Label lblTotalAdvances = GVListEmployees1.FooterRow.FindControl("lblTotalAdvances") as Label;
+                        lblTotalAdvances.Text = Math.Round(totalAdvances).ToString();
+                        if (totalAdvances > 0)
                         {
                             GVListEmployees1.Columns[146].Visible = true;
                         }
@@ -5181,17 +5261,53 @@ namespace Kuduma.Portal.Module_Reports
 
                         }
 
-
-
-                        Label lblTotalNetPayy = GVListEmployees1.FooterRow.FindControl("lblTotalNetPayy") as Label;
-                        lblTotalNetPayy.Text = Math.Round(totalTOTALNETPAY).ToString();
-                        if (totalTOTALNETPAY > 0)
+                        Label lblTotalUnifom = GVListEmployees1.FooterRow.FindControl("lblTotalUnifom") as Label;
+                        lblTotalUnifom.Text = Math.Round(totalUnifom).ToString();
+                        if (totalUnifom > 0)
                         {
                             GVListEmployees1.Columns[147].Visible = true;
                         }
                         else
                         {
                             GVListEmployees1.Columns[147].Visible = false;
+
+                        }
+
+                        Label lblTotalOthers = GVListEmployees1.FooterRow.FindControl("lblTotalOthers") as Label;
+                        lblTotalOthers.Text = Math.Round(totalOthers).ToString();
+                        if (totalOthers > 0)
+                        {
+                            GVListEmployees1.Columns[148].Visible = true;
+                        }
+                        else
+                        {
+                            GVListEmployees1.Columns[148].Visible = false;
+
+                        }
+
+                        Label lblTotalTotalDeductions = GVListEmployees1.FooterRow.FindControl("lblTotalTotalDeductions") as Label;
+                        lblTotalTotalDeductions.Text = Math.Round(totalTotDeductions).ToString();
+                        if (totalTotDeductions > 0)
+                        {
+                            GVListEmployees1.Columns[149].Visible = true;
+                        }
+                        else
+                        {
+                            GVListEmployees1.Columns[149].Visible = false;
+
+                        }
+
+
+
+                        Label lblTotalNetPayy = GVListEmployees1.FooterRow.FindControl("lblTotalNetPayy") as Label;
+                        lblTotalNetPayy.Text = Math.Round(totalTOTALNETPAY).ToString();
+                        if (totalTOTALNETPAY > 0)
+                        {
+                            GVListEmployees1.Columns[150].Visible = true;
+                        }
+                        else
+                        {
+                            GVListEmployees1.Columns[150].Visible = false;
 
                         }
 

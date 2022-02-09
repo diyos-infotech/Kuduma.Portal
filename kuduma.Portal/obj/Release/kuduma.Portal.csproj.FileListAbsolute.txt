@@ -44,3 +44,6 @@ D:\GitProjects\kuduma.Portal\kuduma.Portal\bin\Microsoft.CodeDom.Providers.DotNe
 D:\GitProjects\kuduma.Portal\kuduma.Portal\bin\Microsoft.IO.RecyclableMemoryStream.xml
 D:\GitProjects\kuduma.Portal\kuduma.Portal\obj\Release\kuduma.Portal.dll
 D:\GitProjects\kuduma.Portal\kuduma.Portal\obj\Release\kuduma.Portal.pdb
+D:\GitProjects\Kuduma.Portal\kuduma.Portal\obj\Release\kuduma.Portal.csproj.AssemblyReference.cache
+D:\GitProjects\Kuduma.Portal\kuduma.Portal\obj\Release\kuduma.Portal.csproj.CoreCompileInputs.cache
+D:\GitProjects\Kuduma.Portal\kuduma.Portal\obj\Release\kuduma.Portal.csproj.CopyComplete

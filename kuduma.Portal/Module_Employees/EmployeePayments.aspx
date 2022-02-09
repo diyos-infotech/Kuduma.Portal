@@ -376,6 +376,22 @@
                                                     <asp:ListItem>8</asp:ListItem>
                                                 </asp:DropDownList>
                                             </td>
+
+                                               <td>
+                                                 <asp:Label ID="lblpages" runat="server" Text="Records"></asp:Label>
+                                                 </td>
+                                                <td>
+                                                      <asp:DropDownList ID="ddlPages" runat="server">
+                                                         <asp:ListItem>14</asp:ListItem>
+                                                         <asp:ListItem>15</asp:ListItem>
+                                                         <asp:ListItem>16</asp:ListItem>
+                                                         <asp:ListItem>17</asp:ListItem>
+                                                         <asp:ListItem>18</asp:ListItem>
+                                                     </asp:DropDownList>
+
+                                          </td>
+
+
                                             <td>
                                                 <asp:CheckBox ID="ChkWithoutClient" runat="server" Text="Without Client" />
                                             </td>
@@ -404,7 +420,8 @@
                                                 <asp:DropDownList ID="ddlpaymenttype" runat="server" Width="125px" class="sdrop">
                                                     <asp:ListItem>All</asp:ListItem>
                                                     <asp:ListItem>Only Duties</asp:ListItem>
-                                                    <asp:ListItem>Only OTs</asp:ListItem>
+                                                    <asp:ListItem>Only OTs</asp:ListItem>                                                     
+                                                    <asp:ListItem>FORM-T</asp:ListItem>
                                                 </asp:DropDownList>
 
                                             </td>

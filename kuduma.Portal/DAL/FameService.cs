@@ -20,7 +20,7 @@ using System.Web.UI.WebControls;
 using System.Configuration;
 using System.Data.SqlClient;
 using Kuduma.Portal.DAL;
-
+using System.Text.RegularExpressions;
 
 /// <summary>
 /// Summary description for FameService
@@ -192,7 +192,7 @@ public class FameService : System.Web.Services.WebService
                        select new
                        {
                            ClientId = row.Field<string>("clientid"),
-                           ClientName = row.Field<string>("clientname"),
+                           ClientName = Regex.Replace(row.Field<string>("clientname"), @"[^0-9a-zA-Z\x20]+", ""),
                            PhoneNumber = row.Field<string>("clientphonenumbers"),
                            ContactPerson = row.Field<string>("ourcontactpersonid")
                        }).ToList();
@@ -242,7 +242,7 @@ public class FameService : System.Web.Services.WebService
                            select new
                            {
                                ClientID = row.Field<string>("ClientID"),
-                               EmpFName = row.Field<string>("EmpFName"),
+                               EmpFName = Regex.Replace(row.Field<string>("EmpFName"), @"[^0-9a-zA-Z\x20]+", ""),
                                OldEmpid = row.Field<string>("OldEmpid"),
                                DesgName = row.Field<string>("DesName"),
                                NODTotal = row.Field<string>("NODTotal"),
@@ -424,7 +424,7 @@ public class FameService : System.Web.Services.WebService
                            select new
                            {
                                EmpId = row.Field<string>("Empid"),
-                               EmpName = row.Field<string>("FullName").Trim(),
+                               EmpName = Regex.Replace(row.Field<string>("FullName"), @"[^0-9a-zA-Z\x20]+", ""),
                                EmpDesg = row.Field<string>("Designation"),
                                empstatus = row.Field<bool>("empstatus"),
                                OLDEMPID = row.Field<string>("oldempid")
@@ -497,7 +497,7 @@ public class FameService : System.Web.Services.WebService
                            select new
                            {
                                EmpId = row.Field<string>("Empid"),
-                               EmpName = row.Field<string>("FullName").Trim(),
+                               EmpName = Regex.Replace(row.Field<string>("FullName"), @"[^0-9a-zA-Z\x20]+", ""),
                                EmpDesg = row.Field<string>("Designation"),
                                empstatus = row.Field<bool>("empstatus"),
                                OLDEMPID = row.Field<string>("oldempid")
@@ -567,7 +567,7 @@ public class FameService : System.Web.Services.WebService
                            select new
                            {
                                EmpId = row.Field<string>("Empid"),
-                               EmpName = row.Field<string>("FullName").Trim(),
+                               EmpName = Regex.Replace(row.Field<string>("FullName"), @"[^0-9a-zA-Z\x20]+", ""),
                                EmpDesg = row.Field<string>("Designation"),
                                empstatus = row.Field<bool>("empstatus"),
                                OLDEMPID = row.Field<string>("oldempid")
@@ -699,7 +699,7 @@ public class FameService : System.Web.Services.WebService
 
                                    EmpId = row.Field<string>("EmpId"),
                                    OLDEMPID = row.Field<string>("OLDEMPID"),
-                                   EmpName = row.Field<string>("EmpName"),
+                                   EmpName = Regex.Replace(row.Field<string>("EmpName"), @"[^0-9a-zA-Z\x20]+", ""),
                                    DesgId = row.Field<int>("DesId"),
                                    DesgName = row.Field<string>("DesName"),
                                    NoOfDuties = row.Field<float>("NOD"),
@@ -750,7 +750,7 @@ public class FameService : System.Web.Services.WebService
                                 //sno = Int64.Parse(item["sno"].ToString()),
                                 EmpId = item["EmpId"].ToString(),
                                 OLDEMPID = item["OLDEMPID"].ToString(),
-                                EmpName = item["EmpName"].ToString(),
+                                EmpName = Regex.Replace(item["EmpName"].ToString(), @"[^0-9a-zA-Z\x20]+", ""),
                                 DesgId = int.Parse(item["DesId"].ToString()),
                                 DesgName = item["DesName"].ToString(),
                                 NoOfDuties = float.Parse(item["NOD"].ToString()),

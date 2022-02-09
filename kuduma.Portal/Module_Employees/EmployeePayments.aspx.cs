@@ -12712,13 +12712,13 @@ namespace Kuduma.Portal
                             SecondtablecheckbyFooter.AddCell(GFowf);
                         }
 
-                        if (advdue != 0)
-                        {
-                            PdfPCell GFowf = new PdfPCell(new Phrase(GrandtotalAmountdue.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE - 2, Font.BOLD, BaseColor.BLACK)));
-                            GFowf.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
-                            GFowf.Border = 15;
-                            SecondtablecheckbyFooter.AddCell(GFowf);
-                        }
+                        //if (advdue != 0)
+                        //{
+                        //    PdfPCell GFowf = new PdfPCell(new Phrase(GrandtotalAmountdue.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE - 2, Font.BOLD, BaseColor.BLACK)));
+                        //    GFowf.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                        //    GFowf.Border = 15;
+                        //    SecondtablecheckbyFooter.AddCell(GFowf);
+                        //}
 
                         //36
                         if (TelephoneBillDed != 0)
@@ -13123,9 +13123,15 @@ namespace Kuduma.Portal
 
             if (ddlpaymenttype.SelectedIndex == 3)
             {
-                btndownloadWagesummary_Click(sender, e);
+                btnformt_Click(sender, e);
                 return;
             }
+
+            //if (ddlpaymenttype.SelectedIndex == 3)
+            //{
+            //    btndownloadWagesummary_Click(sender, e);
+            //    return;
+            //}
 
             if (ddlpaymenttype.SelectedIndex == 4)
             {
@@ -13138,8 +13144,5245 @@ namespace Kuduma.Portal
                 lbtn_ExportNew_Click(sender, e);
                 return;
             }
+            
+
+
 
         }
+        protected void btnformt_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+
+                int titleofdocumentindex = 0;
+                if (ddlClients.SelectedIndex <= 0)
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Showalert()", "alert('Please Select Client ID/Name')", true);
+                    return;
+                }
+
+                int payMonth = GetMonth(ddlmonth.SelectedValue);
+                //int month = GetMonthAndYear();
+                int month = GetMonthBasedOnSelectionDateorMonth();
+
+                string selectmonth = string.Empty;
+                string SelectmonthWithbankacno = string.Empty;
+                string SelectmonthWithoutbankacno = string.Empty;
+                DataTable dt = null;
+
+
+                var clientid = ddlClients.SelectedValue;
+                var Paysheetoption = ddlpaymenttype.SelectedIndex;
+                if (ddlpaymenttype.SelectedIndex == 0)
+                {
+                    Paysheetoption = 0;
+
+                }
+                else if (ddlpaymenttype.SelectedIndex == 1)
+                {
+                    Paysheetoption = 1;
+
+                }
+                else if (ddlpaymenttype.SelectedIndex == 2)
+                {
+                    Paysheetoption = 2;
+
+                }
+                var Noofattendance = ddlnoofattendance.SelectedIndex;
+                //var pfesioptions = ddl_Pf_Esi_Options.SelectedIndex;
+
+                var SPName = "";
+                Hashtable HTPaysheet = new Hashtable();
+                SPName = "IMEPaysheetpdfs";
+                HTPaysheet.Add("@ClientId", clientid);
+                HTPaysheet.Add("@month", month);
+                HTPaysheet.Add("@PaymentOption", Paysheetoption);
+                dt = config.ExecuteAdaptorAsyncWithParams(SPName, HTPaysheet).Result;
+
+                MemoryStream ms = new MemoryStream();
+                if (dt.Rows.Count > 0)
+                {
+                    Document document = new Document(PageSize.LEGAL.Rotate());
+                    PdfWriter writer = PdfWriter.GetInstance(document, ms);
+                    document.Open();
+                    document.AddTitle("FaMS");
+                    document.AddAuthor("WebWonders");
+                    document.AddSubject("Wage Sheet");
+                    document.AddKeywords("Keyword1, keyword2, …");//
+                    float forConvert;
+                    string strQry = "Select * from CompanyInfo   where   branchid='" + BranchID + "'";
+                    DataTable compInfo = config.ExecuteAdaptorAsyncWithQueryParams(strQry).Result;
+                    string companyName1 = "Your Company Name";
+                    string companyAddress = "Your Company Address";
+                    if (compInfo.Rows.Count > 0)
+                    {
+                        companyName1 = compInfo.Rows[0]["CompanyName"].ToString();
+                        companyAddress = compInfo.Rows[0]["Address"].ToString();
+                    }
+
+                    #region Variables for table cells counting
+
+                    int IDCardDed = 0;
+                    int Extra = 0;
+                    float IDCardDed1 = 0;
+                    float Extra1 = 0;
+                    int dts = 0;
+
+                    float AttBonus1 = 0;
+                    int AttBonus = 0;
+
+                    int ATMDed = 0;
+                    int srate = 0;
+                    int basic = 0;
+                    int da = 0;
+                    int hra = 0;
+                    int cca = 0;
+                    int conveyance = 0;
+                    int washallowance = 0;
+                    int otherallowance = 0;
+                    int SplAllowance = 0;
+                    int TravelAllw = 0;
+                    int PerformanceAllw = 0;
+                    int MobileAllw = 0;
+                    int UniformAllw = 0;
+                    int leavewages = 0;
+                    int gratuity = 0;
+                    int bonus = 0;
+                    int nfhs = 0;
+                    int rc = 0;
+                    int cs = 0;
+                    int gross = 0;
+                    int incentivs = 0;
+                    int pfonduties = 0;
+                    int esionduties = 0;
+                    int proftax = 0;
+                    int salAdvDed = 0;
+                    int SecdepDed = 0;
+                    int LoanDed = 0;
+                    int uniformDed = 0;
+                    int AdvDed = 0;
+                    int WCDed = 0;
+                    int otherDed = 0;
+                    int canteenAdv = 1;
+                    int penalty = 1;
+                    int Adv1 = 1;
+                    int Adv2 = 1;
+                    int Rent = 1;
+                    int totalDeductions = 0;
+                    int netpay = 0;
+                    int cfoodallowance = 0;
+                    int cmedicalallowance = 0;
+                    int ots = 0;
+                    int otamt = 0;
+                    int nhs = 0;
+                    int nhsamt = 0;
+                    int wo = 0;
+                    int woamt = 0;
+                    int pfonot = 0;
+                    int esionot = 0;
+                    int Pf = 0;
+                    int Esi = 0;
+                    int GenDedn = 0;
+                    int SecDepDedn = 0;
+                    int owf = 0;
+                    int Bgvdedi = 0;
+                    int Medfitdedi = 0;
+                    int ReliefFund = 0;
+                    int advances = 0;
+
+                    float advances1 = 0;
+                    float ATMDed1 = 0;
+                    float owf1 = 0;
+                    float dts1 = 0;
+                    float srate1 = 0;
+                    float basic1 = 0;
+                    float da1 = 0;
+                    float hra1 = 0;
+                    float cca1 = 0;
+                    float conveyance1 = 0;
+                    float washallowance1 = 0;
+                    float otherallowance1 = 0;
+                    float SplAllowance1 = 0;
+                    float TravelAllw1 = 0;
+                    float PerformanceAllw1 = 0;
+                    float MobileAllw1 = 0;
+                    float UniformAllw1 = 0;
+                    float leavewages1 = 0;
+                    float gratuity1 = 0;
+                    float bonus1 = 0;
+                    float nfhs1 = 0;
+                    float rc1 = 0;
+                    float cs1 = 0;
+                    float gross1 = 0;
+                    float incentivs1 = 0;
+                    float pfonduties1 = 0;
+                    float esionduties1 = 0;
+                    float proftax1 = 0;
+                    float salAdvDed1 = 0;
+                    float uniformDed1 = 0;
+                    float AdvDed1 = 0;
+                    float WCDed1 = 0;
+                    float otherDed1 = 0;
+                    float canteenAdv1 = 0;
+                    float penalty1 = 0;
+                    float Adv11 = 0;
+                    float Adv21 = 0;
+                    float Rent1 = 0;
+                    float totalDeductions1 = 0;
+                    float LoanDed1 = 0;
+                    float netpay1 = 0;
+                    float cfoodallowance1 = 0;
+                    float cmedicalallowance1 = 0;
+                    float ots1 = 0;
+                    float otamt1 = 0;
+                    float nhs1 = 0;
+                    float nhsamt1 = 0;
+                    float wo1 = 0;
+                    float woamt1 = 0;
+                    float pfonot1 = 0;
+                    float esionot1 = 0;
+                    float Pf1 = 0;
+                    float Esi1 = 0;
+                    float GenDedn1 = 0;
+                    float SecDepDedn1 = 0;
+                    float Bgvded = 0;
+                    float Medfitded = 0;
+                    float Bgvded1 = 0;
+                    float Medfitded1 = 0;
+                    float ReliefFund1 = 0;
+                    #endregion
+
+                    #region Data for counting tablecells
+
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        dts1 = float.Parse(dt.Rows[i]["NoOfDuties"].ToString());
+                        if (dts1 != 0)
+                        {
+                            dts1 += 1;
+                            if (dts1 > 0)
+                            {
+                                dts = 1;
+                            }
+                        }
+                        IDCardDed1 = float.Parse(dt.Rows[i]["IDCardDed"].ToString());
+                        if (IDCardDed1 != 0)
+                        {
+                            IDCardDed1 += 1;
+                            if (IDCardDed1 > 0)
+                            {
+                                IDCardDed = 1;
+                            }
+                        }
+
+                        AttBonus1 = float.Parse(dt.Rows[i]["AttBonus"].ToString());
+                        if (AttBonus1 != 0)
+                        {
+                            AttBonus1 += 1;
+                            if (AttBonus1 > 0)
+                            {
+                                AttBonus = 1;
+                            }
+                        }
+
+                        Extra1 = float.Parse(dt.Rows[i]["Extra"].ToString());
+                        if (Extra1 != 0)
+                        {
+                            Extra1 += 1;
+                            if (Extra1 > 0)
+                            {
+                                Extra = 1;
+                            }
+                        }
+
+                        srate1 = float.Parse(dt.Rows[i]["SalRate"].ToString());
+                        if (srate1 != 0)
+                        {
+                            srate1 += 1;
+                            if (srate1 > 0)
+                            {
+                                srate = 1;
+                            }
+                        }
+
+                        ATMDed1 = float.Parse(dt.Rows[i]["ATMDed"].ToString());
+                        if (ATMDed1 != 0)
+                        {
+                            ATMDed1 += 1;
+                            if (ATMDed1 > 0)
+                            {
+                                ATMDed = 1;
+                            }
+                        }
+
+                        advances1 = float.Parse(dt.Rows[i]["advances"].ToString());
+                        if (advances1 != 0)
+                        {
+                            advances1 += 1;
+                            if (advances1 > 0)
+                            {
+                                advances = 1;
+                            }
+                        }
+
+
+                        basic1 = float.Parse(dt.Rows[i]["basic"].ToString());
+                        if (basic1 != 0)
+                        {
+                            basic1 += 1;
+                            if (basic1 > 0)
+                            {
+                                basic = 1;
+                            }
+                        }
+                        da1 = float.Parse(dt.Rows[i]["da"].ToString());
+                        if (da1 != 0)
+                        {
+                            da1 += 1;
+                            if (da1 > 0)
+                            {
+                                da = 1;
+                            }
+                        }
+                        hra1 = float.Parse(dt.Rows[i]["hra"].ToString());
+                        if (hra1 != 0)
+                        {
+                            hra1 += 1;
+                            if (hra1 > 0)
+                            {
+                                hra = 1;
+                            }
+                        }
+                        cca1 = float.Parse(dt.Rows[i]["cca"].ToString());
+                        if (cca1 != 0)
+                        {
+                            cca1 += 1;
+                            if (cca1 > 0)
+                            {
+                                cca = 1;
+                            }
+                        }
+                        conveyance1 = float.Parse(dt.Rows[i]["Conveyance"].ToString());
+                        if (conveyance1 != 0)
+                        {
+                            conveyance1 += 1;
+                            if (conveyance1 > 0)
+                            {
+                                conveyance = 1;
+                            }
+                        }
+
+                        washallowance1 = float.Parse(dt.Rows[i]["washallowance"].ToString());
+                        if (washallowance1 != 0)
+                        {
+                            washallowance1 += 1;
+                            if (washallowance1 > 0)
+                            {
+                                washallowance = 1;
+                            }
+                        }
+                        otherallowance1 = float.Parse(dt.Rows[i]["otherallowance"].ToString());
+                        if (otherallowance1 != 0)
+                        {
+                            otherallowance1 += 1;
+                            if (otherallowance1 > 0)
+                            {
+                                otherallowance = 1;
+                            }
+                        }
+                        SplAllowance1 = float.Parse(dt.Rows[i]["SplAllowance"].ToString());
+                        if (SplAllowance1 != 0)
+                        {
+                            SplAllowance1 += 1;
+                            if (SplAllowance1 > 0)
+                            {
+                                SplAllowance = 1;
+                            }
+                        }
+
+                        TravelAllw1 = float.Parse(dt.Rows[i]["TravelAllw"].ToString());
+                        if (TravelAllw1 != 0)
+                        {
+                            TravelAllw1 += 1;
+                            if (TravelAllw1 > 0)
+                            {
+                                TravelAllw = 1;
+                            }
+                        }
+
+                        PerformanceAllw1 = float.Parse(dt.Rows[i]["PerformanceAllw"].ToString());
+                        if (PerformanceAllw1 != 0)
+                        {
+                            PerformanceAllw1 += 1;
+                            if (PerformanceAllw1 > 0)
+                            {
+                                PerformanceAllw = 1;
+                            }
+                        }
+
+                        MobileAllw1 = float.Parse(dt.Rows[i]["MobileAllw"].ToString());
+                        if (MobileAllw1 != 0)
+                        {
+                            MobileAllw1 += 1;
+                            if (MobileAllw1 > 0)
+                            {
+                                MobileAllw = 1;
+                            }
+                        }
+
+                        UniformAllw1 = float.Parse(dt.Rows[i]["uniformAllowance"].ToString());
+                        if (UniformAllw1 != 0)
+                        {
+                            UniformAllw1 += 1;
+                            if (UniformAllw1 > 0)
+                            {
+                                UniformAllw = 1;
+                            }
+                        }
+
+                        leavewages1 = float.Parse(dt.Rows[i]["Leavewages"].ToString());
+                        if (leavewages1 != 0)
+                        {
+                            leavewages1 += 1;
+                            if (leavewages1 > 0)
+                            {
+                                leavewages = 1;
+                            }
+                        }
+                        gratuity1 = float.Parse(dt.Rows[i]["gratuity"].ToString());
+                        if (gratuity1 != 0)
+                        {
+                            gratuity1 += 1;
+                            if (gratuity1 > 0)
+                            {
+                                gratuity = 1;
+                            }
+                        }
+                        bonus1 = float.Parse(dt.Rows[i]["bonus"].ToString());
+                        if (bonus1 != 0)
+                        {
+                            bonus1 += 1;
+                            if (bonus1 > 0)
+                            {
+                                bonus = 1;
+                            }
+                        }
+
+                        nfhs1 = float.Parse(dt.Rows[i]["nfhs"].ToString());
+                        if (nfhs1 != 0)
+                        {
+                            nfhs1 += 1;
+                            if (nfhs1 > 0)
+                            {
+                                nfhs = 1;
+                            }
+                        }
+                        rc1 = float.Parse(dt.Rows[i]["rc"].ToString());
+                        if (rc1 != 0)
+                        {
+                            rc1 += 1;
+                            if (rc1 > 0)
+                            {
+                                rc = 1;
+                            }
+                        }
+
+                        cs1 = float.Parse(dt.Rows[i]["cs"].ToString());
+                        if (cs1 != 0)
+                        {
+                            cs1 += 1;
+                            if (cs1 > 0)
+                            {
+                                cs = 1;
+                            }
+                        }
+                        gross1 = float.Parse(dt.Rows[i]["gross"].ToString());
+                        if (gross1 != 0)
+                        {
+                            gross1 += 1;
+                            if (gross1 > 0)
+                            {
+                                gross = 1;
+                            }
+                        }
+
+                        incentivs1 = float.Parse(dt.Rows[i]["incentivs"].ToString());
+                        if (incentivs1 != 0)
+                        {
+                            incentivs1 += 1;
+                            if (incentivs1 > 0)
+                            {
+                                incentivs = 1;
+                            }
+                        }
+
+
+                        cfoodallowance1 = float.Parse(dt.Rows[i]["foodallowance"].ToString());
+                        if (cfoodallowance1 != 0)
+                        {
+                            cfoodallowance1 += 1;
+                            if (cfoodallowance1 > 0)
+                            {
+                                cfoodallowance = 1;
+                            }
+                        }
+
+                        cmedicalallowance1 = float.Parse(dt.Rows[i]["medicalallowance"].ToString());
+                        if (cmedicalallowance1 != 0)
+                        {
+                            cmedicalallowance1 += 1;
+                            if (cmedicalallowance1 > 0)
+                            {
+                                cmedicalallowance = 1;
+                            }
+                        }
+
+                        //CHanged to zero so as to get PF and ESI in PFTotal and ESITotal as given below //Check PFTotal and ESITotal
+                        pfonduties1 = float.Parse(dt.Rows[i]["PFonDuties"].ToString());
+                        if (pfonduties1 != 0)
+                        {
+                            pfonduties1 += 1;
+                            if (pfonduties1 > 0)
+                            {
+                                pfonduties = 0;
+                            }
+                        }
+                        esionduties1 = float.Parse(dt.Rows[i]["ESIonduties"].ToString());
+                        if (esionduties1 != 0)
+                        {
+                            esionduties1 += 1;
+                            if (esionduties1 > 0)
+                            {
+                                esionduties = 0;
+                            }
+                        }
+                        proftax1 = float.Parse(dt.Rows[i]["proftax"].ToString());
+                        if (proftax1 != 0)
+                        {
+                            proftax1 += 1;
+                            if (proftax1 > 0)
+                            {
+                                proftax = 1;
+                            }
+                        }
+                        salAdvDed1 = float.Parse(dt.Rows[i]["salAdvDed"].ToString());
+                        if (salAdvDed1 != 0)
+                        {
+                            salAdvDed1 += 1;
+                            if (salAdvDed1 > 0)
+                            {
+                                salAdvDed = 1;
+                            }
+                        }
+
+
+                        LoanDed1 = float.Parse(dt.Rows[i]["LoanDed"].ToString());
+                        if (LoanDed1 != 0)
+                        {
+                            LoanDed1 += 1;
+                            if (LoanDed1 > 0)
+                            {
+                                LoanDed = 1;
+                            }
+                        }
+                        uniformDed1 = float.Parse(dt.Rows[i]["uniformDed"].ToString());
+                        if (uniformDed1 != 0)
+                        {
+                            uniformDed1 += 1;
+                            if (uniformDed1 > 0)
+                            {
+                                uniformDed = 1;
+                            }
+                        }
+                        AdvDed1 = float.Parse(dt.Rows[i]["AdvDed"].ToString());
+                        if (AdvDed1 != 0)
+                        {
+                            AdvDed1 += 1;
+                            if (AdvDed1 > 0)
+                            {
+                                AdvDed = 1;
+                            }
+                        }
+                        WCDed1 = float.Parse(dt.Rows[i]["WCDed"].ToString());
+                        if (WCDed1 != 0)
+                        {
+                            WCDed1 += 1;
+                            if (WCDed1 > 0)
+                            {
+                                WCDed = 1;
+                            }
+                        }
+
+                        //GenDedn1 = float.Parse(dt.Rows[i]["GenDedn"].ToString());
+                        //if (GenDedn1 != 0)
+                        //{
+                        //    GenDedn1 += 1;
+                        //    if (GenDedn1 > 0)
+                        //    {
+                        //        GenDedn = 1;
+                        //    }
+                        //}
+
+                        SecDepDedn1 = float.Parse(dt.Rows[i]["SecDepDedn"].ToString());
+                        if (SecDepDedn1 != 0)
+                        {
+                            SecDepDedn1 += 1;
+                            if (SecDepDedn1 > 0)
+                            {
+                                SecDepDedn = 1;
+                            }
+                        }
+
+                        otherDed1 = float.Parse(dt.Rows[i]["otherDed"].ToString());
+                        if (otherDed1 != 0)
+                        {
+                            otherDed1 += 1;
+                            if (otherDed1 > 0)
+                            {
+                                otherDed = 1;
+                            }
+                        }
+                        canteenAdv1 = float.Parse(dt.Rows[i]["canteenAdv"].ToString());
+                        if (canteenAdv1 != 0)
+                        {
+                            canteenAdv1 += 1;
+                            if (canteenAdv1 > 0)
+                            {
+                                canteenAdv = 1;
+                            }
+                        }
+
+                        penalty1 = float.Parse(dt.Rows[i]["penalty"].ToString());
+                        if (penalty1 != 0)
+                        {
+                            penalty1 += 1;
+                            if (penalty1 > 0)
+                            {
+                                penalty = 1;
+                            }
+                        }
+                        Adv11 = float.Parse(dt.Rows[i]["Adv1"].ToString());
+                        if (Adv11 != 0)
+                        {
+                            Adv11 += 1;
+                            if (Adv11 > 0)
+                            {
+                                Adv1 = 1;
+                            }
+                        }
+                        Adv21 = float.Parse(dt.Rows[i]["Adv2"].ToString());
+                        if (Adv21 != 0)
+                        {
+                            Adv21 += 1;
+                            if (Adv21 > 0)
+                            {
+                                Adv2 = 1;
+                            }
+                        }
+                        Rent1 = float.Parse(dt.Rows[i]["RentDed"].ToString());
+                        if (Rent1 != 0)
+                        {
+                            Rent1 += 1;
+                            if (Rent1 > 0)
+                            {
+                                Rent = 1;
+                            }
+                        }
+                        Bgvded1 = float.Parse(dt.Rows[i]["BGVDed"].ToString());
+                        if (Bgvded1 != 0)
+                        {
+                            Bgvded1 += 1;
+                            if (Bgvded1 > 0)
+                            {
+                                Bgvdedi = 1;
+                            }
+                        }
+
+                        Medfitded1 = float.Parse(dt.Rows[i]["MedFitDed"].ToString());
+                        if (Medfitded1 != 0)
+                        {
+                            Medfitded1 += 1;
+                            if (Medfitded1 > 0)
+                            {
+                                Medfitdedi = 1;
+                            }
+                        }
+                        ReliefFund1 = float.Parse(dt.Rows[i]["ReliefFund"].ToString());
+                        if (ReliefFund1 != 0)
+                        {
+                            ReliefFund1 += 1;
+                            if (ReliefFund1 > 0)
+                            {
+                                ReliefFund = 1;
+                            }
+                        }
+
+
+                        totalDeductions1 = float.Parse(dt.Rows[i]["Totaldeduct"].ToString());
+                        if (totalDeductions1 != 0)
+                        {
+                            totalDeductions1 += 1;
+                            if (totalDeductions1 > 0)
+                            {
+                                totalDeductions = 1;
+                            }
+                        }
+                        netpay1 = float.Parse(dt.Rows[i]["NetAmount"].ToString());
+                        if (netpay1 != 0)
+                        {
+                            netpay1 += 1;
+                            if (netpay1 > 0)
+                            {
+                                netpay = 1;
+                            }
+                        }
+
+                        ots1 = float.Parse(dt.Rows[i]["Duties"].ToString());
+                        if (ots1 != 0)
+                        {
+                            ots1 += 1;
+                            if (ots1 > 0)
+                            {
+                                ots = 1;
+                            }
+                        }
+
+                        otamt1 = float.Parse(dt.Rows[i]["Amount"].ToString());
+                        if (otamt1 != 0)
+                        {
+                            otamt1 += 1;
+                            if (otamt1 > 0)
+                            {
+                                otamt = 1;
+                            }
+                        }
+
+                        //
+
+                        nhs1 = float.Parse(dt.Rows[i]["nhs"].ToString());
+                        if (nhs1 != 0)
+                        {
+                            nhs1 += 1;
+                            if (nhs1 > 0)
+                            {
+                                nhs = 1;
+                            }
+                        }
+
+                        nhsamt1 = float.Parse(dt.Rows[i]["nhsamt"].ToString());
+                        if (nhsamt1 != 0)
+                        {
+                            nhsamt1 += 1;
+                            if (nhsamt1 > 0)
+                            {
+                                nhsamt = 1;
+                            }
+                        }
+
+
+                        //
+
+
+                        //
+
+                        wo1 = float.Parse(dt.Rows[i]["Wo"].ToString());
+                        if (wo1 != 0)
+                        {
+                            wo1 += 1;
+                            if (wo1 > 0)
+                            {
+                                wo = 1;
+                            }
+                        }
+
+                        woamt1 = float.Parse(dt.Rows[i]["woamt"].ToString());
+                        if (woamt1 != 0)
+                        {
+                            woamt1 += 1;
+                            if (woamt1 > 0)
+                            {
+                                woamt = 1;
+                            }
+                        }
+
+
+                        //
+
+                        pfonot1 = float.Parse(dt.Rows[i]["PFONOT"].ToString());
+                        if (pfonot1 != 0)
+                        {
+                            pfonot1 += 1;
+                            if (pfonot1 > 0)
+                            {
+                                pfonot = 0;
+                            }
+                        }
+
+                        esionot1 = float.Parse(dt.Rows[i]["ESIONOT"].ToString());
+                        if (esionot1 != 0)
+                        {
+                            esionot1 += 1;
+                            if (esionot1 > 0)
+                            {
+                                esionot = 0;
+                            }
+                        }
+
+                        Pf1 = float.Parse(dt.Rows[i]["PFTotal"].ToString());
+                        if (Pf1 != 0)
+                        {
+                            Pf1 += 1;
+                            if (Pf1 > 0)
+                            {
+                                Pf = 1;
+                            }
+                        }
+                        Esi1 = float.Parse(dt.Rows[i]["ESITotal"].ToString());
+                        if (Esi1 != 0)
+                        {
+                            Esi1 += 1;
+                            if (Esi1 > 0)
+                            {
+                                Esi = 1;
+                            }
+                        }
+
+                        owf1 = float.Parse(dt.Rows[i]["owf"].ToString());
+                        if (owf1 != 0)
+                        {
+                            owf1 += 1;
+                            if (owf1 > 0)
+                            {
+                                owf = 1;
+                            }
+                        }
+
+
+                    }
+
+                    #endregion
+
+
+
+                    int sno = 1;
+                    int empid = 1;
+                    int empname = 1;
+                    int design = 1;
+                    int bankacno = 1;
+                    int ESINo = 1;
+                    int UANNo = 1;
+                    int Remarks = 0;
+
+
+                    int advdue = 0;
+
+                    //if ((uniformDed) > 0)
+                    //{
+                    //    advdue = 1;
+                    //}
+
+                    //Adv1 = 0;
+                    //Adv2 = 0;
+                    //salAdvDed = 1;
+                    //uniformDed = 1;
+                    netpay = 1;
+                    int tableCells = dts + srate + basic + da + hra + cca + conveyance + washallowance + otherallowance + SplAllowance + TravelAllw + PerformanceAllw + MobileAllw + UniformAllw + leavewages +
+                                    gratuity + bonus + nfhs + rc + cs + gross + incentivs + pfonduties + esionduties + proftax +
+                                    salAdvDed + uniformDed + ATMDed + AttBonus + IDCardDed + Extra + otherDed + canteenAdv + penalty + totalDeductions + netpay + sno + ESINo + UANNo +
+                                    empid + empname + design + bankacno + ots + otamt + wo + woamt + nhs + nhsamt + advdue + pfonot + esionot + Pf + Esi + GenDedn + SecDepDedn + LoanDed + AdvDed + WCDed + cfoodallowance + cmedicalallowance + owf + Adv1 + Adv2 + Rent + Bgvdedi + Medfitdedi + ReliefFund + advances + Remarks;
+
+
+                    #region variables for total
+                    float totalAttBonus = 0;
+                    float totalIDCardDed = 0;
+                    float totalExtra = 0;
+                    float totalDuties = 0;
+                    float totalATMDed = 0;
+                    float totalsrate = 0;
+                    float totalBasic = 0;
+                    float totalDA = 0;
+                    float totalHRA = 0;
+                    float totalCCA = 0;
+                    float totalConveyance = 0;
+                    float totalWA = 0;
+                    float totalOA = 0;
+                    float totalSplAllowance = 0;
+                    float totalTravelAllw = 0;
+                    float totalPerformanceAllw = 0;
+                    float totalMobileAllw = 0;
+                    float totalUniformAllw = 0;
+                    float totalLw = 0;
+                    float totalGratuity = 0;
+                    float totalbonus = 0;
+                    float totalNfhs = 0;
+                    float totalRc = 0;
+                    float totalCs = 0;
+                    float totalGross = 0;
+                    float totalIncentivs = 0;
+                    float totalPFondts = 0;
+                    float totalESIondts = 0;
+                    float totalProfTax = 0;
+                    float totalSalAdv = 0;
+                    float totalUniforDed = 0;
+                    float totalOtherdedn = 0;
+                    float totalCanteenAdv = 0;
+                    float totalPenalty = 0;
+                    float totalAdv1 = 0;
+                    float totalAdv2 = 0;
+                    float totalRent = 0;
+                    float totalDed = 0;
+                    float totalNetpay = 0;
+                    float totalAdvDed = 0;
+                    float totalWCDed = 0;
+                    float totalots = 0;
+                    float totalotamt = 0;
+                    float totalpfonots = 0;
+                    float totalesionots = 0;
+                    float totalpf = 0;
+                    float totalesi = 0;
+                    float totalGenDedn = 0;
+                    float totalSecDepDedn = 0;
+                    float totalLoanDed = 0;
+                    float totalwos = 0;
+                    float totalwoamt = 0;
+                    float totalnhs = 0;
+                    float totalnhsamt = 0;
+                    float totalfoodallowance = 0;
+                    float totalmedicalallowance = 0;
+                    float totalowf = 0;
+                    float totalAmountdue = 0;
+                    float totalBgvded = 0;
+                    float totalMedfitded = 0;
+                    float totalReliefFund = 0;
+                    float totalAdvances = 0;
+
+                    #endregion
+
+                    #region variables for  Grand  total
+
+                    float GrandtotalAttBonus = 0;
+                    float GrandtotalAdvDed = 0;
+                    float GrandtotalIDCardDed = 0;
+                    float GrandtotalExtra = 0;
+                    float GrandtotalATMDed = 0;
+                    float GrandtotalWCDed = 0;
+                    float GrandtotalDuties = 0;
+                    float GrandtotalSrate = 0;
+                    float GrandtotalBasic = 0;
+                    float GrandtotalDA = 0;
+                    float GrandtotalHRA = 0;
+                    float GrandtotalCCA = 0;
+                    float GrandtotalConveyance = 0;
+                    float GrandtotalWA = 0;
+                    float GrandtotalOA = 0;
+                    float GrandtotalSplAllowance = 0;
+                    float GrandtotalTravelAllw = 0;
+                    float GrandtotalPerformanceAllw = 0;
+                    float GrandtotalMobileAllw = 0;
+                    float GrandtotalUniformAllw = 0;
+                    float GrandtotalLw = 0;
+                    float GrandtotalGratuity = 0;
+                    float Grandtotalbonus = 0;
+                    float GrandtotalNfhs = 0;
+                    float GrandtotalRc = 0;
+                    float GrandtotalCs = 0;
+                    float GrandtotalGross = 0;
+                    float GrandtotalIncentivs = 0;
+                    float GrandtotalPFondts = 0;
+                    float GrandtotalESIondts = 0;
+                    float GrandtotalProfTax = 0;
+                    float GrandtotalSalAdv = 0;
+                    float GrandtotalUniforDed = 0;
+                    float GrandtotalOtherdedn = 0;
+                    float GrandtotalCanteenAdv = 0;
+                    float GrandtotalPenalty = 0;
+                    float GrandtotalAdv1 = 0;
+                    float GrandtotalAdv2 = 0;
+                    float GrandtotalRent = 0;
+                    float GrandtotalDed = 0;
+                    float GrandtotalNetpay = 0;
+                    float Grandtotalots = 0;
+                    float Grandtotalotamt = 0;
+                    float Grandtotalpfonots = 0;
+                    float Grandtotalesionots = 0;
+                    float Grandtotalpf = 0;
+                    float Grandtotalesi = 0;
+                    float GrandtotalGenDedn = 0;
+                    float GrandtotalSecDepDedn = 0;
+                    float GrandtotalLoanDedn = 0;
+                    float Grandtotalwos = 0;
+                    float Grandtotalwoamt = 0;
+                    float Grandtotalnhs = 0;
+                    float Grandtotalnhsamt = 0;
+                    float Grandtotalfoodallowance = 0;
+                    float Grandtotalmedicalallowance = 0;
+                    float Grandtotalowf = 0;
+                    float GrandtotalAmountdue = 0;
+                    float GrandtotalBgvded = 0;
+                    float GrandtotalMedfitded = 0;
+                    float GrandtotalReliefFund = 0;
+                    float GrandtotalAdvances = 0;
+
+                    #endregion
+
+
+                    string qryn = "select (convert(nvarchar,GETDATE(),103)+' '+convert(nvarchar,CAST(GETDATE() as time),100)) as Datetime";
+                    DataTable dtn = config.ExecuteAdaptorAsyncWithQueryParams(qryn).Result;
+
+                    string DownloadedTime = "";
+
+                    if (dtn.Rows.Count > 0)
+                    {
+                        DownloadedTime = dtn.Rows[0]["Datetime"].ToString();
+                    }
+
+                    int nextpagerecordscount = 0;
+                    int targetpagerecors = int.Parse(ddlPages.SelectedValue);
+                    if (ddlfontSize.SelectedValue == "8")
+                    {
+                        targetpagerecors = 15;
+                    }
+                    int secondpagerecords = targetpagerecors + 3;
+                    bool nextpagehasPages = false;
+                    int j = 0;
+                    PdfPTable SecondtablecheckbyFooter = null;
+                    PdfPTable SecondtableFooter = null;
+                    PdfPTable SecondtableGrandtotalFooter = null;
+                    for (int nextpagei = 0; nextpagei < dt.Rows.Count; nextpagei++)
+                    {
+                        nextpagehasPages = true;
+
+
+                        #region Titles of Document
+                        PdfPTable Maintable = new PdfPTable(27);
+                        if (tableCells > 20)
+                        {
+                            Maintable.TotalWidth = 930f;
+                        }
+                        else
+                        {
+                            Maintable.TotalWidth = 930f;
+                        }
+                        Maintable.LockedWidth = true;
+                        float[] width = new float[] { 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f };
+
+
+                        Maintable.SetWidths(width);
+                        int FONT_SIZE = int.Parse(ddlfontSize.SelectedValue);
+
+
+                        //Company Name & vage act details
+
+                        PdfPCell cellemp = new PdfPCell(new Phrase("  ", FontFactory.GetFont(Fontstyle, 10, Font.BOLD, BaseColor.BLACK)));
+                        cellemp.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                        cellemp.Colspan = 27;
+                        cellemp.Border = 0;
+
+                        PdfPCell Heading = new PdfPCell(new Phrase("Form - XVII REGISTER OF WAGES", FontFactory.GetFont(Fontstyle, 20, Font.BOLD, BaseColor.BLACK)));
+                        Heading.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                        Heading.Colspan = 27;
+                        Heading.Border = 0;
+                        // Maintable.AddCell(Heading);
+
+
+                        PdfPCell actDetails = new PdfPCell(new Phrase("(vide Rule 78(1) a(i) of Contract Labour (Reg. & abolition)", FontFactory.GetFont(Fontstyle, 15, Font.BOLD, BaseColor.BLACK)));
+                        actDetails.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                        actDetails.Colspan = 27;
+                        actDetails.Border = 0;// 15;
+                        //Maintable.AddCell(actDetails);
+
+                        // Maintable.AddCell(cellemp);
+                        #endregion
+
+
+                        #region Sub Headings
+
+                        PdfPCell companyName = new PdfPCell(new Phrase(companyName1, FontFactory.GetFont("Arial Black", 20, Font.BOLD, BaseColor.BLACK)));
+                        companyName.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                        companyName.Colspan = 27;
+                        companyName.Border = 0;// 15;
+                        Maintable.AddCell(companyName);
+
+                        PdfPCell paySheet = new PdfPCell(new Phrase("Pay Sheet", FontFactory.GetFont(Fontstyle, 10, Font.BOLD | Font.UNDERLINE, BaseColor.BLACK)));
+                        paySheet.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                        paySheet.Colspan = 27;
+                        paySheet.Border = 0;// 15;
+                        Maintable.AddCell(paySheet);
+
+                        PdfPCell CClient = new PdfPCell(new Phrase("Client ID :   " + ddlClients.SelectedValue, FontFactory.GetFont(Fontstyle, 10, Font.NORMAL, BaseColor.BLACK)));
+                        CClient.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        CClient.Colspan = 11;
+                        CClient.Border = 0;// 15;
+                        Maintable.AddCell(CClient);
+
+
+                        PdfPCell CDates = new PdfPCell(new Phrase("Payment for the period of : " + GetPaymentPeriod(), FontFactory.GetFont(Fontstyle, 9, Font.NORMAL, BaseColor.BLACK)));
+                        CDates.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        CDates.Colspan = 8;
+                        CDates.Border = 0;// 15;
+                        Maintable.AddCell(CDates);
+
+                        // PdfPCell CPaySheetDate = new PdfPCell(new Phrase("Pay Sheet Date :  " + DateTime.Now.Date.ToString("dd/MM/yyyy"), FontFactory.GetFont(Fontstyle, 10, Font.NORMAL, BaseColor.BLACK)));
+                        PdfPCell CPaySheetDate = new PdfPCell(new Phrase(" ", FontFactory.GetFont(Fontstyle, 10, Font.NORMAL, BaseColor.BLACK)));
+                        CPaySheetDate.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        CPaySheetDate.Colspan = 1;
+                        CPaySheetDate.Border = 0;// 15;
+                        Maintable.AddCell(CPaySheetDate);
+
+
+                        PdfPCell CClientName = new PdfPCell(new Phrase("Generated Date & Time :   " + dt.Rows[0]["datetime"].ToString(), FontFactory.GetFont(Fontstyle, 10, Font.NORMAL, BaseColor.BLACK)));
+                        CClientName.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        CClientName.Colspan = 7;
+                        CClientName.Border = 0;// 15;
+                        Maintable.AddCell(CClientName);
+
+
+                        //                string Clientaddress = "";
+                        //                string queryaddress = @"select isnull(ClientAddrHno,'')+'  '+isnull(ClientAddrStreet,'')+'  '+isnull(ClientAddrColony,'')+'  '+isnull(ClientAddrArea,'')+
+                        //		            '  '+isnull(ClientAddrCity,'')+'  '+isnull(ClientAddrState,'')+'  '+isnull(ClientAddrPin,'') as Address from Clients where ClientId='" + ddlclientid.SelectedValue + "'";
+                        //                DataTable dtaddress = SqlHelper.Instance.GetTableByQuery(queryaddress);
+                        //                if (dtaddress.Rows.Count > 0)
+                        //                {
+                        //                    Clientaddress = dtaddress.Rows[0]["Address"].ToString();
+                        //                }
+
+                        CClientName = new PdfPCell(new Phrase("Client Name :   " + ddlcname.SelectedItem + " ", FontFactory.GetFont(Fontstyle, 10, Font.NORMAL, BaseColor.BLACK)));
+                        CClientName.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        CClientName.Colspan = 11;
+                        CClientName.Border = 0;// 15;
+                        CClientName.PaddingBottom = 10;
+                        Maintable.AddCell(CClientName);
+
+                        PdfPCell CPayMonth = new PdfPCell(new Phrase("For the month of :   " + GetMonthName() + " - " + GetMonthOfYear(), FontFactory.GetFont(Fontstyle, 10, Font.NORMAL, BaseColor.BLACK)));
+                        CPayMonth.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        CPayMonth.Colspan = 8;
+                        CPayMonth.Border = 0;// 15;
+                        CPayMonth.PaddingBottom = 10;
+                        Maintable.AddCell(CPayMonth);
+
+                        CPayMonth = new PdfPCell(new Phrase("", FontFactory.GetFont(Fontstyle, 10, Font.NORMAL, BaseColor.BLACK)));
+                        CPayMonth.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        CPayMonth.Colspan = 1;
+                        CPayMonth.Border = 0;// 15;
+                        CPayMonth.PaddingBottom = 10;
+                        Maintable.AddCell(CPayMonth);
+
+
+                        CPayMonth = new PdfPCell(new Phrase("Downloaded Date & Time :   " + DownloadedTime, FontFactory.GetFont(Fontstyle, 10, Font.NORMAL, BaseColor.BLACK)));
+                        CPayMonth.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        CPayMonth.Colspan = 7;
+                        CPayMonth.Border = 0;// 15;
+                        CPayMonth.PaddingBottom = 10;
+                        Maintable.AddCell(CPayMonth);
+
+
+                        //document.Add(Maintable);
+
+                        if (titleofdocumentindex == 0)
+                        {
+                            document.Add(Maintable);
+                            titleofdocumentindex = 1;
+                        }
+
+                        #endregion
+
+
+                        #region Table Headings
+
+                        PdfPTable SecondtableHeadings = new PdfPTable(tableCells);
+                        if (tableCells > 20)
+                        {
+                            SecondtableHeadings.TotalWidth = 930f;
+                        }
+                        else
+                        {
+                            SecondtableHeadings.TotalWidth = 930f;
+                        }
+                        SecondtableHeadings.LockedWidth = true;
+                        float[] SecondHeadingsWidth = new float[] { };
+
+                        #region Table Cells
+                        if (tableCells == 47)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 46)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 45)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 44)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 43)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 42)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 41)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 40)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 39)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 38)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 37)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 36)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 35)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 34)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 33)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 32)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 31)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 30)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 29)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 28)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 27)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 26)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 25)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 24)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 23)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 22)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 21)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 20)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 19)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 18)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 17)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 16)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 15)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 14)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 13)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 12)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 11)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 10)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 9)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 2f };
+                        }
+                        if (tableCells == 8)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 2f };
+                        }
+
+                        if (tableCells == 7)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f };
+                        }
+
+                        if (tableCells == 6)
+                        {
+                            SecondHeadingsWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 2f };
+                        }
+                        #endregion
+
+                        SecondtableHeadings.SetWidths(SecondHeadingsWidth);
+
+                        //Cell Headings
+                        //1
+                        PdfPCell sNo = new PdfPCell(new Phrase("S.No", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                        sNo.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                        //sNo.Colspan = 1;
+                        sNo.Border = 13;// 15;
+                        SecondtableHeadings.AddCell(sNo);
+
+                        //2
+                        PdfPCell CEmpId = new PdfPCell(new Phrase("Emp Id", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                        CEmpId.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                        CEmpId.Border = 13;// 15;
+                        SecondtableHeadings.AddCell(CEmpId);
+
+                        //3
+                        PdfPCell CEmpName = new PdfPCell(new Phrase("Emp Name", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                        CEmpName.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                        CEmpName.Border = 13;// 15;
+                        SecondtableHeadings.AddCell(CEmpName);
+
+                        CEmpName = new PdfPCell(new Phrase("ESI No", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                        CEmpName.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                        CEmpName.Border = 13;// 15;
+                        SecondtableHeadings.AddCell(CEmpName);
+
+                        CEmpName = new PdfPCell(new Phrase("UAN No", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                        CEmpName.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                        CEmpName.Border = 13;// 15;
+                        SecondtableHeadings.AddCell(CEmpName);
+
+                        //4
+                        PdfPCell CDesgn = new PdfPCell(new Phrase("Rank", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                        CDesgn.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                        CDesgn.Border = 13;
+                        SecondtableHeadings.AddCell(CDesgn);
+
+                        if (srate != 0)
+                        {
+                            PdfPCell Cots = new PdfPCell(new Phrase("Wages", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Cots.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            Cots.Border = 13;
+                            SecondtableHeadings.AddCell(Cots);
+                        }
+
+                        //5
+                        if (dts != 0)
+                        {
+                            PdfPCell CDuties = new PdfPCell(new Phrase("Days", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CDuties.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CDuties.Border = 13;
+                            SecondtableHeadings.AddCell(CDuties);
+                        }
+
+                        if (wo != 0)
+                        {
+                            PdfPCell Cwos = new PdfPCell(new Phrase("Wos", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Cwos.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            Cwos.Border = 13;
+                            SecondtableHeadings.AddCell(Cwos);
+                        }
+
+                        if (nhs != 0)
+                        {
+                            PdfPCell Cnhs = new PdfPCell(new Phrase("NHs", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Cnhs.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            Cnhs.Border = 13;
+                            SecondtableHeadings.AddCell(Cnhs);
+                        }
+
+                        //6
+
+                        //6A
+
+
+
+                        //7
+                        if (basic != 0)
+                        {
+                            PdfPCell CBasic = new PdfPCell(new Phrase("Basic+DA", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CBasic.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CBasic.Border = 13;
+                            SecondtableHeadings.AddCell(CBasic);
+                        }
+
+                        //8
+                        if (da != 0)
+                        {
+                            PdfPCell CDa = new PdfPCell(new Phrase("DA", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CDa.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CDa.Border = 13;
+                            SecondtableHeadings.AddCell(CDa);
+                        }
+
+                        //9
+                        if (hra != 0)
+                        {
+                            PdfPCell CHRa = new PdfPCell(new Phrase("HRA", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CHRa.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CHRa.Border = 13;
+                            SecondtableHeadings.AddCell(CHRa);
+                        }
+
+                        //10
+                        if (cca != 0)
+                        {
+                            PdfPCell CCca = new PdfPCell(new Phrase("CCA", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CCca.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CCca.Border = 13;
+                            SecondtableHeadings.AddCell(CCca);
+                        }
+
+                        //11
+                        if (conveyance != 0)
+                        {
+                            PdfPCell Cconveyance = new PdfPCell(new Phrase("Conv", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Cconveyance.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            Cconveyance.Border = 13;
+                            SecondtableHeadings.AddCell(Cconveyance);
+                        }
+
+                        //12
+                        if (washallowance != 0)
+                        {
+                            PdfPCell Cwa = new PdfPCell(new Phrase("WA", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Cwa.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                            Cwa.Border = 13;
+                            SecondtableHeadings.AddCell(Cwa);
+                        }
+
+                        //13
+                        if (otherallowance != 0)
+                        {
+                            PdfPCell COa = new PdfPCell(new Phrase("OA", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            COa.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            COa.Border = 13;
+                            SecondtableHeadings.AddCell(COa);
+                        }
+                        if (SplAllowance != 0)
+                        {
+                            PdfPCell CSplAllowance = new PdfPCell(new Phrase("Spl Allw", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CSplAllowance.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CSplAllowance.Border = 13;
+                            SecondtableHeadings.AddCell(CSplAllowance);
+                        }
+
+
+                        if (TravelAllw != 0)
+                        {
+                            PdfPCell Csplallw = new PdfPCell(new Phrase("Travel. Allw", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Csplallw.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            Csplallw.Border = 13;
+                            SecondtableHeadings.AddCell(Csplallw);
+                        }
+
+                        if (PerformanceAllw != 0)
+                        {
+                            PdfPCell Csplallw = new PdfPCell(new Phrase("Performance. Allw", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Csplallw.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            Csplallw.Border = 13;
+                            SecondtableHeadings.AddCell(Csplallw);
+                        }
+
+                        if (MobileAllw != 0)
+                        {
+                            PdfPCell Csplallw = new PdfPCell(new Phrase("Mobile. Allw", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Csplallw.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            Csplallw.Border = 13;
+                            SecondtableHeadings.AddCell(Csplallw);
+                        }
+
+                        if (UniformAllw != 0)
+                        {
+                            PdfPCell Csplallw = new PdfPCell(new Phrase("Uniform Allw", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Csplallw.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            Csplallw.Border = 13;
+                            SecondtableHeadings.AddCell(Csplallw);
+                        }
+
+                        //14
+                        if (leavewages != 0)
+                        {
+                            PdfPCell CLa = new PdfPCell(new Phrase("LA", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CLa.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CLa.Border = 13;
+                            SecondtableHeadings.AddCell(CLa);
+                        }
+
+                        //15
+                        if (gratuity != 0)
+                        {
+                            PdfPCell CGratuity = new PdfPCell(new Phrase("Gratuity", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CGratuity.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CGratuity.Border = 13;
+                            SecondtableHeadings.AddCell(CGratuity);
+                        }
+
+                        //16
+                        if (bonus != 0)
+                        {
+                            PdfPCell CBonus = new PdfPCell(new Phrase("Bonus", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CBonus.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CBonus.Border = 13;
+                            SecondtableHeadings.AddCell(CBonus);
+                        }
+
+
+
+
+                        //17
+                        if (nfhs != 0)
+                        {
+                            PdfPCell CNfhs = new PdfPCell(new Phrase("NFHs", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CNfhs.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CNfhs.Border = 13;
+                            SecondtableHeadings.AddCell(CNfhs);
+                        }
+
+                        //18
+                        if (rc != 0)
+                        {
+                            PdfPCell CRc = new PdfPCell(new Phrase("R.C", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CRc.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CRc.Border = 13;
+                            SecondtableHeadings.AddCell(CRc);
+                        }
+
+                        //19
+                        if (cs != 0)
+                        {
+                            PdfPCell CCs = new PdfPCell(new Phrase("C.S", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CCs.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CCs.Border = 13;
+                            SecondtableHeadings.AddCell(CCs);
+                        }
+
+                        if (cfoodallowance != 0)
+                        {
+                            PdfPCell CFoodAllw = new PdfPCell(new Phrase("Food Allw", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CFoodAllw.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CFoodAllw.Border = 13;
+                            SecondtableHeadings.AddCell(CFoodAllw);
+                        }
+
+                        if (cmedicalallowance != 0)
+                        {
+                            PdfPCell CMedicalAllw = new PdfPCell(new Phrase("Medical Allw", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CMedicalAllw.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CMedicalAllw.Border = 13;
+                            SecondtableHeadings.AddCell(CMedicalAllw);
+                        }
+                        if (woamt != 0)
+                        {
+                            PdfPCell Cwoamt = new PdfPCell(new Phrase("WO Amt", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Cwoamt.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            Cwoamt.Border = 13;
+                            SecondtableHeadings.AddCell(Cwoamt);
+                        }
+
+                        if (nhsamt != 0)
+                        {
+                            PdfPCell Cnhsamt = new PdfPCell(new Phrase("NHS Amt", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Cnhsamt.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            Cnhsamt.Border = 13;
+                            SecondtableHeadings.AddCell(Cnhsamt);
+                        }
+                        //20
+
+
+                        //21
+
+                        if (ots != 0)
+                        {
+                            PdfPCell Cots = new PdfPCell(new Phrase("OTs", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Cots.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            Cots.Border = 13;
+                            SecondtableHeadings.AddCell(Cots);
+                        }
+
+
+
+
+                        if (otamt != 0)
+                        {
+                            PdfPCell COtamt = new PdfPCell(new Phrase("OT Amt", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            COtamt.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            COtamt.Border = 13;
+                            SecondtableHeadings.AddCell(COtamt);
+                        }
+
+                        if (AttBonus != 0)
+                        {
+                            PdfPCell COtamt = new PdfPCell(new Phrase("Att Bonus", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            COtamt.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            COtamt.Border = 13;
+                            SecondtableHeadings.AddCell(COtamt);
+                        }
+
+                        if (gross != 0)
+                        {
+                            PdfPCell CGross = new PdfPCell(new Phrase("Gross", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CGross.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CGross.Border = 13;
+                            SecondtableHeadings.AddCell(CGross);
+                        }
+                        //22
+                        if (incentivs != 0)
+                        {
+                            PdfPCell CIncentivs = new PdfPCell(new Phrase("Incentivs", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CIncentivs.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CIncentivs.Border = 13;
+                            SecondtableHeadings.AddCell(CIncentivs);
+                        }
+
+
+
+                        //23
+                        if (pfonduties != 0)
+                        {
+                            PdfPCell CPFondts = new PdfPCell(new Phrase("PF on Dts", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CPFondts.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CPFondts.Border = 13;
+                            SecondtableHeadings.AddCell(CPFondts);
+                        }
+
+                        //24
+                        if (esionduties != 0)
+                        {
+                            PdfPCell CESIondts = new PdfPCell(new Phrase("ESI on Dts", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CESIondts.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CESIondts.Border = 13;
+                            SecondtableHeadings.AddCell(CESIondts);
+                        }
+
+                        //25
+                        if (pfonot != 0)
+                        {
+                            PdfPCell CPFonot = new PdfPCell(new Phrase("PF on OTs", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CPFonot.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CPFonot.Border = 13;
+                            SecondtableHeadings.AddCell(CPFonot);
+                        }
+
+                        //26
+                        if (esionot != 0)
+                        {
+                            PdfPCell CESIonot = new PdfPCell(new Phrase("ESI on OTs", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CESIonot.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CESIonot.Border = 13;
+                            SecondtableHeadings.AddCell(CESIonot);
+                        }
+
+                        //27
+                        if (Pf != 0)
+                        {
+                            PdfPCell CPF = new PdfPCell(new Phrase("PF", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CPF.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CPF.Border = 13;
+                            SecondtableHeadings.AddCell(CPF);
+                        }
+
+                        //28
+                        if (Esi != 0)
+                        {
+                            PdfPCell CESI = new PdfPCell(new Phrase("ESI", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CESI.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CESI.Border = 13;
+                            SecondtableHeadings.AddCell(CESI);
+                        }
+
+
+                        //29
+                        if (proftax != 0)
+                        {
+                            PdfPCell CPT = new PdfPCell(new Phrase("PT", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CPT.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CPT.Border = 13;
+                            SecondtableHeadings.AddCell(CPT);
+                        }
+
+                        //30
+                        if (salAdvDed != 0)
+                        {
+                            PdfPCell CSalAdv = new PdfPCell(new Phrase("Sal Adv Ded", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CSalAdv.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CSalAdv.Border = 13;
+                            SecondtableHeadings.AddCell(CSalAdv);
+                        }
+                        if (ATMDed != 0)
+                        {
+                            PdfPCell CSalAdv = new PdfPCell(new Phrase("ATM Ded", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CSalAdv.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CSalAdv.Border = 13;
+                            SecondtableHeadings.AddCell(CSalAdv);
+                        }
+                        if (IDCardDed != 0)
+                        {
+                            PdfPCell CSalAdv = new PdfPCell(new Phrase("IDCard Ded", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CSalAdv.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CSalAdv.Border = 13;
+                            SecondtableHeadings.AddCell(CSalAdv);
+                        }
+                        if (Extra != 0)
+                        {
+                            PdfPCell CSalAdv = new PdfPCell(new Phrase("Extra", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CSalAdv.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CSalAdv.Border = 13;
+                            SecondtableHeadings.AddCell(CSalAdv);
+                        }
+
+
+                        //31
+                        if (uniformDed != 0)
+                        {
+                            PdfPCell CUnifDed = new PdfPCell(new Phrase("Adv 2", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CUnifDed.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CUnifDed.Border = 13;
+                            SecondtableHeadings.AddCell(CUnifDed);
+                        }
+
+                        if (SecDepDedn != 0)
+                        {
+                            PdfPCell CSecDepDedn = new PdfPCell(new Phrase("Sec Dep Ded", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CSecDepDedn.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CSecDepDedn.Border = 13;
+                            SecondtableHeadings.AddCell(CSecDepDedn);
+                        }
+
+                        if (LoanDed != 0)
+                        {
+                            PdfPCell CLoanDed = new PdfPCell(new Phrase("Loan Ded", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CLoanDed.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CLoanDed.Border = 13;
+                            SecondtableHeadings.AddCell(CLoanDed);
+                        }
+
+                        if (GenDedn != 0)
+                        {
+                            PdfPCell CGenDedn = new PdfPCell(new Phrase("Gen Ded", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CGenDedn.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CGenDedn.Border = 13;
+                            SecondtableHeadings.AddCell(CGenDedn);
+                        }
+                        if (AdvDed != 0)
+                        {
+                            PdfPCell Cadvded = new PdfPCell(new Phrase("Adv Ded", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Cadvded.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            Cadvded.Border = 13;
+                            SecondtableHeadings.AddCell(Cadvded);
+                        }
+                        if (WCDed != 0)
+                        {
+                            PdfPCell Cwcded = new PdfPCell(new Phrase("WC Ded", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Cwcded.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            Cwcded.Border = 13;
+                            SecondtableHeadings.AddCell(Cwcded);
+                        }
+                        //32
+                        if (otherDed != 0)
+                        {
+                            PdfPCell COtherDed = new PdfPCell(new Phrase("Other Ded", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            COtherDed.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            COtherDed.Border = 13;
+                            SecondtableHeadings.AddCell(COtherDed);
+                        }
+
+
+                        if (Adv1 != 0)
+                        {
+                            PdfPCell CAdv1 = new PdfPCell(new Phrase("Adv1", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CAdv1.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CAdv1.Border = 13;
+                            SecondtableHeadings.AddCell(CAdv1);
+                        }
+
+                        if (Adv2 != 0)
+                        {
+                            PdfPCell CAdv2 = new PdfPCell(new Phrase("Adv2", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CAdv2.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CAdv2.Border = 13;
+                            SecondtableHeadings.AddCell(CAdv2);
+                        }
+
+                        //33
+                        if (canteenAdv != 0)
+                        {
+                            PdfPCell Ccanteended = new PdfPCell(new Phrase("Canteen", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Ccanteended.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            Ccanteended.Border = 13;
+                            SecondtableHeadings.AddCell(Ccanteended);
+                        }
+
+                        if (Rent != 0)
+                        {
+                            PdfPCell CRent = new PdfPCell(new Phrase("Rent", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CRent.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CRent.Border = 13;
+                            SecondtableHeadings.AddCell(CRent);
+                        }
+
+                        //34
+                        if (penalty != 0)
+                        {
+                            PdfPCell CPenalty = new PdfPCell(new Phrase("Fine", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CPenalty.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CPenalty.Border = 13;
+                            SecondtableHeadings.AddCell(CPenalty);
+                        }
+
+                        if (owf != 0)
+                        {
+                            PdfPCell Cowf = new PdfPCell(new Phrase("Wel. Fund", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Cowf.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            Cowf.Border = 13;
+                            SecondtableHeadings.AddCell(Cowf);
+                        }
+
+                        if (Bgvdedi != 0)
+                        {
+                            PdfPCell Cbgv = new PdfPCell(new Phrase("BGV", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Cbgv.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            Cbgv.Border = 13;
+                            SecondtableHeadings.AddCell(Cbgv);
+                        }
+                        if (Medfitdedi != 0)
+                        {
+                            PdfPCell Cmedfit = new PdfPCell(new Phrase("Med.Fit", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Cmedfit.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            Cmedfit.Border = 13;
+                            SecondtableHeadings.AddCell(Cmedfit);
+                        }
+
+                        if (advances != 0)
+                        {
+                            PdfPCell Cadvances = new PdfPCell(new Phrase("Adv", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Cadvances.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            Cadvances.Border = 13;
+                            SecondtableHeadings.AddCell(Cadvances);
+                        }
+
+                        if (ReliefFund != 0)
+                        {
+                            PdfPCell CReliefFund = new PdfPCell(new Phrase("Relief Fund", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CReliefFund.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CReliefFund.Border = 13;
+                            SecondtableHeadings.AddCell(CReliefFund);
+                        }
+
+
+                        //if (advdue != 0)
+                        //{
+                        //    PdfPCell Cowf = new PdfPCell(new Phrase("Uniform due", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                        //    Cowf.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                        //    Cowf.Border = 13;
+                        //    SecondtableHeadings.AddCell(Cowf);
+                        //}
+
+                        //35
+                        if (totalDeductions != 0)
+                        {
+                            PdfPCell CTotDed = new PdfPCell(new Phrase("Tot Ded", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CTotDed.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CTotDed.Border = 13;
+                            SecondtableHeadings.AddCell(CTotDed);
+                        }
+
+                        //36
+                        if (netpay != 0)
+                        {
+                            PdfPCell CNetPay = new PdfPCell(new Phrase("Net Pay", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CNetPay.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CNetPay.Border = 13;
+                            SecondtableHeadings.AddCell(CNetPay);
+                        }
+
+                        //37
+                        PdfPCell CSignature = new PdfPCell(new Phrase("Bank A/c No./ Sign / Remarks", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                        CSignature.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                        CSignature.Border = 13;
+                        SecondtableHeadings.AddCell(CSignature);
+
+
+
+                        #endregion
+
+
+                        #region Table Data
+
+                        PdfPTable Secondtable = new PdfPTable(tableCells);
+                        if (tableCells > 20)
+                        {
+                            Secondtable.TotalWidth = 930f;
+                        }
+                        else
+                        {
+                            Secondtable.TotalWidth = 930f;
+                        }
+                        Secondtable.LockedWidth = true;
+                        float[] SecondWidth = new float[] { };
+
+                        #region Table Cells
+                        if (tableCells == 47)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 46)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 45)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 44)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 43)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 42)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 41)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 40)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 39)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 38)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 37)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 36)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 35)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 34)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 33)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 32)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 31)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 30)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 29)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 28)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 27)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 26)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 25)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 24)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 23)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 22)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 21)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 20)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 19)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 18)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 17)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 16)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 15)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 14)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 13)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 12)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 11)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 10)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 9)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 2f };
+                        }
+                        if (tableCells == 8)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 2f };
+                        }
+
+                        if (tableCells == 7)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f };
+                        }
+
+                        if (tableCells == 6)
+                        {
+                            SecondWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 2f };
+                        }
+                        #endregion
+
+
+                        Secondtable.SetWidths(SecondWidth);
+
+
+
+
+                        int rowCount = 0;
+                        int pageCount = 0;
+                        int i = nextpagei;
+
+                        float dedamout = 0;
+                        float Balance = 0;
+                        var LoansSPName = "";
+                        Hashtable HTLoans = new Hashtable();
+                        DataTable dtLoans = null;
+                        LoansSPName = "LoansSummary";
+                        HTLoans.Add("@ClientId", ddlClients.SelectedValue);
+                        HTLoans.Add("@month", month);
+                        HTLoans.Add("@empid", dt.Rows[i]["EmpId"].ToString());
+                        dtLoans = config.ExecuteAdaptorAsyncWithParams(LoansSPName, HTLoans).Result;
+
+                        if (dtLoans.Rows.Count > 0)
+                        {
+                            //loanamt = float.Parse(dtLoans.Rows[0]["TotalLoanAmount"].ToString());
+                            dedamout = float.Parse(dtLoans.Rows[0]["TotalDeductedAmount"].ToString());
+                            Balance = float.Parse(dtLoans.Rows[0]["Balance"].ToString());
+                        }
+
+
+                        // for (int i = 0, j = 0; i < dt.Rows.Count; i++)
+                        {
+                            float ForconvertOt = 0;
+                            forConvert = 0;
+                            if (dt.Rows[i]["NoOfDuties"].ToString().Trim().Length > 0)
+                                forConvert = Convert.ToSingle(dt.Rows[i]["NoOfDuties"].ToString());
+
+                            //if (forConvert > 0)
+                            {
+
+                                if (nextpagerecordscount == 0)
+                                {
+
+                                    document.Add(SecondtableHeadings);
+                                }
+
+                                nextpagerecordscount++;
+
+                                //1
+                                PdfPCell CSNo = new PdfPCell(new Phrase((++j).ToString() + "", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                CSNo.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                                CSNo.BorderWidthTop = 0.4f;
+                                CSNo.BorderWidthBottom = 0.4f;
+                                CSNo.BorderWidthLeft = 0.4f;
+                                CSNo.BorderWidthRight = 0.4f;
+                                Secondtable.AddCell(CSNo);
+
+                                //2
+                                PdfPCell CEmpId1 = new PdfPCell(new Phrase(dt.Rows[i]["EmpId"].ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                CEmpId1.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                                CEmpId1.BorderWidthTop = 0.4f;
+                                CEmpId1.BorderWidthBottom = 0.4f;
+                                CEmpId1.BorderWidthLeft = 0;
+                                CEmpId1.BorderWidthRight = 0.4f;
+                                Secondtable.AddCell(CEmpId1);
+
+                                //3EmpESINo,EmpEpfNo
+                                // + "\n" + "ESI No" + "\n" + "UAN No" + "\n" + "PF No"
+                                PdfPCell CEmpName1 = new PdfPCell(new Phrase(dt.Rows[i]["EmpName"].ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                CEmpName1.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                                CEmpName1.BorderWidthTop = 0.4f;
+                                CEmpName1.BorderWidthBottom = 0.4f;
+                                CEmpName1.BorderWidthLeft = 0;
+                                CEmpName1.BorderWidthRight = 0.4f;
+                                CEmpName1.SetLeading(0, 1.3f);
+                                Secondtable.AddCell(CEmpName1);
+
+                                CEmpName1 = new PdfPCell(new Phrase(dt.Rows[i]["EmpESINo"].ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                CEmpName1.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                                CEmpName1.BorderWidthTop = 0.4f;
+                                CEmpName1.BorderWidthBottom = 0.4f;
+                                CEmpName1.BorderWidthLeft = 0;
+                                CEmpName1.BorderWidthRight = 0.4f;
+                                CEmpName1.SetLeading(0, 1.3f);
+                                Secondtable.AddCell(CEmpName1);
+
+                                CEmpName1 = new PdfPCell(new Phrase(dt.Rows[i]["EmpUANNumber"].ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                CEmpName1.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                                CEmpName1.BorderWidthTop = 0.4f;
+                                CEmpName1.BorderWidthBottom = 0.4f;
+                                CEmpName1.BorderWidthLeft = 0;
+                                CEmpName1.BorderWidthRight = 0.4f;
+                                CEmpName1.SetLeading(0, 1.3f);
+                                Secondtable.AddCell(CEmpName1);
+
+                                //4
+                                PdfPCell CEmpDesgn = new PdfPCell(new Phrase(dt.Rows[i]["Design"].ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                CEmpDesgn.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                                CEmpDesgn.BorderWidthTop = 0.4f;
+                                CEmpDesgn.BorderWidthBottom = 0.4f;
+                                CEmpDesgn.BorderWidthLeft = 0;
+                                CEmpDesgn.BorderWidthRight = 0.4f;
+                                Secondtable.AddCell(CEmpDesgn);
+
+
+
+                                //6A
+                                if (srate != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["Salrate"].ToString().Trim().Length > 0)
+                                        forConvert = Convert.ToSingle(dt.Rows[i]["Salrate"].ToString());
+                                    totalsrate += forConvert;
+                                    GrandtotalSrate += forConvert;
+
+                                    PdfPCell CSalrate = new PdfPCell(new Phrase(forConvert.ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CSalrate.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CSalrate.BorderWidthTop = 0.4f;
+                                    CSalrate.BorderWidthBottom = 0.4f;
+                                    CSalrate.BorderWidthLeft = 0;
+                                    CSalrate.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CSalrate);
+                                }
+
+                                //5
+                                if (dts != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["NoOfDuties"].ToString().Trim().Length > 0)
+                                        forConvert = Convert.ToSingle(dt.Rows[i]["NoOfDuties"].ToString());
+                                    totalDuties += forConvert;
+                                    GrandtotalDuties += forConvert;
+
+                                    PdfPCell CNoOfDuties = new PdfPCell(new Phrase(forConvert.ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CNoOfDuties.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CNoOfDuties.BorderWidthTop = 0.4f;
+                                    CNoOfDuties.BorderWidthBottom = 0.4f;
+                                    CNoOfDuties.BorderWidthLeft = 0;
+                                    CNoOfDuties.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CNoOfDuties);
+                                }
+
+
+                                if (wo != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["Wo"].ToString().Trim().Length > 0)
+                                        forConvert = Convert.ToSingle(dt.Rows[i]["Wo"].ToString());
+                                    totalwos += forConvert;
+                                    Grandtotalwos += forConvert;
+
+                                    PdfPCell Cwos = new PdfPCell(new Phrase(forConvert.ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    Cwos.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    Cwos.BorderWidthTop = 0.4f;
+                                    Cwos.BorderWidthBottom = 0.4f;
+                                    Cwos.BorderWidthLeft = 0;
+                                    Cwos.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(Cwos);
+                                }
+
+
+                                if (nhs != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["nhs"].ToString().Trim().Length > 0)
+                                        forConvert = Convert.ToSingle(dt.Rows[i]["nhs"].ToString());
+                                    totalnhs += forConvert;
+                                    Grandtotalnhs += forConvert;
+
+                                    PdfPCell Cnhss = new PdfPCell(new Phrase(forConvert.ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    Cnhss.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    Cnhss.BorderWidthTop = 0.4f;
+                                    Cnhss.BorderWidthBottom = 0.4f;
+                                    Cnhss.BorderWidthLeft = 0;
+                                    Cnhss.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(Cnhss);
+                                }
+
+                                //6
+
+
+                                //7
+                                if (basic != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["Basic"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["Basic"].ToString()));
+                                    totalBasic += forConvert;
+                                    GrandtotalBasic += forConvert;
+                                    PdfPCell CBasic1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CBasic1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CBasic1.BorderWidthTop = 0.4f;
+                                    CBasic1.BorderWidthBottom = 0.4f;
+                                    CBasic1.BorderWidthLeft = 0;
+                                    CBasic1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CBasic1);
+                                }
+
+                                //8
+                                if (da != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["DA"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["DA"].ToString()));
+                                    totalDA += forConvert;
+                                    GrandtotalDA += forConvert;
+
+                                    PdfPCell CDa1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CDa1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CDa1.BorderWidthTop = 0.4f;
+                                    CDa1.BorderWidthBottom = 0.4f;
+                                    CDa1.BorderWidthLeft = 0;
+                                    CDa1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CDa1);
+                                }
+
+                                //9
+                                if (hra != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["HRA"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["HRA"].ToString()));
+                                    totalHRA += forConvert;
+                                    GrandtotalHRA += forConvert;
+
+                                    PdfPCell CHRA1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CHRA1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CHRA1.BorderWidthTop = 0.4f;
+                                    CHRA1.BorderWidthBottom = 0.4f;
+                                    CHRA1.BorderWidthLeft = 0;
+                                    CHRA1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CHRA1);
+                                }
+
+                                //10
+                                if (cca != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["cca"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["cca"].ToString()));
+                                    totalCCA += forConvert;
+
+                                    GrandtotalCCA += forConvert;
+
+                                    PdfPCell Ccca = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    Ccca.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    Ccca.BorderWidthTop = 0.4f;
+                                    Ccca.BorderWidthBottom = 0.4f;
+                                    Ccca.BorderWidthLeft = 0;
+                                    Ccca.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(Ccca);
+                                }
+
+                                //11
+                                if (conveyance != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["Conveyance"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["Conveyance"].ToString()));
+                                    totalConveyance += forConvert;
+                                    GrandtotalConveyance += forConvert;
+
+                                    PdfPCell CConveyance = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CConveyance.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CConveyance.BorderWidthTop = 0.4f;
+                                    CConveyance.BorderWidthBottom = 0.4f;
+                                    CConveyance.BorderWidthLeft = 0;
+                                    CConveyance.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CConveyance);
+                                }
+
+
+                                //12
+                                if (washallowance != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["washallowance"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["washallowance"].ToString()));
+                                    totalWA += forConvert;
+                                    GrandtotalWA += forConvert;
+
+                                    PdfPCell CWa = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CWa.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CWa.BorderWidthTop = 0.4f;
+                                    CWa.BorderWidthBottom = 0.4f;
+                                    CWa.BorderWidthLeft = 0;
+                                    CWa.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CWa);
+                                }
+
+                                //13
+                                if (otherallowance != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["OtherAllowance"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["OtherAllowance"].ToString()));
+                                    totalOA += forConvert;
+                                    GrandtotalOA += forConvert;
+                                    PdfPCell COA = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    COA.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    COA.BorderWidthTop = 0.4f;
+                                    COA.BorderWidthBottom = 0.4f;
+                                    COA.BorderWidthLeft = 0;
+                                    COA.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(COA);
+                                }
+                                if (SplAllowance != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["SplAllowance"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["SplAllowance"].ToString()));
+                                    totalSplAllowance += forConvert;
+                                    GrandtotalSplAllowance += forConvert;
+                                    PdfPCell CSplAllowance = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CSplAllowance.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CSplAllowance.BorderWidthTop = 0.4f;
+                                    CSplAllowance.BorderWidthBottom = 0.4f;
+                                    CSplAllowance.BorderWidthLeft = 0;
+                                    CSplAllowance.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CSplAllowance);
+                                }
+
+                                if (TravelAllw != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["TravelAllw"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["TravelAllw"].ToString()));
+                                    totalTravelAllw += forConvert;
+                                    GrandtotalTravelAllw += forConvert;
+                                    PdfPCell CSplAllowance1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CSplAllowance1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CSplAllowance1.BorderWidthTop = 0.4f;
+                                    CSplAllowance1.BorderWidthBottom = 0.4f;
+                                    CSplAllowance1.BorderWidthLeft = 0;
+                                    CSplAllowance1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CSplAllowance1);
+                                }
+
+                                if (PerformanceAllw != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["PerformanceAllw"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["PerformanceAllw"].ToString()));
+                                    totalPerformanceAllw += forConvert;
+                                    GrandtotalPerformanceAllw += forConvert;
+                                    PdfPCell CSplAllowance1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CSplAllowance1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CSplAllowance1.BorderWidthTop = 0.4f;
+                                    CSplAllowance1.BorderWidthBottom = 0.4f;
+                                    CSplAllowance1.BorderWidthLeft = 0;
+                                    CSplAllowance1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CSplAllowance1);
+                                }
+
+                                if (MobileAllw != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["MobileAllw"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["MobileAllw"].ToString()));
+                                    totalMobileAllw += forConvert;
+                                    GrandtotalMobileAllw += forConvert;
+                                    PdfPCell CSplAllowance1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CSplAllowance1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CSplAllowance1.BorderWidthTop = 0.4f;
+                                    CSplAllowance1.BorderWidthBottom = 0.4f;
+                                    CSplAllowance1.BorderWidthLeft = 0;
+                                    CSplAllowance1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CSplAllowance1);
+                                }
+
+                                if (UniformAllw != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["uniformAllowance"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["uniformAllowance"].ToString()));
+                                    totalUniformAllw += forConvert;
+                                    GrandtotalUniformAllw += forConvert;
+                                    PdfPCell CSplAllowance1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CSplAllowance1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CSplAllowance1.BorderWidthTop = 0.4f;
+                                    CSplAllowance1.BorderWidthBottom = 0.4f;
+                                    CSplAllowance1.BorderWidthLeft = 0;
+                                    CSplAllowance1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CSplAllowance1);
+                                }
+
+
+
+                                //14
+                                if (leavewages != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["Leavewages"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["Leavewages"].ToString()));
+                                    totalLw += forConvert;
+                                    GrandtotalLw += forConvert;
+                                    PdfPCell CLa1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CLa1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CLa1.BorderWidthTop = 0.4f;
+                                    CLa1.BorderWidthBottom = 0.4f;
+                                    CLa1.BorderWidthLeft = 0;
+                                    CLa1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CLa1);
+                                }
+                                //15
+                                if (gratuity != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["Gratuity"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["Gratuity"].ToString()));
+                                    totalGratuity += forConvert;
+                                    GrandtotalGratuity += forConvert;
+                                    PdfPCell CGratuity1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CGratuity1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CGratuity1.BorderWidthTop = 0.4f;
+                                    CGratuity1.BorderWidthBottom = 0.4f;
+                                    CGratuity1.BorderWidthLeft = 0;
+                                    CGratuity1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CGratuity1);
+                                }
+
+                                //16
+                                if (bonus != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["bonus"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["bonus"].ToString()));
+                                    totalbonus += forConvert;
+
+                                    Grandtotalbonus += forConvert;
+                                    PdfPCell Cbonus = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    Cbonus.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    Cbonus.BorderWidthTop = 0.4f;
+                                    Cbonus.BorderWidthBottom = 0.4f;
+                                    Cbonus.BorderWidthLeft = 0;
+                                    Cbonus.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(Cbonus);
+                                }
+
+
+
+                                //17
+                                if (nfhs != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["Nfhs"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["Nfhs"].ToString()));
+                                    totalNfhs += forConvert;
+                                    GrandtotalNfhs += forConvert;
+                                    PdfPCell CNfhs1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CNfhs1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CNfhs1.BorderWidthTop = 0.4f;
+                                    CNfhs1.BorderWidthBottom = 0.4f;
+                                    CNfhs1.BorderWidthLeft = 0;
+                                    CNfhs1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CNfhs1);
+                                }
+
+                                //18
+                                if (rc != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["RC"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["RC"].ToString()));
+                                    totalRc += forConvert;
+                                    GrandtotalRc += forConvert;
+                                    PdfPCell CRc1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CRc1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CRc1.BorderWidthTop = 0.4f;
+                                    CRc1.BorderWidthBottom = 0.4f;
+                                    CRc1.BorderWidthLeft = 0;
+                                    CRc1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CRc1);
+                                }
+
+                                //19
+                                if (cs != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["cs"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["cs"].ToString()));
+                                    totalCs += forConvert;
+                                    GrandtotalCs += forConvert;
+                                    PdfPCell CCs1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CCs1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CCs1.BorderWidthTop = 0.4f;
+                                    CCs1.BorderWidthBottom = 0.4f;
+                                    CCs1.BorderWidthLeft = 0;
+                                    CCs1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CCs1);
+                                }
+
+
+                                if (cfoodallowance != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["foodallowance"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["foodallowance"].ToString()));
+                                    totalfoodallowance += forConvert;
+                                    Grandtotalfoodallowance += forConvert;
+                                    PdfPCell CFoodAllw1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CFoodAllw1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CFoodAllw1.BorderWidthTop = 0.4f;
+                                    CFoodAllw1.BorderWidthBottom = 0.4f;
+                                    CFoodAllw1.BorderWidthLeft = 0;
+                                    CFoodAllw1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CFoodAllw1);
+                                }
+
+
+                                if (cmedicalallowance != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["medicalallowance"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["medicalallowance"].ToString()));
+                                    totalmedicalallowance += forConvert;
+                                    Grandtotalmedicalallowance += forConvert;
+                                    PdfPCell CMedicalAllw1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CMedicalAllw1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CMedicalAllw1.BorderWidthTop = 0.4f;
+                                    CMedicalAllw1.BorderWidthBottom = 0.4f;
+                                    CMedicalAllw1.BorderWidthLeft = 0;
+                                    CMedicalAllw1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CMedicalAllw1);
+                                }
+
+                                if (woamt != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["Woamt"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["Woamt"].ToString()));
+                                    totalwoamt += forConvert;
+                                    Grandtotalwoamt += forConvert;
+
+                                    PdfPCell CWoAmt1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CWoAmt1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CWoAmt1.BorderWidthTop = 0.4f;
+                                    CWoAmt1.BorderWidthBottom = 0.4f;
+                                    CWoAmt1.BorderWidthLeft = 0;
+                                    CWoAmt1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CWoAmt1);
+                                }
+
+
+                                if (nhsamt != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["nhsamt"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["nhsamt"].ToString()));
+                                    totalnhsamt += forConvert;
+                                    Grandtotalnhsamt += forConvert;
+
+                                    PdfPCell CNhsAmt1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CNhsAmt1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CNhsAmt1.BorderWidthTop = 0.4f;
+                                    CNhsAmt1.BorderWidthBottom = 0.4f;
+                                    CNhsAmt1.BorderWidthLeft = 0;
+                                    CNhsAmt1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CNhsAmt1);
+                                }
+                                //20
+
+
+                                //21
+
+                                if (ots != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["Duties"].ToString().Trim().Length > 0)
+                                        forConvert = Convert.ToSingle(dt.Rows[i]["Duties"].ToString());
+                                    totalots += forConvert;
+                                    Grandtotalots += forConvert;
+
+                                    PdfPCell COts = new PdfPCell(new Phrase(forConvert.ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    COts.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    COts.BorderWidthTop = 0.4f;
+                                    COts.BorderWidthBottom = 0.4f;
+                                    COts.BorderWidthLeft = 0;
+                                    COts.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(COts);
+                                }
+
+
+
+
+
+                                if (otamt != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["Amount"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["Amount"].ToString()));
+                                    totalotamt += forConvert;
+                                    Grandtotalotamt += forConvert;
+
+                                    PdfPCell CGross1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CGross1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CGross1.BorderWidthTop = 0.4f;
+                                    CGross1.BorderWidthBottom = 0.4f;
+                                    CGross1.BorderWidthLeft = 0;
+                                    CGross1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CGross1);
+                                }
+
+                                if (AttBonus != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["AttBonus"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["AttBonus"].ToString()));
+                                    totalAttBonus += forConvert;
+                                    GrandtotalAttBonus += forConvert;
+
+                                    PdfPCell CGross1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CGross1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CGross1.BorderWidthTop = 0.4f;
+                                    CGross1.BorderWidthBottom = 0.4f;
+                                    CGross1.BorderWidthLeft = 0;
+                                    CGross1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CGross1);
+                                }
+
+                                if (gross != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["Gross"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["Gross"].ToString()));
+                                    totalGross += forConvert;
+                                    GrandtotalGross += forConvert;
+
+                                    PdfPCell CGross1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CGross1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CGross1.BorderWidthTop = 0.4f;
+                                    CGross1.BorderWidthBottom = 0.4f;
+                                    CGross1.BorderWidthLeft = 0;
+                                    CGross1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CGross1);
+                                }
+
+                                //22
+                                if (incentivs != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["Incentivs"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["Incentivs"].ToString()));
+                                    totalIncentivs += forConvert;
+                                    GrandtotalIncentivs += forConvert;
+                                    PdfPCell CIncentivs1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CIncentivs1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CIncentivs1.BorderWidthTop = 0.4f;
+                                    CIncentivs1.BorderWidthBottom = 0.4f;
+                                    CIncentivs1.BorderWidthLeft = 0;
+                                    CIncentivs1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CIncentivs1);
+                                }
+
+                                //23
+                                if (pfonduties != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["Pfonduties"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["Pfonduties"].ToString()));
+                                    totalPFondts += forConvert;
+                                    GrandtotalPFondts += forConvert;
+
+                                    PdfPCell CPF1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CPF1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CPF1.BorderWidthTop = 0.4f;
+                                    CPF1.BorderWidthBottom = 0.4f;
+                                    CPF1.BorderWidthLeft = 0;
+                                    CPF1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CPF1);
+                                }
+
+                                //24
+                                if (esionduties != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["Esionduties"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["Esionduties"].ToString()));
+                                    totalESIondts += forConvert;
+
+                                    GrandtotalESIondts += forConvert;
+
+                                    PdfPCell CESI1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CESI1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CESI1.BorderWidthTop = 0.4f;
+                                    CESI1.BorderWidthBottom = 0.4f;
+                                    CESI1.BorderWidthLeft = 0;
+                                    CESI1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CESI1);
+                                }
+
+                                //25
+                                if (pfonot != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["PFONOT"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["PFONOT"].ToString()));
+                                    totalpfonots += forConvert;
+                                    Grandtotalpfonots += forConvert;
+
+                                    PdfPCell CPFonots = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CPFonots.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CPFonots.BorderWidthTop = 0.4f;
+                                    CPFonots.BorderWidthBottom = 0.4f;
+                                    CPFonots.BorderWidthLeft = 0;
+                                    CPFonots.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CPFonots);
+                                }
+
+                                //26
+                                if (esionot != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["ESIONOT"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["ESIONOT"].ToString()));
+                                    totalesionots += forConvert;
+
+                                    Grandtotalesionots += forConvert;
+
+                                    PdfPCell CESIonots = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CESIonots.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CESIonots.BorderWidthTop = 0.4f;
+                                    CESIonots.BorderWidthBottom = 0.4f;
+                                    CESIonots.BorderWidthLeft = 0;
+                                    CESIonots.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CESIonots);
+                                }
+
+                                //27
+                                if (Pf != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["PFTotal"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["PFTotal"].ToString()));
+                                    totalpf += forConvert;
+                                    Grandtotalpf += forConvert;
+
+                                    PdfPCell CPFonots = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CPFonots.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CPFonots.BorderWidthTop = 0.4f;
+                                    CPFonots.BorderWidthBottom = 0.4f;
+                                    CPFonots.BorderWidthLeft = 0;
+                                    CPFonots.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CPFonots);
+                                }
+
+                                //28
+                                if (Esi != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["ESITotal"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["ESITotal"].ToString()));
+                                    totalesi += forConvert;
+                                    Grandtotalesi += forConvert;
+
+                                    PdfPCell CESIonots = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CESIonots.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CESIonots.BorderWidthTop = 0.4f;
+                                    CESIonots.BorderWidthBottom = 0.4f;
+                                    CESIonots.BorderWidthLeft = 0;
+                                    CESIonots.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CESIonots);
+                                }
+
+                                //29
+                                if (proftax != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["ProfTax"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["ProfTax"].ToString()));
+                                    totalProfTax += forConvert;
+                                    GrandtotalProfTax += forConvert;
+
+                                    PdfPCell CProTax1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CProTax1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CProTax1.BorderWidthTop = 0.4f;
+                                    CProTax1.BorderWidthBottom = 0.4f;
+                                    CProTax1.BorderWidthLeft = 0;
+                                    CProTax1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CProTax1);
+                                }
+
+                                //30
+                                if (salAdvDed != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["SalAdvDed"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["SalAdvDed"].ToString()));
+                                    totalSalAdv += forConvert;
+                                    GrandtotalSalAdv += forConvert;
+
+                                    PdfPCell CSalAdv1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CSalAdv1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CSalAdv1.BorderWidthTop = 0.4f;
+                                    CSalAdv1.BorderWidthBottom = 0.4f;
+                                    CSalAdv1.BorderWidthLeft = 0;
+                                    CSalAdv1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CSalAdv1);
+                                }
+
+                                if (ATMDed != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["ATMDed"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["ATMDed"].ToString()));
+                                    totalATMDed += forConvert;
+                                    GrandtotalATMDed += forConvert;
+
+                                    PdfPCell CSalAdv1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CSalAdv1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CSalAdv1.BorderWidthTop = 0.4f;
+                                    CSalAdv1.BorderWidthBottom = 0.4f;
+                                    CSalAdv1.BorderWidthLeft = 0;
+                                    CSalAdv1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CSalAdv1);
+                                }
+                                if (IDCardDed != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["IDCardDed"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["IDCardDed"].ToString()));
+                                    totalIDCardDed += forConvert;
+                                    GrandtotalIDCardDed += forConvert;
+
+                                    PdfPCell CSalAdv1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CSalAdv1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CSalAdv1.BorderWidthTop = 0.4f;
+                                    CSalAdv1.BorderWidthBottom = 0.4f;
+                                    CSalAdv1.BorderWidthLeft = 0;
+                                    CSalAdv1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CSalAdv1);
+                                }
+
+                                if (Extra != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["Extra"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["Extra"].ToString()));
+                                    totalExtra += forConvert;
+                                    GrandtotalExtra += forConvert;
+
+                                    PdfPCell CSalAdv1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CSalAdv1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CSalAdv1.BorderWidthTop = 0.4f;
+                                    CSalAdv1.BorderWidthBottom = 0.4f;
+                                    CSalAdv1.BorderWidthLeft = 0;
+                                    CSalAdv1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CSalAdv1);
+                                }
+
+                                //31
+                                if (uniformDed != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["UniformDed"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["UniformDed"].ToString()));
+                                    totalUniforDed += forConvert;
+                                    GrandtotalUniforDed += forConvert;
+
+                                    PdfPCell CUnifDed1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CUnifDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CUnifDed1.BorderWidthTop = 0.4f;
+                                    CUnifDed1.BorderWidthBottom = 0.4f;
+                                    CUnifDed1.BorderWidthLeft = 0;
+                                    CUnifDed1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CUnifDed1);
+                                }
+
+
+                                if (SecDepDedn != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["SecDepDedn"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["SecDepDedn"].ToString()));
+                                    totalSecDepDedn += forConvert;
+                                    GrandtotalSecDepDedn += forConvert;
+
+                                    PdfPCell CSecDepDedn1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CSecDepDedn1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CSecDepDedn1.BorderWidthTop = 0.4f;
+                                    CSecDepDedn1.BorderWidthBottom = 0.4f;
+                                    CSecDepDedn1.BorderWidthLeft = 0;
+                                    CSecDepDedn1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CSecDepDedn1);
+                                }
+
+                                if (LoanDed != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["LoanDed"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["LoanDed"].ToString()));
+                                    totalLoanDed += forConvert;
+                                    GrandtotalLoanDedn += forConvert;
+
+                                    PdfPCell CLoanDed1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CLoanDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CLoanDed1.BorderWidthTop = 0.4f;
+                                    CLoanDed1.BorderWidthBottom = 0.4f;
+                                    CLoanDed1.BorderWidthLeft = 0;
+                                    CLoanDed1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CLoanDed1);
+                                }
+
+
+                                if (GenDedn != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["GenDedn"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["GenDedn"].ToString()));
+                                    totalGenDedn += forConvert;
+                                    GrandtotalGenDedn += forConvert;
+
+                                    PdfPCell CGenDedn1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CGenDedn1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CGenDedn1.BorderWidthTop = 0.4f;
+                                    CGenDedn1.BorderWidthBottom = 0.4f;
+                                    CGenDedn1.BorderWidthLeft = 0;
+                                    CGenDedn1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CGenDedn1);
+                                }
+
+                                if (AdvDed != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["AdvDed"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["AdvDed"].ToString()));
+                                    totalAdvDed += forConvert;
+                                    GrandtotalAdvDed += forConvert;
+
+                                    PdfPCell CADVDed1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CADVDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CADVDed1.BorderWidthTop = 0.4f;
+                                    CADVDed1.BorderWidthBottom = 0.4f;
+                                    CADVDed1.BorderWidthLeft = 0;
+                                    CADVDed1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CADVDed1);
+                                }
+
+
+                                if (WCDed != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["WCDed"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["WCDed"].ToString()));
+                                    totalWCDed += forConvert;
+                                    GrandtotalWCDed += forConvert;
+
+                                    PdfPCell CWCDedn1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CWCDedn1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CWCDedn1.BorderWidthTop = 0.4f;
+                                    CWCDedn1.BorderWidthBottom = 0.4f;
+                                    CWCDedn1.BorderWidthLeft = 0;
+                                    CWCDedn1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CWCDedn1);
+                                }
+
+                                //32
+                                if (otherDed != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["OtherDed"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["OtherDed"].ToString()));
+                                    totalOtherdedn += forConvert;
+                                    GrandtotalOtherdedn += forConvert;
+
+                                    PdfPCell COtherDed1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    COtherDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    COtherDed1.BorderWidthTop = 0.4f;
+                                    COtherDed1.BorderWidthBottom = 0.4f;
+                                    COtherDed1.BorderWidthLeft = 0;
+                                    COtherDed1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(COtherDed1);
+                                }
+
+
+
+                                if (Adv1 != 0)
+                                {
+                                    if (dt.Rows[i]["adv1"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["adv1"].ToString()));
+                                    totalAdv1 += forConvert;
+                                    GrandtotalAdv1 += forConvert;
+
+                                    PdfPCell CAdv11 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CAdv11.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CAdv11.BorderWidthTop = 0.4f;
+                                    CAdv11.BorderWidthBottom = 0.4f;
+                                    CAdv11.BorderWidthLeft = 0;
+                                    CAdv11.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CAdv11);
+                                }
+
+                                if (Adv2 != 0)
+                                {
+                                    if (dt.Rows[i]["Adv2"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["Adv2"].ToString()));
+                                    totalAdv2 += forConvert;
+                                    GrandtotalAdv2 += forConvert;
+
+                                    PdfPCell CAdv12 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CAdv12.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CAdv12.BorderWidthTop = 0.4f;
+                                    CAdv12.BorderWidthBottom = 0.4f;
+                                    CAdv12.BorderWidthLeft = 0;
+                                    CAdv12.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CAdv12);
+                                }
+
+
+                                //33
+                                if (canteenAdv != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["CanteenAdv"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["CanteenAdv"].ToString()));
+                                    totalCanteenAdv += forConvert;
+                                    GrandtotalCanteenAdv += forConvert;
+
+                                    PdfPCell CCanteended = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CCanteended.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CCanteended.BorderWidthTop = 0.4f;
+                                    CCanteended.BorderWidthBottom = 0.4f;
+                                    CCanteended.BorderWidthLeft = 0;
+                                    CCanteended.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CCanteended);
+                                }
+
+
+                                if (Rent != 0)
+                                {
+                                    if (dt.Rows[i]["RentDed"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["RentDed"].ToString()));
+                                    totalRent += forConvert;
+                                    GrandtotalRent += forConvert;
+
+                                    PdfPCell CRent1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CRent1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CRent1.BorderWidthTop = 0.4f;
+                                    CRent1.BorderWidthBottom = 0.4f;
+                                    CRent1.BorderWidthLeft = 0;
+                                    CRent1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CRent1);
+                                }
+
+                                //34
+                                if (penalty != 0)
+                                {
+                                    if (dt.Rows[i]["Penalty"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["Penalty"].ToString()));
+                                    totalPenalty += forConvert;
+                                    GrandtotalPenalty += forConvert;
+
+                                    PdfPCell CPenalty1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CPenalty1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CPenalty1.BorderWidthTop = 0.4f;
+                                    CPenalty1.BorderWidthBottom = 0.4f;
+                                    CPenalty1.BorderWidthLeft = 0;
+                                    CPenalty1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CPenalty1);
+                                }
+
+
+
+
+                                if (owf != 0)
+                                {
+                                    if (dt.Rows[i]["owf"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["owf"].ToString()));
+                                    totalowf += forConvert;
+                                    Grandtotalowf += forConvert;
+
+                                    PdfPCell Cowf1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    Cowf1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    Cowf1.BorderWidthTop = 0.4f;
+                                    Cowf1.BorderWidthBottom = 0.4f;
+                                    Cowf1.BorderWidthLeft = 0;
+                                    Cowf1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(Cowf1);
+                                }
+
+
+                                if (Bgvdedi != 0)
+                                {
+                                    if (dt.Rows[i]["BGVDed"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["BGVDed"].ToString()));
+                                    totalBgvded += forConvert;
+                                    GrandtotalBgvded += forConvert;
+
+                                    PdfPCell Cowf1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    Cowf1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    Cowf1.BorderWidthTop = 0.4f;
+                                    Cowf1.BorderWidthBottom = 0.4f;
+                                    Cowf1.BorderWidthLeft = 0;
+                                    Cowf1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(Cowf1);
+                                }
+
+                                if (Medfitdedi != 0)
+                                {
+                                    if (dt.Rows[i]["MedFitDed"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["MedFitDed"].ToString()));
+                                    totalMedfitded += forConvert;
+                                    GrandtotalMedfitded += forConvert;
+
+                                    PdfPCell Cowf1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    Cowf1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    Cowf1.BorderWidthTop = 0.4f;
+                                    Cowf1.BorderWidthBottom = 0.4f;
+                                    Cowf1.BorderWidthLeft = 0;
+                                    Cowf1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(Cowf1);
+                                }
+
+                                if (advances != 0)
+                                {
+                                    if (dt.Rows[i]["advances"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["advances"].ToString()));
+                                    totalAdvances += forConvert;
+                                    GrandtotalAdvances += forConvert;
+
+                                    PdfPCell Cadvances1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    Cadvances1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    Cadvances1.BorderWidthTop = 0.4f;
+                                    Cadvances1.BorderWidthBottom = 0.4f;
+                                    Cadvances1.BorderWidthLeft = 0;
+                                    Cadvances1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(Cadvances1);
+                                }
+
+                                if (ReliefFund != 0)
+                                {
+                                    if (dt.Rows[i]["ReliefFund"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["ReliefFund"].ToString()));
+                                    totalReliefFund += forConvert;
+                                    GrandtotalReliefFund += forConvert;
+
+                                    PdfPCell CReliefFund1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CReliefFund1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CReliefFund1.BorderWidthTop = 0.4f;
+                                    CReliefFund1.BorderWidthBottom = 0.4f;
+                                    CReliefFund1.BorderWidthLeft = 0;
+                                    CReliefFund1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CReliefFund1);
+                                }
+
+
+
+
+                                //if (advdue != 0)
+                                //{
+                                //    forConvert = Balance;
+
+                                //    totalAmountdue += forConvert;
+                                //    GrandtotalAmountdue += forConvert;
+
+                                //    PdfPCell CTotDed1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                //    CTotDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                //    CTotDed1.Border = 13;
+                                //    Secondtable.AddCell(CTotDed1);//OtherDed,Eps.Gross,Eps.Deductions,Eps.ActualAmount
+                                //}
+
+                                //35
+                                if (totalDeductions != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["Totaldeduct"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["Totaldeduct"].ToString()));
+                                    totalDed += forConvert;
+                                    GrandtotalDed += forConvert;
+
+                                    PdfPCell CTotDed1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CTotDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CTotDed1.BorderWidthTop = 0.4f;
+                                    CTotDed1.BorderWidthBottom = 0.4f;
+                                    CTotDed1.BorderWidthLeft = 0;
+                                    CTotDed1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CTotDed1);//OtherDed,Eps.Gross,Eps.Deductions,Eps.ActualAmount
+                                }
+
+                                //36
+                                if (netpay != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["NetAmount"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["NetAmount"].ToString()));
+                                    if (forConvert <= 0)
+                                    {
+                                        forConvert = 0;
+                                    }
+                                    totalNetpay += forConvert;
+                                    GrandtotalNetpay += forConvert;
+                                    PdfPCell CNetPay1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CNetPay1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CNetPay1.BorderWidthTop = 0.4f;
+                                    CNetPay1.BorderWidthBottom = 0.4f;
+                                    CNetPay1.BorderWidthLeft = 0;
+                                    CNetPay1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CNetPay1);
+                                }
+
+                                //37
+                                //string EmpBankAcNo = dt.Rows[i]["EmpBankAcNo"].ToString();
+                                //string empbankname = dt.Rows[i]["empbankname"].ToString();
+                                //PdfPCell CSignature1 = new PdfPCell(new Phrase(EmpBankAcNo + "\n" + "Bank : " + empbankname, FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                //CSignature1.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                                //CSignature1.Border = 13;
+                                //CSignature1.MinimumHeight = 25;
+                                //Secondtable.AddCell(CSignature1);
+
+                                PdfPCell CSignature1 = new PdfPCell(new Phrase(dt.Rows[i]["Remarks"].ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                CSignature1.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                                CSignature1.BorderWidthTop = 0.4f;
+                                CSignature1.BorderWidthBottom = 0.4f;
+                                CSignature1.BorderWidthLeft = 0;
+                                CSignature1.BorderWidthRight = 0.4f;
+                                CSignature1.MinimumHeight = 25;
+                                Secondtable.AddCell(CSignature1);
+
+
+                            }
+
+
+                        }
+                        #endregion
+
+                        #region Table Total values
+
+                        SecondtableFooter = new PdfPTable(tableCells);
+                        if (tableCells > 20)
+                        {
+                            SecondtableFooter.TotalWidth = 930f;
+                        }
+                        else
+                        {
+                            SecondtableFooter.TotalWidth = 930f;
+                        }
+                        SecondtableFooter.LockedWidth = true;
+                        float[] SecondFooterWidth = new float[] { };
+
+                        #region Table Cells
+
+                        if (tableCells == 47)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 46)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 45)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 44)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 43)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 42)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 41)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 40)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 39)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 38)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 37)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 36)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 35)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 34)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 33)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 32)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 31)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 30)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 29)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 28)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 27)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 26)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 25)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 24)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 23)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 22)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 21)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 20)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 19)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 18)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 17)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 16)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 15)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 14)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 13)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 12)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 11)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 10)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 9)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 2f };
+                        }
+                        if (tableCells == 8)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 2f };
+                        }
+
+                        if (tableCells == 7)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f };
+                        }
+
+                        if (tableCells == 6)
+                        {
+                            SecondFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 2f };
+                        }
+                        #endregion
+
+                        SecondtableFooter.SetWidths(SecondFooterWidth);
+
+                        //1
+                        PdfPCell FCSNo = new PdfPCell(new Phrase("", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                        FCSNo.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        FCSNo.Border = 15;
+                        SecondtableFooter.AddCell(FCSNo);
+                        //2
+                        PdfPCell FCEmpId1 = new PdfPCell(new Phrase("", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                        FCEmpId1.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        FCEmpId1.Border = 15;
+                        SecondtableFooter.AddCell(FCEmpId1);
+                        //3
+                        PdfPCell FCEmpName1 = new PdfPCell(new Phrase("", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                        FCEmpName1.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        FCEmpName1.Border = 15;
+                        SecondtableFooter.AddCell(FCEmpName1);
+                        FCEmpName1 = new PdfPCell(new Phrase("", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                        FCEmpName1.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        FCEmpName1.Border = 15;
+                        SecondtableFooter.AddCell(FCEmpName1);
+                        FCEmpName1 = new PdfPCell(new Phrase("", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                        FCEmpName1.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        FCEmpName1.Border = 15;
+                        SecondtableFooter.AddCell(FCEmpName1);
+                        //4
+                        PdfPCell FCEmpDesgn = new PdfPCell(new Phrase(" Total : ", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                        FCEmpDesgn.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        FCEmpDesgn.Border = 15;
+                        FCEmpDesgn.Colspan = 0;
+                        SecondtableFooter.AddCell(FCEmpDesgn);
+
+                        //6A
+                        if (srate != 0)
+                        {
+                            PdfPCell FCSalrate = new PdfPCell(new Phrase(totalsrate.ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCSalrate.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCSalrate.Border = 15;
+                            SecondtableFooter.AddCell(FCSalrate);
+                        }
+
+
+                        //5
+                        if (dts != 0)
+                        {
+                            PdfPCell FCNoOfDuties = new PdfPCell(new Phrase(totalDuties.ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCNoOfDuties.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCNoOfDuties.Border = 15;
+                            SecondtableFooter.AddCell(FCNoOfDuties);
+                        }
+
+                        if (wo != 0)
+                        {
+                            PdfPCell FCwos = new PdfPCell(new Phrase(totalwos.ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCwos.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCwos.Border = 15;
+                            SecondtableFooter.AddCell(FCwos);
+                        }
+
+                        if (nhs != 0)
+                        {
+                            PdfPCell FCnhs = new PdfPCell(new Phrase(totalnhs.ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCnhs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCnhs.Border = 15;
+                            SecondtableFooter.AddCell(FCnhs);
+                        }
+
+                        //6
+
+
+                        //7
+                        if (basic != 0)
+                        {
+                            PdfPCell FCBasic1 = new PdfPCell(new Phrase(totalBasic.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCBasic1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCBasic1.Border = 15;
+                            SecondtableFooter.AddCell(FCBasic1);
+                        }
+
+
+                        //8
+                        if (da != 0)
+                        {
+                            PdfPCell FDa = new PdfPCell(new Phrase(totalDA.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FDa.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FDa.Border = 15;
+                            SecondtableFooter.AddCell(FDa);
+                        }
+
+
+                        //9
+                        if (hra != 0)
+                        {
+
+                            PdfPCell FCHRA1 = new PdfPCell(new Phrase(totalHRA.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCHRA1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCHRA1.Border = 15;
+                            SecondtableFooter.AddCell(FCHRA1);
+                        }
+
+                        //10
+                        if (cca != 0)
+                        {
+                            PdfPCell FCcca = new PdfPCell(new Phrase(totalCCA.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCcca.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCcca.Border = 15;
+                            SecondtableFooter.AddCell(FCcca);
+                        }
+
+                        //11
+                        if (conveyance != 0)
+                        {
+                            PdfPCell FCConveyance = new PdfPCell(new Phrase(totalConveyance.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCConveyance.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCConveyance.Border = 15;
+                            SecondtableFooter.AddCell(FCConveyance);
+                        }
+
+
+                        //12
+                        if (washallowance != 0)
+                        {
+                            PdfPCell FCWa = new PdfPCell(new Phrase(totalWA.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCWa.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCWa.Border = 15;
+                            SecondtableFooter.AddCell(FCWa);
+                        }
+
+                        //13
+                        if (otherallowance != 0)
+                        {
+                            PdfPCell FCOa = new PdfPCell(new Phrase(totalOA.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCOa.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCOa.Border = 15;
+                            SecondtableFooter.AddCell(FCOa);
+                        }
+
+                        if (SplAllowance != 0)
+                        {
+                            PdfPCell FCSplAllowance = new PdfPCell(new Phrase(totalSplAllowance.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCSplAllowance.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCSplAllowance.Border = 15;
+                            SecondtableFooter.AddCell(FCSplAllowance);
+                        }
+
+                        if (TravelAllw != 0)
+                        {
+                            PdfPCell Fsplallw = new PdfPCell(new Phrase(totalTravelAllw.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Fsplallw.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            Fsplallw.Border = 15;
+                            SecondtableFooter.AddCell(Fsplallw);
+                        }
+
+                        if (PerformanceAllw != 0)
+                        {
+                            PdfPCell Fsplallw = new PdfPCell(new Phrase(totalPerformanceAllw.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Fsplallw.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            Fsplallw.Border = 15;
+                            SecondtableFooter.AddCell(Fsplallw);
+                        }
+
+                        if (MobileAllw != 0)
+                        {
+                            PdfPCell Fsplallw = new PdfPCell(new Phrase(totalMobileAllw.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Fsplallw.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            Fsplallw.Border = 15;
+                            SecondtableFooter.AddCell(Fsplallw);
+                        }
+
+
+                        if (UniformAllw != 0)
+                        {
+                            PdfPCell Fsplallw = new PdfPCell(new Phrase(totalUniformAllw.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Fsplallw.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            Fsplallw.Border = 15;
+                            SecondtableFooter.AddCell(Fsplallw);
+                        }
+                        //14
+                        if (leavewages != 0)
+                        {
+                            PdfPCell FLa = new PdfPCell(new Phrase(totalLw.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FLa.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FLa.Border = 15;
+                            SecondtableFooter.AddCell(FLa);
+                        }
+
+                        //15
+                        if (gratuity != 0)
+                        {
+                            PdfPCell FGratuity = new PdfPCell(new Phrase(totalGratuity.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FGratuity.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FGratuity.Border = 15;
+                            SecondtableFooter.AddCell(FGratuity);
+                        }
+
+                        //16
+                        if (bonus != 0)
+                        {
+                            PdfPCell Fbonus = new PdfPCell(new Phrase(totalbonus.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Fbonus.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            Fbonus.Border = 15;
+                            SecondtableFooter.AddCell(Fbonus);
+                        }
+
+                        //17
+                        if (nfhs != 0)
+                        {
+                            PdfPCell FNfhs = new PdfPCell(new Phrase(totalNfhs.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FNfhs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FNfhs.Border = 15;
+                            SecondtableFooter.AddCell(FNfhs);
+                        }
+
+                        //18
+                        if (rc != 0)
+                        {
+                            PdfPCell FRc = new PdfPCell(new Phrase(totalRc.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FRc.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FRc.Border = 15;
+                            SecondtableFooter.AddCell(FRc);
+                        }
+
+                        //19
+                        if (cs != 0)
+                        {
+                            PdfPCell FCs = new PdfPCell(new Phrase(totalCs.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCs.Border = 15;
+                            SecondtableFooter.AddCell(FCs);
+                        }
+
+                        if (cfoodallowance != 0)
+                        {
+                            PdfPCell FFoodallw = new PdfPCell(new Phrase(totalfoodallowance.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FFoodallw.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FFoodallw.Border = 15;
+                            SecondtableFooter.AddCell(FFoodallw);
+                        }
+
+
+                        if (cmedicalallowance != 0)
+                        {
+                            PdfPCell FMedicalallw = new PdfPCell(new Phrase(totalmedicalallowance.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FMedicalallw.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FMedicalallw.Border = 15;
+                            SecondtableFooter.AddCell(FMedicalallw);
+                        }
+                        if (woamt != 0)
+                        {
+                            PdfPCell FCWoamt = new PdfPCell(new Phrase(totalwoamt.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCWoamt.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCWoamt.Border = 15;
+                            SecondtableFooter.AddCell(FCWoamt);
+                        }
+
+
+                        if (nhsamt != 0)
+                        {
+                            PdfPCell FCnhsamt = new PdfPCell(new Phrase(totalnhsamt.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCnhsamt.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCnhsamt.Border = 15;
+                            SecondtableFooter.AddCell(FCnhsamt);
+                        }
+
+                        //20
+
+
+                        //21
+
+
+                        if (ots != 0)
+                        {
+                            PdfPCell FCots = new PdfPCell(new Phrase(totalots.ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCots.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCots.Border = 15;
+                            SecondtableFooter.AddCell(FCots);
+                        }
+
+
+
+                        if (otamt != 0)
+                        {
+                            PdfPCell FCotamt = new PdfPCell(new Phrase(totalotamt.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCotamt.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCotamt.Border = 15;
+                            SecondtableFooter.AddCell(FCotamt);
+                        }
+
+                        if (AttBonus != 0)
+                        {
+                            PdfPCell FCotamt = new PdfPCell(new Phrase(totalAttBonus.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCotamt.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCotamt.Border = 15;
+                            SecondtableFooter.AddCell(FCotamt);
+                        }
+
+                        if (gross != 0)
+                        {
+                            PdfPCell FCGross1 = new PdfPCell(new Phrase(totalGross.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCGross1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCGross1.Border = 15;
+                            SecondtableFooter.AddCell(FCGross1);
+                        }
+
+                        //22
+                        if (incentivs != 0)
+                        {
+                            PdfPCell FIncentivs = new PdfPCell(new Phrase(totalIncentivs.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FIncentivs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FIncentivs.Border = 15;
+                            SecondtableFooter.AddCell(FIncentivs);
+                        }
+
+
+                        //23
+                        if (pfonduties != 0)
+                        {
+                            PdfPCell FCPF1 = new PdfPCell(new Phrase(totalPFondts.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCPF1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCPF1.Border = 15;
+                            SecondtableFooter.AddCell(FCPF1);
+                        }
+
+                        //24
+                        if (esionduties != 0)
+                        {
+                            PdfPCell FCESI1 = new PdfPCell(new Phrase(totalESIondts.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCESI1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCESI1.Border = 15;
+                            SecondtableFooter.AddCell(FCESI1);
+                        }
+
+
+                        //25
+                        if (pfonot != 0)
+                        {
+                            PdfPCell FCPFonot = new PdfPCell(new Phrase(totalpfonots.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCPFonot.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCPFonot.Border = 15;
+                            SecondtableFooter.AddCell(FCPFonot);
+                        }
+
+                        //26
+                        if (esionot != 0)
+                        {
+                            PdfPCell FCESIonot = new PdfPCell(new Phrase(totalesionots.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCESIonot.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCESIonot.Border = 15;
+                            SecondtableFooter.AddCell(FCESIonot);
+                        }
+
+                        //27
+                        if (Pf != 0)
+                        {
+                            PdfPCell FCPF = new PdfPCell(new Phrase(totalpf.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCPF.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCPF.Border = 15;
+                            SecondtableFooter.AddCell(FCPF);
+                        }
+
+                        //28
+                        if (Esi != 0)
+                        {
+                            PdfPCell FCES = new PdfPCell(new Phrase(totalesi.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCES.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCES.Border = 15;
+                            SecondtableFooter.AddCell(FCES);
+                        }
+
+                        //29
+                        if (proftax != 0)
+                        {
+                            PdfPCell FCProTax1 = new PdfPCell(new Phrase(totalProfTax.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCProTax1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCProTax1.Border = 15;
+                            SecondtableFooter.AddCell(FCProTax1);
+                        }
+
+                        //30
+                        if (salAdvDed != 0)
+                        {
+                            PdfPCell FCSalAdv1 = new PdfPCell(new Phrase(totalSalAdv.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCSalAdv1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCSalAdv1.Border = 15;
+                            SecondtableFooter.AddCell(FCSalAdv1);
+                        }
+                        if (ATMDed != 0)
+                        {
+                            PdfPCell FCSalAdv1 = new PdfPCell(new Phrase(totalATMDed.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCSalAdv1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCSalAdv1.Border = 15;
+                            SecondtableFooter.AddCell(FCSalAdv1);
+                        }
+                        if (IDCardDed != 0)
+                        {
+                            PdfPCell FCSalAdv1 = new PdfPCell(new Phrase(totalIDCardDed.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCSalAdv1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCSalAdv1.Border = 15;
+                            SecondtableFooter.AddCell(FCSalAdv1);
+                        }
+
+
+                        if (Extra != 0)
+                        {
+                            PdfPCell FCSalAdv1 = new PdfPCell(new Phrase(totalExtra.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCSalAdv1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCSalAdv1.Border = 15;
+                            SecondtableFooter.AddCell(FCSalAdv1);
+                        }
+
+                        //31
+                        if (uniformDed != 0)
+                        {
+                            PdfPCell FCUnifDed1 = new PdfPCell(new Phrase(totalUniforDed.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCUnifDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCUnifDed1.Border = 15;
+                            SecondtableFooter.AddCell(FCUnifDed1);
+                        }
+
+                        if (SecDepDedn != 0)
+                        {
+                            PdfPCell FCSecDepDedn1 = new PdfPCell(new Phrase(totalSecDepDedn.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCSecDepDedn1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCSecDepDedn1.Border = 15;
+                            SecondtableFooter.AddCell(FCSecDepDedn1);
+                        }
+
+
+                        if (LoanDed != 0)
+                        {
+                            PdfPCell FCLoanDed1 = new PdfPCell(new Phrase(totalLoanDed.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCLoanDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCLoanDed1.Border = 15;
+                            SecondtableFooter.AddCell(FCLoanDed1);
+                        }
+
+                        if (GenDedn != 0)
+                        {
+                            PdfPCell FCGenDedn1 = new PdfPCell(new Phrase(totalGenDedn.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCGenDedn1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCGenDedn1.Border = 15;
+                            SecondtableFooter.AddCell(FCGenDedn1);
+                        }
+                        if (AdvDed != 0)
+                        {
+                            PdfPCell FCAdvDed1 = new PdfPCell(new Phrase(totalAdvDed.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCAdvDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCAdvDed1.Border = 15;
+                            SecondtableFooter.AddCell(FCAdvDed1);
+                        }
+                        if (WCDed != 0)
+                        {
+                            PdfPCell FCwcDed1 = new PdfPCell(new Phrase(totalWCDed.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCwcDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCwcDed1.Border = 15;
+                            SecondtableFooter.AddCell(FCwcDed1);
+                        }
+                        //32
+                        if (otherDed != 0)
+                        {
+                            PdfPCell FCOtherDed1 = new PdfPCell(new Phrase(totalOtherdedn.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCOtherDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCOtherDed1.Border = 15;
+                            SecondtableFooter.AddCell(FCOtherDed1);
+                        }
+
+                        if (Adv1 != 0)
+                        {
+                            PdfPCell FAdv1 = new PdfPCell(new Phrase(totalAdv1.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FAdv1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FAdv1.Border = 15;
+                            SecondtableFooter.AddCell(FAdv1);
+                        }
+
+
+                        if (Adv2 != 0)
+                        {
+                            PdfPCell FAdv2 = new PdfPCell(new Phrase(totalAdv2.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FAdv2.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FAdv2.Border = 15;
+                            SecondtableFooter.AddCell(FAdv2);
+                        }
+
+                        //33
+                        if (canteenAdv != 0)
+                        {
+                            PdfPCell FCCanteended = new PdfPCell(new Phrase(totalCanteenAdv.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCCanteended.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCCanteended.Border = 15;
+                            SecondtableFooter.AddCell(FCCanteended);
+                        }
+
+                        if (Rent != 0)
+                        {
+                            PdfPCell FRent = new PdfPCell(new Phrase(totalRent.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FRent.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FRent.Border = 15;
+                            SecondtableFooter.AddCell(FRent);
+                        }
+
+                        //34
+                        if (penalty != 0)
+                        {
+                            PdfPCell FPenalty = new PdfPCell(new Phrase(totalPenalty.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FPenalty.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FPenalty.Border = 15;
+                            SecondtableFooter.AddCell(FPenalty);
+                        }
+
+
+
+
+
+                        if (owf != 0)
+                        {
+                            PdfPCell Fowf = new PdfPCell(new Phrase(totalowf.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Fowf.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            Fowf.Border = 15;
+                            SecondtableFooter.AddCell(Fowf);
+                        }
+
+                        if (Bgvdedi != 0)
+                        {
+                            PdfPCell Fbgv = new PdfPCell(new Phrase(totalBgvded.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Fbgv.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            Fbgv.Border = 15;
+                            SecondtableFooter.AddCell(Fbgv);
+                        }
+
+                        if (Medfitdedi != 0)
+                        {
+                            PdfPCell Fmedfit = new PdfPCell(new Phrase(totalMedfitded.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Fmedfit.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            Fmedfit.Border = 15;
+                            SecondtableFooter.AddCell(Fmedfit);
+                        }
+
+                        if (advances != 0)
+                        {
+                            PdfPCell Fadvances = new PdfPCell(new Phrase(totalAdvances.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Fadvances.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            Fadvances.Border = 15;
+                            SecondtableFooter.AddCell(Fadvances);
+                        }
+
+                        if (ReliefFund != 0)
+                        {
+                            PdfPCell FReliefFund = new PdfPCell(new Phrase(totalReliefFund.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FReliefFund.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FReliefFund.Border = 15;
+                            SecondtableFooter.AddCell(FReliefFund);
+                        }
+
+
+                        //35
+                        //if (advdue != 0)
+                        //{
+                        //    PdfPCell FCTotDed1 = new PdfPCell(new Phrase(totalAmountdue.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                        //    FCTotDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                        //    FCTotDed1.Border = 15;
+                        //    SecondtableFooter.AddCell(FCTotDed1);//OtherDed,Eps.Gross,Eps.Deductions,Eps.ActualAmount
+                        //}
+
+
+                        //35
+                        if (totalDeductions != 0)
+                        {
+                            PdfPCell FCTotDed1 = new PdfPCell(new Phrase(totalDed.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCTotDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCTotDed1.Border = 15;
+                            SecondtableFooter.AddCell(FCTotDed1);//OtherDed,Eps.Gross,Eps.Deductions,Eps.ActualAmount
+                        }
+
+                        //36
+                        if (netpay != 0)
+                        {
+                            PdfPCell FCNetPay1 = new PdfPCell(new Phrase(totalNetpay.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCNetPay1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCNetPay1.Border = 15;
+                            //FCNetPay1.Colspan = 2;
+                            SecondtableFooter.AddCell(FCNetPay1);
+                        }
+
+                        //37
+                        PdfPCell FCSignature1 = new PdfPCell(new Phrase(" ", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                        FCSignature1.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        FCSignature1.Border = 15;
+                        //FCSignature1.MinimumHeight = 25;
+                        SecondtableFooter.AddCell(FCSignature1);
+
+
+
+                        #endregion
+
+                        SecondtableGrandtotalFooter = new PdfPTable(tableCells);
+                        if (tableCells > 20)
+                        {
+                            SecondtableGrandtotalFooter.TotalWidth = 930f;
+                        }
+                        else
+                        {
+                            SecondtableGrandtotalFooter.TotalWidth = 930f;
+                        }
+                        SecondtableGrandtotalFooter.LockedWidth = true;
+                        float[] SecondGrandtotalFooterWidth = new float[] { };
+                        #region Table Cells
+                        if (tableCells == 47)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 46)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 45)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 44)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 43)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 42)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 41)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 40)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 39)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 38)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 37)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 36)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 35)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 34)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 33)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 32)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 31)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 30)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 29)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 28)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 27)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 26)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 25)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 24)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 23)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 22)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 21)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 20)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 19)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 18)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 17)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 16)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 15)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 14)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 13)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 12)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 11)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 10)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 9)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 2f };
+                        }
+                        if (tableCells == 8)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 2f };
+                        }
+
+                        if (tableCells == 7)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f };
+                        }
+
+                        if (tableCells == 6)
+                        {
+                            SecondGrandtotalFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 2f };
+                        }
+                        #endregion
+                        SecondtableGrandtotalFooter.SetWidths(SecondGrandtotalFooterWidth);
+
+                        SecondtablecheckbyFooter = new PdfPTable(tableCells);
+                        if (tableCells > 20)
+                        {
+                            SecondtablecheckbyFooter.TotalWidth = 930f;
+                        }
+                        else
+                        {
+                            SecondtablecheckbyFooter.TotalWidth = 930f;
+                        }
+                        SecondtablecheckbyFooter.LockedWidth = true;
+                        float[] SecondcheckbyFooterWidth = new float[] { };
+
+                        #region Table Cells
+                        if (tableCells == 47)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 46)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 45)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 44)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 43)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 42)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 41)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 40)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 39)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 38)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 37)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 36)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 35)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+
+                        if (tableCells == 34)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 33)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 32)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.5f, 4.8f, 3f, 2.5f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 31)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 30)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 29)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 28)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 27)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 26)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 25)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 24)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 23)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 22)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 21)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 20)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.8f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 19)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 18)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 17)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 16)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 15)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 14)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 13)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 12)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 11)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 10)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 2.5f, 2f };
+                        }
+                        if (tableCells == 9)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 1.5f, 2f };
+                        }
+                        if (tableCells == 8)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f, 2f };
+                        }
+
+                        if (tableCells == 7)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 1.5f, 2f };
+                        }
+
+                        if (tableCells == 6)
+                        {
+                            SecondcheckbyFooterWidth = new float[] { 1.5f, 3.4f, 5.8f, 3f, 3.3f, 2f };
+                        }
+                        #endregion
+
+                        SecondtablecheckbyFooter.SetWidths(SecondcheckbyFooterWidth);
+
+                        #region Table   Grand   Total  Footer
+
+                        //1
+                        PdfPCell GFCSNo = new PdfPCell(new Phrase("", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                        GFCSNo.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        GFCSNo.Border = 15;
+                        SecondtablecheckbyFooter.AddCell(GFCSNo);
+
+                        //2
+                        PdfPCell GFCEmpId1 = new PdfPCell(new Phrase("", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                        GFCEmpId1.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        GFCEmpId1.Border = 15;
+                        SecondtablecheckbyFooter.AddCell(GFCEmpId1);
+
+                        //3
+                        PdfPCell GFCEmpName1 = new PdfPCell(new Phrase("Grand  Total: ", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                        GFCEmpName1.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        GFCEmpName1.Border = 15;
+                        SecondtablecheckbyFooter.AddCell(GFCEmpName1);
+
+
+                        GFCEmpName1 = new PdfPCell(new Phrase("", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                        GFCEmpName1.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        GFCEmpName1.Border = 15;
+                        SecondtablecheckbyFooter.AddCell(GFCEmpName1);
+
+
+                        GFCEmpName1 = new PdfPCell(new Phrase("", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                        GFCEmpName1.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        GFCEmpName1.Border = 15;
+                        SecondtablecheckbyFooter.AddCell(GFCEmpName1);
+
+                        //4
+                        PdfPCell GFCEmpDesgn = new PdfPCell(new Phrase("", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                        GFCEmpDesgn.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        GFCEmpDesgn.Border = 15;
+                        //FCEmpDesgn.Colspan = 4;
+                        SecondtablecheckbyFooter.AddCell(GFCEmpDesgn);
+
+
+                        //6A
+                        if (srate != 0)
+                        {
+                            PdfPCell GFCsrate = new PdfPCell(new Phrase(GrandtotalSrate.ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCsrate.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCsrate.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCsrate);
+                        }
+
+                        //5
+                        if (dts != 0)
+                        {
+                            PdfPCell GFCNoOfDuties = new PdfPCell(new Phrase(GrandtotalDuties.ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCNoOfDuties.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCNoOfDuties.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCNoOfDuties);
+                        }
+
+                        if (wo != 0)
+                        {
+                            PdfPCell GFCWos = new PdfPCell(new Phrase(Grandtotalwos.ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCWos.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCWos.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCWos);
+                        }
+
+
+                        if (nhs != 0)
+                        {
+                            PdfPCell GFCNhs = new PdfPCell(new Phrase(Grandtotalnhs.ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCNhs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCNhs.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCNhs);
+                        }
+
+
+                        //6
+
+
+
+
+
+                        //7
+                        if (basic != 0)
+                        {
+                            PdfPCell GFCBasic1 = new PdfPCell(new Phrase(GrandtotalBasic.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCBasic1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCBasic1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCBasic1);
+                        }
+
+
+                        //8
+                        if (da != 0)
+                        {
+                            PdfPCell GFDa = new PdfPCell(new Phrase(GrandtotalDA.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFDa.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFDa.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFDa);
+                        }
+
+
+                        //9
+                        if (hra != 0)
+                        {
+                            PdfPCell GFCHRA1 = new PdfPCell(new Phrase(GrandtotalHRA.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCHRA1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCHRA1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCHRA1);
+                        }
+
+                        //10
+                        if (cca != 0)
+                        {
+                            PdfPCell GFCcca = new PdfPCell(new Phrase(GrandtotalCCA.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCcca.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCcca.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCcca);
+                        }
+
+                        //11
+                        if (conveyance != 0)
+                        {
+                            PdfPCell GFCConveyance = new PdfPCell(new Phrase(GrandtotalConveyance.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCConveyance.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCConveyance.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCConveyance);
+                        }
+
+
+                        //12
+                        if (washallowance != 0)
+                        {
+                            PdfPCell GFCWa = new PdfPCell(new Phrase(GrandtotalWA.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCWa.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCWa.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCWa);
+                        }
+
+                        //13
+                        if (otherallowance != 0)
+                        {
+                            PdfPCell GFCOa = new PdfPCell(new Phrase(GrandtotalOA.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCOa.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCOa.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCOa);
+                        }
+                        if (SplAllowance != 0)
+                        {
+                            PdfPCell GFCSplAllowance = new PdfPCell(new Phrase(GrandtotalSplAllowance.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCSplAllowance.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCSplAllowance.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCSplAllowance);
+                        }
+
+                        if (TravelAllw != 0)
+                        {
+                            PdfPCell GFsplallw = new PdfPCell(new Phrase(GrandtotalTravelAllw.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFsplallw.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFsplallw.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFsplallw);
+                        }
+
+                        if (PerformanceAllw != 0)
+                        {
+                            PdfPCell GFsplallw = new PdfPCell(new Phrase(GrandtotalPerformanceAllw.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFsplallw.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFsplallw.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFsplallw);
+                        }
+
+                        if (MobileAllw != 0)
+                        {
+                            PdfPCell GFsplallw = new PdfPCell(new Phrase(GrandtotalMobileAllw.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFsplallw.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFsplallw.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFsplallw);
+                        }
+
+
+                        if (UniformAllw != 0)
+                        {
+                            PdfPCell GFsplallw = new PdfPCell(new Phrase(GrandtotalUniformAllw.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFsplallw.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFsplallw.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFsplallw);
+                        }
+                        //14
+                        if (leavewages != 0)
+                        {
+                            PdfPCell GFLa = new PdfPCell(new Phrase(GrandtotalLw.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFLa.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFLa.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFLa);
+                        }
+
+                        //15
+                        if (gratuity != 0)
+                        {
+                            PdfPCell GFGratuity = new PdfPCell(new Phrase(GrandtotalGratuity.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFGratuity.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFGratuity.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFGratuity);
+                        }
+
+                        //16
+                        if (bonus != 0)
+                        {
+                            PdfPCell GFbonus = new PdfPCell(new Phrase(Grandtotalbonus.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFbonus.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFbonus.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFbonus);
+                        }
+
+
+                        //17
+                        if (nfhs != 0)
+                        {
+                            PdfPCell GFNfhs = new PdfPCell(new Phrase(GrandtotalNfhs.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFNfhs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFNfhs.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFNfhs);
+                        }
+
+                        //18
+                        if (rc != 0)
+                        {
+                            PdfPCell GFRc = new PdfPCell(new Phrase(GrandtotalRc.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFRc.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFRc.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFRc);
+                        }
+
+                        //19
+                        if (cs != 0)
+                        {
+                            PdfPCell GFCs = new PdfPCell(new Phrase(GrandtotalCs.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCs.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCs);
+                        }
+
+
+                        if (cfoodallowance != 0)
+                        {
+                            PdfPCell GFFoodallw = new PdfPCell(new Phrase(Grandtotalfoodallowance.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFFoodallw.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFFoodallw.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFFoodallw);
+                        }
+
+                        if (cmedicalallowance != 0)
+                        {
+                            PdfPCell GFMedicalallw = new PdfPCell(new Phrase(Grandtotalmedicalallowance.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFMedicalallw.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFMedicalallw.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFMedicalallw);
+                        }
+
+
+                        if (woamt != 0)
+                        {
+                            PdfPCell GFCwoamt = new PdfPCell(new Phrase(Grandtotalwoamt.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCwoamt.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCwoamt.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCwoamt);
+                        }
+
+
+                        if (nhsamt != 0)
+                        {
+                            PdfPCell GFCnhsamt = new PdfPCell(new Phrase(Grandtotalnhsamt.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCnhsamt.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCnhsamt.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCnhsamt);
+                        }
+
+                        //20
+
+                        if (ots != 0)
+                        {
+                            PdfPCell GFCOts = new PdfPCell(new Phrase(Grandtotalots.ToString(), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCOts.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCOts.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCOts);
+                        }
+
+                        //21
+                        if (otamt != 0)
+                        {
+                            PdfPCell GFCOtamt = new PdfPCell(new Phrase(Grandtotalotamt.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCOtamt.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCOtamt.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCOtamt);
+                        }
+
+                        if (AttBonus != 0)
+                        {
+                            PdfPCell GFCOtamt = new PdfPCell(new Phrase(GrandtotalAttBonus.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCOtamt.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCOtamt.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCOtamt);
+                        }
+
+                        if (gross != 0)
+                        {
+                            PdfPCell GFCGross1 = new PdfPCell(new Phrase(GrandtotalGross.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCGross1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCGross1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCGross1);
+                        }
+
+                        //22
+                        if (incentivs != 0)
+                        {
+                            PdfPCell GFIncentivs = new PdfPCell(new Phrase(GrandtotalIncentivs.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFIncentivs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFIncentivs.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFIncentivs);
+                        }
+
+
+
+                        //23
+                        if (pfonduties != 0)
+                        {
+                            PdfPCell GFCPF1 = new PdfPCell(new Phrase(GrandtotalPFondts.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCPF1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCPF1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCPF1);
+                        }
+
+                        //24
+                        if (esionduties != 0)
+                        {
+                            PdfPCell GFCESI1 = new PdfPCell(new Phrase(GrandtotalESIondts.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCESI1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCESI1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCESI1);
+                        }
+
+                        //25
+                        if (pfonot != 0)
+                        {
+                            PdfPCell GFCPFonot = new PdfPCell(new Phrase(Grandtotalpfonots.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCPFonot.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCPFonot.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCPFonot);
+                        }
+
+                        //26
+                        if (esionot != 0)
+                        {
+                            PdfPCell GFCESIonot = new PdfPCell(new Phrase(Grandtotalesionots.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCESIonot.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCESIonot.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCESIonot);
+                        }
+
+                        //27
+                        if (Pf != 0)
+                        {
+                            PdfPCell GFCPF = new PdfPCell(new Phrase(Grandtotalpf.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCPF.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCPF.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCPF);
+                        }
+
+                        //28
+                        if (Esi != 0)
+                        {
+                            PdfPCell GFCESI = new PdfPCell(new Phrase(Grandtotalesi.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCESI.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCESI.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCESI);
+                        }
+
+
+                        //29
+                        if (proftax != 0)
+                        {
+                            PdfPCell GFCProTax1 = new PdfPCell(new Phrase(GrandtotalProfTax.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCProTax1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCProTax1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCProTax1);
+                        }
+
+                        //30
+                        if (salAdvDed != 0)
+                        {
+                            PdfPCell GFCSalAdv1 = new PdfPCell(new Phrase(GrandtotalSalAdv.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCSalAdv1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCSalAdv1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCSalAdv1);
+                        }
+                        if (ATMDed != 0)
+                        {
+                            PdfPCell GFCSalAdv1 = new PdfPCell(new Phrase(GrandtotalATMDed.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCSalAdv1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCSalAdv1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCSalAdv1);
+                        }
+
+                        if (IDCardDed != 0)
+                        {
+                            PdfPCell GFCSalAdv1 = new PdfPCell(new Phrase(GrandtotalIDCardDed.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCSalAdv1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCSalAdv1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCSalAdv1);
+                        }
+
+                        if (Extra != 0)
+                        {
+                            PdfPCell GFCSalAdv1 = new PdfPCell(new Phrase(GrandtotalExtra.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCSalAdv1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCSalAdv1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCSalAdv1);
+                        }
+                        //31
+                        if (uniformDed != 0)
+                        {
+                            PdfPCell GFCUnifDed1 = new PdfPCell(new Phrase(GrandtotalUniforDed.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCUnifDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCUnifDed1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCUnifDed1);
+                        }
+
+                        if (SecDepDedn != 0)
+                        {
+                            PdfPCell GFCSecDepDedn1 = new PdfPCell(new Phrase(GrandtotalSecDepDedn.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCSecDepDedn1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCSecDepDedn1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCSecDepDedn1);
+                        }
+
+                        if (LoanDed != 0)
+                        {
+                            PdfPCell GFCLoanDed1 = new PdfPCell(new Phrase(GrandtotalLoanDedn.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCLoanDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCLoanDed1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCLoanDed1);
+                        }
+
+                        if (GenDedn != 0)
+                        {
+                            PdfPCell GFCGenDedn1 = new PdfPCell(new Phrase(GrandtotalGenDedn.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCGenDedn1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCGenDedn1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCGenDedn1);
+                        }
+                        if (AdvDed != 0)
+                        {
+                            PdfPCell GFCAdvDedDed1 = new PdfPCell(new Phrase(GrandtotalAdvDed.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCAdvDedDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCAdvDedDed1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCAdvDedDed1);
+                        }
+                        if (WCDed != 0)
+                        {
+                            PdfPCell GFcwcDed1 = new PdfPCell(new Phrase(GrandtotalWCDed.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFcwcDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFcwcDed1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFcwcDed1);
+                        }
+                        //32
+                        if (otherDed != 0)
+                        {
+                            PdfPCell GFCOtherDed1 = new PdfPCell(new Phrase(GrandtotalOtherdedn.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCOtherDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCOtherDed1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCOtherDed1);
+                        }
+
+
+                        if (Adv1 != 0)
+                        {
+                            PdfPCell GFadv1 = new PdfPCell(new Phrase(GrandtotalAdv1.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFadv1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFadv1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFadv1);
+                        }
+
+
+                        if (Adv2 != 0)
+                        {
+                            PdfPCell GFadv2 = new PdfPCell(new Phrase(GrandtotalAdv2.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFadv2.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFadv2.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFadv2);
+                        }
+
+                        //33
+                        if (canteenAdv != 0)
+                        {
+                            PdfPCell GFCCanteended = new PdfPCell(new Phrase(GrandtotalCanteenAdv.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCCanteended.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCCanteended.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCCanteended);
+                        }
+                        if (Rent != 0)
+                        {
+                            PdfPCell GFRent = new PdfPCell(new Phrase(GrandtotalRent.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFRent.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFRent.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFRent);
+                        }
+                        //34
+                        if (penalty != 0)
+                        {
+                            PdfPCell GFPenalty = new PdfPCell(new Phrase(GrandtotalPenalty.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFPenalty.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFPenalty.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFPenalty);
+                        }
+                        if (owf != 0)
+                        {
+                            PdfPCell GFowf = new PdfPCell(new Phrase(Grandtotalowf.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFowf.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFowf.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFowf);
+                        }
+
+                        if (Bgvdedi != 0)
+                        {
+                            PdfPCell GFbgv = new PdfPCell(new Phrase(GrandtotalBgvded.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFbgv.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFbgv.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFbgv);
+                        }
+                        if (Medfitdedi != 0)
+                        {
+                            PdfPCell GFmedfit = new PdfPCell(new Phrase(GrandtotalMedfitded.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFmedfit.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFmedfit.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFmedfit);
+                        }
+
+                        if (advances != 0)
+                        {
+                            PdfPCell GFadvances = new PdfPCell(new Phrase(GrandtotalAdvances.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFadvances.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFadvances.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFadvances);
+                        }
+
+
+                        if (ReliefFund != 0)
+                        {
+                            PdfPCell GFReliefFund = new PdfPCell(new Phrase(GrandtotalReliefFund.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFReliefFund.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFReliefFund.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFReliefFund);
+                        }
+
+                        //if (advdue != 0)
+                        //{
+                        //    PdfPCell GFowf = new PdfPCell(new Phrase(GrandtotalAmountdue.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                        //    GFowf.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                        //    GFowf.Border = 15;
+                        //    SecondtablecheckbyFooter.AddCell(GFowf);
+                        //}
+
+
+                        //35
+                        if (totalDeductions != 0)
+                        {
+                            PdfPCell GFCTotDed1 = new PdfPCell(new Phrase(GrandtotalDed.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCTotDed1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCTotDed1.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCTotDed1);//OtherDed,Eps.Gross,Eps.Deductions,Eps.ActualAmount
+                        }
+
+                        //36
+                        if (netpay != 0)
+                        {
+                            PdfPCell GFCNetPay1 = new PdfPCell(new Phrase(GrandtotalNetpay.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCNetPay1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCNetPay1.Border = 15;
+                            //FCNetPay1.Colspan = 2;
+                            SecondtablecheckbyFooter.AddCell(GFCNetPay1);
+                        }
+
+                        //37
+                        PdfPCell GFCSignature1 = new PdfPCell(new Phrase(" ", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                        GFCSignature1.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        GFCSignature1.Border = 15;
+                        //FCSignature1.MinimumHeight = 25;
+                        SecondtablecheckbyFooter.AddCell(GFCSignature1);
+
+
+                        #endregion
+
+
+                        #region   Footer Headings
+                        //1
+                        PdfPCell FHCheckedbybr1 = new PdfPCell(new Phrase("", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                        FHCheckedbybr1.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                        FHCheckedbybr1.Border = 0;
+                        FHCheckedbybr1.Colspan = tableCells;
+                        SecondtablecheckbyFooter.AddCell(FHCheckedbybr1);
+
+                        //2
+                        PdfPCell FHApprovedbr2 = new PdfPCell(new Phrase("  ", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                        FHApprovedbr2.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                        FHApprovedbr2.Border = 0;
+                        FHApprovedbr2.Colspan = tableCells;
+                        SecondtablecheckbyFooter.AddCell(FHApprovedbr2);
+
+                        SecondtablecheckbyFooter.AddCell(FHCheckedbybr1);
+                        SecondtablecheckbyFooter.AddCell(FHApprovedbr2);
+
+
+                        //1
+                        PdfPCell FHCheckedby = new PdfPCell(new Phrase("Checked By", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                        FHCheckedby.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                        FHCheckedby.Border = 0;
+                        FHCheckedby.Colspan = tableCells;
+                        FHCheckedby.PaddingTop = -5;
+                        SecondtablecheckbyFooter.AddCell(FHCheckedby);
+
+                        //2
+                        PdfPCell FHApprovedBy = new PdfPCell(new Phrase("Gross  Approved By", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                        FHApprovedBy.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                        FHApprovedBy.Border = 0;
+                        FHApprovedBy.Colspan = tableCells;
+                        FHApprovedBy.PaddingTop = -5;
+                        SecondtablecheckbyFooter.AddCell(FHApprovedBy);
+
+
+
+                        #endregion
+
+                        document.Add(Secondtable);
+
+                        if (nextpagerecordscount == targetpagerecors)
+                        {
+                            targetpagerecors = secondpagerecords;
+                            //document.Add(SecondtableFooter);
+                            document.NewPage();
+                            nextpagerecordscount = 0;
+                            #region  Zero variables
+                            totalAttBonus = 0;
+                            totalAdvDed = 0;
+                            totalWCDed = 0;
+                            totalNetpay = 0;
+                            totalDuties = 0;
+                            totalsrate = 0;
+                            totalBasic = 0;
+                            totalDA = 0;
+                            totalHRA = 0;
+                            totalCCA = 0;
+                            totalConveyance = 0;
+                            totalWA = 0;
+                            totalOA = 0;
+                            totalGross = 0;
+                            totalPFondts = 0;
+                            totalESIondts = 0;
+                            totalProfTax = 0;
+                            totalDed = 0;
+                            totalSalAdv = 0;
+                            totalUniforDed = 0;
+                            totalCanteenAdv = 0;
+                            totalOtherdedn = 0;
+                            totalbonus = 0;
+                            totalLw = 0;
+                            totalGratuity = 0;
+                            totalNfhs = 0;
+                            totalRc = 0;
+                            totalCs = 0;
+                            totalIncentivs = 0;
+                            totalPenalty = 0;
+                            totalAdv1 = 0;
+                            totalAdv2 = 0;
+                            totalRent = 0;
+                            totalBgvded = 0;
+                            totalMedfitded = 0;
+                            totalots = 0;
+                            totalotamt = 0;
+                            totalpfonots = 0;
+                            totalesionots = 0;
+                            totalpf = 0;
+                            totalesi = 0;
+                            totalReliefFund = 0;
+                            totalAdvances = 0;
+                            #endregion
+                        }
+                    }
+
+                    if (nextpagerecordscount >= 0)
+                    {
+                        //document.Add(SecondtableFooter);
+                        document.Add(SecondtableGrandtotalFooter);
+                        document.Add(SecondtablecheckbyFooter);
+                    }
+                    document.Close();
+                    if (nextpagehasPages)
+                    {
+                        string filename = ddlcname.SelectedItem.Text + "/Paysheet for-" + GetMonthName() + " -" + GetMonthOfYear() + ".pdf";
+
+                        document.Close();
+                        Response.ContentType = "application/pdf";
+                        Response.AddHeader("content-disposition", "attachment;filename=\"" + filename + "\"");
+                        Response.Buffer = true;
+                        Response.Clear();
+                        Response.OutputStream.Write(ms.GetBuffer(), 0, ms.GetBuffer().Length);
+                        Response.OutputStream.Flush();
+                        Response.End();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
 
         protected int GetMonthAndYear()
         {
@@ -28154,7 +33397,7 @@ namespace Kuduma.Portal
                     float ADDL4HR, QTRALLOW, RELALLOW, OTESICWAGES, SITEALLOW, GunAllw, FireAllw,
 FixedADDL4HR, FixedQTRALLOW, FixedRELALLOW, FixedOTESICWAGES, FixedSITEALLOW, FixedGunAllw, FixedFireAllw,
 TelephoneAllw, Reimbursement, HardshipAllw, PaidHolidayAllw, ServiceCharge,
-FixedTelephoneAllw, FixedReimbursement, FixedHardshipAllw, FixedPaidHolidayAllw, FixedServiceCharge = 0, RankAllw = 0, FixedRankAllw = 0;
+FixedTelephoneAllw, FixedReimbursement, FixedHardshipAllw, FixedPaidHolidayAllw, FixedServiceCharge = 0, RankAllw = 0, FixedRankAllw = 0, FixedLeavewages=0, Leavewages=0, OTPerHour=0;
 
 
 
@@ -28275,7 +33518,7 @@ CFixedTelephoneAllw, CFixedReimbursement, CFixedHardshipAllw, CFixedPaidHolidayA
                     string AADDL4HR = ""; string AQTRALLOW = ""; string ARELALLOW = ""; string AOTESICWAGES = ""; string ASITEALLOW = ""; string AGunAllw = ""; string AFireAllw = ""; string
          AFixedADDL4HR = ""; string AFixedQTRALLOW = ""; string AFixedRELALLOW = ""; string AFixedOTESICWAGES = ""; string AFixedSITEALLOW = ""; string AFixedGunAllw = ""; string AFixedFireAllw = ""; string
                  ATelephoneAllw = ""; string AReimbursement = ""; string AHardshipAllw = ""; string APaidHolidayAllw = ""; string AServiceCharge = ""; string
-                       AFixedTelephoneAllw = ""; string AFixedReimbursement = ""; string AFixedHardshipAllw = ""; string AFixedPaidHolidayAllw = ""; string AFixedServiceCharge = ""; string ARankAllw = ""; string AFixedRankAllw = "";
+                       AFixedTelephoneAllw = ""; string AFixedReimbursement = ""; string AFixedHardshipAllw = ""; string AFixedPaidHolidayAllw = ""; string AFixedServiceCharge = ""; string ARankAllw = ""; string AFixedRankAllw = ""; string ALeavewages = ""; string AFixedLeavewages = ""; string AOTPerHour = "";
 
 
 
@@ -28326,6 +33569,8 @@ CFixedTelephoneAllw, CFixedReimbursement, CFixedHardshipAllw, CFixedPaidHolidayA
                     string CdAOtherAllw = "";
                     string CdAIncntives = "";
                     string CdAPerformanceAllw = "";
+
+                    string CdALeavewages = "";
 
                     string CdADDL4HR, CdQTRALLOW, CdRELALLOW, CdOTESICWAGES, CdSITEALLOW, CdGunAllw, CdFireAllw,
    CdFixedADDL4HR, CdFixedQTRALLOW, CdFixedRELALLOW, CdFixedOTESICWAGES, CdFixedSITEALLOW, CdFixedGunAllw, CdFixedFireAllw,
@@ -28433,6 +33678,8 @@ totalFixedTelephoneAllw, totalFixedReimbursement, totalFixedHardshipAllw, totalF
                     float totalattbonus = 0;
                     float totalarrears = 0;
 
+                    float totalLeavewages = 0;
+
                     //
                     string AtotalSalAdv = "";
                     string AtotalAdv2 = "";
@@ -28512,6 +33759,8 @@ totalFixedTelephoneAllw, totalFixedReimbursement, totalFixedHardshipAllw, totalF
                     string AtotalWOAmt = "";
                     string AtotalNpotsAmt = "";
 
+                    string AtotalLeavewages = "";
+
                     string AtotalADDL4HR, AtotalQTRALLOW, AtotalRELALLOW, AtotalOTESICWAGES, AtotalSITEALLOW, AtotalGunAllw, AtotalFireAllw,
 AtotalFixedADDL4HR, AtotalFixedQTRALLOW, AtotalFixedRELALLOW, AtotalFixedOTESICWAGES, AtotalFixedSITEALLOW, AtotalFixedGunAllw, AtotalFixedFireAllw,
 AtotalTelephoneAllw, AtotalReimbursement, AtotalHardshipAllw, AtotalPaidHolidayAllw, AtotalServiceCharge,
@@ -28548,6 +33797,7 @@ AtotalFixedTelephoneAllw, AtotalFixedReimbursement, AtotalFixedHardshipAllw, Ato
                     float TotalCOtherAllw = 0;
                     float TotalCIncentives = 0;
                     float TotalCPerformanceAllw = 0;
+                    float TotalCFixedLeavewages = 0;
 
 
                     float TotalCADDL4HR = 0; float TotalCQTRALLOW = 0; float TotalCRELALLOW = 0; float TotalCOTESICWAGES = 0; float TotalCSITEALLOW = 0; float TotalCGunAllw = 0; float TotalCFireAllw = 0;
@@ -28586,6 +33836,7 @@ AtotalFixedTelephoneAllw, AtotalFixedReimbursement, AtotalFixedHardshipAllw, Ato
                     string AtotalCIncentives = "";
                     string AtotalFixedearning = "";
                     string AtotalCPerformanceAllw = "";
+                    string ATotalCFixedLeavewages = "";
 
                     string ATotalCADDL4HR = ""; string ATotalCQTRALLOW = ""; string ATotalCRELALLOW = ""; string ATotalCOTESICWAGES = ""; string ATotalCSITEALLOW = ""; string ATotalCGunAllw = ""; string ATotalCFireAllw = ""; string
 ATotalCFixedADDL4HR = ""; string ATotalCFixedQTRALLOW = ""; string ATotalCFixedRELALLOW = ""; string ATotalCFixedOTESICWAGES = ""; string ATotalCFixedSITEALLOW = ""; string ATotalCFixedGunAllw = ""; string ATotalCFixedFireAllw = ""; string
@@ -29541,6 +34792,36 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                         {
                             ATelephoneAllw = "-";
                         }
+
+                        Leavewages = float.Parse(dt.Rows[i]["Leavewages"].ToString());
+                        if (Leavewages > 0)
+                        {
+                            ALeavewages = Leavewages.ToString();
+                        }
+                        else
+                        {
+                            ALeavewages = "-";
+                        }
+
+                        OTPerHour = float.Parse(dt.Rows[i]["OTPerHour"].ToString());
+                        if (OTPerHour > 0)
+                        {
+                            AOTPerHour = OTPerHour.ToString();
+                        }
+                        else
+                        {
+                            AOTPerHour = "-";
+                        }
+
+                        FixedLeavewages = float.Parse(dt.Rows[i]["FixedLeavewages"].ToString());
+                        if (FixedLeavewages > 0)
+                        {
+                            AFixedLeavewages = FixedLeavewages.ToString();
+                        }
+                        else
+                        {
+                            AFixedLeavewages = "-";
+                        }
                         Reimbursement = float.Parse(dt.Rows[i]["Reimbursement"].ToString());
                         if (Reimbursement > 0)
                         {
@@ -29992,6 +35273,11 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                             CcellHead6.Add(new Chunk("\nAtbonus", FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
                         }
 
+                        //if (CdALeavewages != "-")
+                        //{
+                        //    CcellHead6.Add(new Chunk("\nLeaveWages", FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
+                        //}
+
                         CcellHead6.SetLeading(0, 1.2f);
                         cell.AddElement(CcellHead6);
                         cell.HorizontalAlignment = 0;
@@ -30328,6 +35614,11 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                             CcellHead18.Add(new Chunk("Per Allw\n", FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
                         }
 
+                        if (AFixedLeavewages != "-")
+                        {
+                            CcellHead18.Add(new Chunk("Per Allw\n", FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
+                        }
+
                         CcellHead18.SetLeading(0, 1.2f);
                         cell.AddElement(CcellHead18);
                         cell.HorizontalAlignment = 0;
@@ -30461,6 +35752,11 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                         if (CdAPerformanceAllw != "-")
                         {
                             CcellHead19.Add(new Chunk(CdAPerformanceAllw + "\n", FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
+                        }
+
+                        if (AFixedLeavewages != "-")
+                        {
+                            CcellHead19.Add(new Chunk(AFixedLeavewages + "\n", FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
                         }
 
                         CcellHead19.SetLeading(0, 1.2f);
@@ -30742,6 +36038,16 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                             AtotalCPerformanceAllw = "-";
                         }
 
+                        TotalCFixedLeavewages += FixedLeavewages;
+                        if (TotalCFixedLeavewages > 0)
+                        {
+                            ATotalCFixedLeavewages = TotalCFixedLeavewages.ToString();
+                        }
+                        else
+                        {
+                            ATotalCFixedLeavewages = "-";
+                        }
+
                         //                   
                         #endregion for total
 
@@ -30882,6 +36188,11 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                             CcellHead116.Add(new Chunk("\nAtBonus", FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
                         }
 
+                        if (ALeavewages != "-")
+                        {
+                            CcellHead116.Add(new Chunk("\nLeave Wages", FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
+                        }
+
                         CcellHead116.SetLeading(0, 1.2f);
                         cell.AddElement(CcellHead116);
                         cell.HorizontalAlignment = 0;
@@ -30957,6 +36268,11 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                         if (AAttBonus != "-")
                         {
                             CcellHead117.Add(new Chunk("\n" + AAttBonus, FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
+                        }
+
+                        if (ALeavewages != "-")
+                        {
+                            CcellHead117.Add(new Chunk("\n" + ALeavewages, FontFactory.GetFont(Fontstyle, Font_size - 1, Font.NORMAL, BaseColor.BLACK)));
                         }
 
                         CcellHead117.SetLeading(0, 1.2f);
@@ -31092,6 +36408,17 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                         {
                             AtotalAttbonus = "-";
                         }
+
+                        totalLeavewages += Leavewages;
+                        if (totalLeavewages > 0)
+                        {
+                            AtotalLeavewages = totalLeavewages.ToString();
+                        }
+                        else
+                        {
+                            AtotalLeavewages = "-";
+                        }
+
                         #endregion for total
 
                         cell = new PdfPCell();
@@ -32332,6 +37659,11 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                         CcellHead110.Add(new Chunk("\nAtt Bonus", FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
                     }
 
+                    if (ATotalCFixedLeavewages != "-")
+                    {
+                        CcellHead110.Add(new Chunk("\nLeave Wages", FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
+                    }
+
 
 
 
@@ -32412,6 +37744,11 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                     if (ATotalCAttBonus != "-")
                     {
                         CcellHead112.Add(new Chunk("\n" + ATotalCAttBonus, FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
+                    }
+
+                    if (ATotalCFixedLeavewages != "-")
+                    {
+                        CcellHead112.Add(new Chunk("\n" + ATotalCFixedLeavewages, FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
                     }
 
                     CcellHead112.SetLeading(0, 1.2f);
@@ -32783,6 +38120,11 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                         CcellHead10.Add(new Chunk("\nAttBonus", FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
                     }
 
+                    if (AtotalLeavewages != "-")
+                    {
+                        CcellHead10.Add(new Chunk("\nLeave Wages", FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
+                    }
+
 
                     CcellHead10.SetLeading(0, 1.2f);
                     CcellHead10.Alignment = 0;
@@ -32861,6 +38203,11 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                     if (AtotalAttbonus != "-")
                     {
                         CcellHead11.Add(new Chunk("\n" + AtotalAttbonus, FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
+                    }
+
+                    if (AtotalLeavewages != "-")
+                    {
+                        CcellHead11.Add(new Chunk("\n" + AtotalLeavewages, FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
                     }
 
                     CcellHead11.SetLeading(0, 1.2f);
@@ -34987,758 +40334,758 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
 
         }
 
-        protected void btndownloadWagesummary_Click(object sender, EventArgs e)
-        {
-            if (ddlClients.SelectedIndex <= 0)
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "Showalert()", "alert('Please Select Client ID/Name')", true);
-                return;
-            }
+        //protected void btndownloadWagesummary_Click(object sender, EventArgs e)
+        //{
+        //    if (ddlClients.SelectedIndex <= 0)
+        //    {
+        //        ScriptManager.RegisterStartupScript(this, GetType(), "Showalert()", "alert('Please Select Client ID/Name')", true);
+        //        return;
+        //    }
 
-            var formatInfoinfo = new DateTimeFormatInfo();
-            string[] monthName = formatInfoinfo.MonthNames;
-            int payMonth = GetMonth(ddlmonth.SelectedValue);
+        //    var formatInfoinfo = new DateTimeFormatInfo();
+        //    string[] monthName = formatInfoinfo.MonthNames;
+        //    int payMonth = GetMonth(ddlmonth.SelectedValue);
 
-            int month = GetMonthBasedOnSelectionDateorMonth();
+        //    int month = GetMonthBasedOnSelectionDateorMonth();
 
 
-            string date = string.Empty;
+        //    string date = string.Empty;
 
 
 
 
 
-            var list = new List<string>();
+        //    var list = new List<string>();
 
-            if (gvattendancezero.Rows.Count > 0)
-            {
-                for (int i = 0; i < gvattendancezero.Rows.Count; i++)
-                {
-                    CheckBox chkEmpid = gvattendancezero.Rows[i].FindControl("chkindividual") as CheckBox;
-                    Label lblempid = gvattendancezero.Rows[i].FindControl("lblempid") as Label;
+        //    if (gvattendancezero.Rows.Count > 0)
+        //    {
+        //        for (int i = 0; i < gvattendancezero.Rows.Count; i++)
+        //        {
+        //            CheckBox chkEmpid = gvattendancezero.Rows[i].FindControl("chkindividual") as CheckBox;
+        //            Label lblempid = gvattendancezero.Rows[i].FindControl("lblempid") as Label;
 
-                    if (chkEmpid.Checked == true)
-                    {
-                        list.Add(lblempid.Text);
-                    }
+        //            if (chkEmpid.Checked == true)
+        //            {
+        //                list.Add(lblempid.Text);
+        //            }
 
-                }
-            }
+        //        }
+        //    }
 
-            string Empids = string.Join(",", list.ToArray());
+        //    string Empids = string.Join(",", list.ToArray());
 
-            if (list.Count == 0)
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showlalert", "alert('Please Select Empids');", true);
-                return;
-            }
+        //    if (list.Count == 0)
+        //    {
+        //        ScriptManager.RegisterStartupScript(this, GetType(), "showlalert", "alert('Please Select Empids');", true);
+        //        return;
+        //    }
 
-            DataTable dtEmpidsList = new DataTable();
-            dtEmpidsList.Columns.Add("Empid");
-            if (list.Count != 0)
-            {
-                foreach (string s in list)
-                {
-                    DataRow row = dtEmpidsList.NewRow();
-                    row["Empid"] = s;
-                    dtEmpidsList.Rows.Add(row);
-                }
-            }
-
-            DataTable dt = null;
-            var clientid = ddlClients.SelectedValue;
-            string SPName = "WageSheetSummary";
-
-
-            Hashtable ht = new Hashtable();
-            ht.Add("@clientids", clientid);
-            ht.Add("@Month", month);
-            ht.Add("@EmpIDList", dtEmpidsList);
-            ht.Add("@Option", "Paysheet");
-
-
-            dt = config.ExecuteAdaptorWithParams(SPName, ht).Result;
-            DataTable dtgroup = dt.DefaultView.ToTable(true, "ClientID");
-
-            string strQry = "select * from companyinfo where BranchID='" + Session["Branch"].ToString() + "' ";
-            DataTable compInfo = config.ExecuteAdaptorAsyncWithQueryParams(strQry).Result;
-            string companyName = "Your Company Name";
-            string companyAddress = "Your Company Address";
-            string PFNOForms = "";
-            string TotalPFNOForms = "";
-            if (compInfo.Rows.Count > 0)
-            {
-                companyName = compInfo.Rows[0]["CompanyName"].ToString();
-                companyAddress = compInfo.Rows[0]["Address"].ToString();
-                //PFNOForms = compInfo.Rows[0]["PFNoForms"].ToString();
-            }
-
-
-            MemoryStream ms = new MemoryStream();
-            string fontsyle = "Courier New";
-
-
-            int Fontsize = 12;
-            if (dt.Rows.Count > 0)
-            {
-
-                Document document = new Document(PageSize.A4.Rotate());
-                var writer = PdfWriter.GetInstance(document, ms);
-                document.Open();
-                BaseFont bf = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-
-                for (int j = 0; j < dtgroup.Rows.Count; j++)
-                {
-                    document.NewPage();
-
-
-                    PdfPTable Maintable = new PdfPTable(14);
-                    Maintable.TotalWidth = 790;
-                    Maintable.HeaderRows = 3;
-                    Maintable.LockedWidth = true;
-                    float[] width = new float[] { 1f, 1.5f, 1.5f, 1f, 1f, 1f, 1f, 1.2f, 1f, 1f, 1f, 1f, 1f, 1f };
-                    Maintable.SetWidths(width);
-
-
-
-                    PdfPCell cell = new PdfPCell(new Phrase("", FontFactory.GetFont(fontsyle, Fontsize + 1, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cell.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
-                    cell.Colspan = 7;
-                    cell.Border = 0;
-                    //Maintable.AddCell(cell);
-
-                    cell = new PdfPCell(new Phrase("Zone", FontFactory.GetFont(fontsyle, Fontsize + 1, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cell.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
-                    cell.Colspan = 1;
-                    cell.Border = 0;
-                    //Maintable.AddCell(cell);
-
-                    cell = new PdfPCell(new Phrase("PF1/WB1/KOLKATA/WEST/SEC", FontFactory.GetFont(fontsyle, Fontsize + 1, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cell.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cell.Colspan = 6;
-                    cell.Border = 0;
-                    // Maintable.AddCell(cell);
-
-                    PdfPCell cellunit = new PdfPCell(new Phrase("UNIT SUMMARY OF", FontFactory.GetFont(fontsyle, Fontsize + 1, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cellunit.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
-                    cellunit.Colspan = 3;
-                    cellunit.Border = 0;
-                    Maintable.AddCell(cellunit);
-
-                    PdfPCell cell33 = new PdfPCell(new Phrase("", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cell33.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cell33.Colspan = 2;
-                    cell33.Border = 0;
-                    Maintable.AddCell(cell33);
-
-                    PdfPCell cell52 = new PdfPCell(new Phrase("", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cell52.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cell52.Colspan = 2;
-                    cell52.Border = 0;
-                    Maintable.AddCell(cell52);
-
-                    cell52 = new PdfPCell(new Phrase("Unit Code", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cell52.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
-                    cell52.Colspan = 2;
-                    cell52.Border = 0;
-                    Maintable.AddCell(cell52);
-
-                    string Clientid = dtgroup.Rows[j]["Clientid"].ToString();
-                    PdfPCell cell22 = new PdfPCell(new Phrase(Clientid, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cell22.HorizontalAlignment = 3; //0=Left, 1=Centre, 2=Right
-                    cell22.Colspan = 5;
-                    cell22.Border = 0;
-                    Maintable.AddCell(cell22);
-
-                    PdfPCell celldata2 = new PdfPCell(new Phrase("EMPLOYEE", FontFactory.GetFont(fontsyle, Fontsize + 1, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    celldata2.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
-                    celldata2.Colspan = 3;
-                    celldata2.Border = 0;
-                    Maintable.AddCell(celldata2);
-
-                    PdfPCell cell3 = new PdfPCell(new Phrase("Salary Month", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cell3.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cell3.Colspan = 2;
-                    cell3.Border = 0;
-                    Maintable.AddCell(cell3);
-
-                    PdfPCell cell5 = new PdfPCell(new Phrase(GetMonthName() + " " + GetMonthOfYear(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cell5.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cell5.Colspan = 2;
-                    cell5.Border = 0;
-                    Maintable.AddCell(cell5);
-
-                    cell5 = new PdfPCell(new Phrase("Unit", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cell5.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
-                    cell5.Colspan = 1;
-                    cell5.Border = 0;
-                    Maintable.AddCell(cell5);
-
-                    string strClientname = "select ClientName from Clients where clientid='" + Clientid + "'";
-                    DataTable dtclientname = config.ExecuteAdaptorAsyncWithQueryParams(strClientname).Result;
-                    string Clientname = "";
-                    if (dtclientname.Rows.Count > 0)
-                    {
-                        Clientname = dtclientname.Rows[0]["ClientName"].ToString();
-                    }
-
-                    PdfPCell cell2 = new PdfPCell(new Phrase(Clientname, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cell2.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cell2.Colspan = 6;
-                    cell2.Border = 0;
-                    Maintable.AddCell(cell2);
-
-
-
-                    PdfPCell cell6 = new PdfPCell(new Phrase("Slno", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cell6.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cell6.Colspan = 1;
-                    cell6.BorderWidthTop = 0.2f;
-                    cell6.BorderWidthBottom = 0.2f;
-                    cell6.BorderWidthLeft = 0;
-                    cell6.BorderWidthRight = 0;
-                    Maintable.AddCell(cell6);
-
-                    PdfPCell cell7 = new PdfPCell(new Phrase("Emp No\n" + "Employee Name", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cell7.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cell7.Colspan = 2;
-                    cell7.BorderWidthTop = 0.2f;
-                    cell7.BorderWidthBottom = 0.2f;
-                    cell7.BorderWidthLeft = 0;
-                    cell7.BorderWidthRight = 0;
-                    Maintable.AddCell(cell7);
-
-                    PdfPCell cell8 = new PdfPCell(new Phrase("DUTY\n" + "OT DUTY", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cell8.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cell8.Colspan = 1;
-                    cell8.BorderWidthTop = 0.2f;
-                    cell8.BorderWidthBottom = 0.2f;
-                    cell8.BorderWidthLeft = 0;
-                    cell8.BorderWidthRight = 0;
-                    Maintable.AddCell(cell8);
-
-                    PdfPCell cell9 = new PdfPCell(new Phrase("Gross", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cell9.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cell9.Colspan = 1;
-                    cell9.BorderWidthTop = 0.2f;
-                    cell9.BorderWidthBottom = 0.2f;
-                    cell9.BorderWidthLeft = 0;
-                    cell9.BorderWidthRight = 0;
-                    Maintable.AddCell(cell9);
-
-                    PdfPCell cell11 = new PdfPCell(new Phrase("PF\n" + "PT", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cell11.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cell11.Colspan = 1;
-                    cell11.BorderWidthTop = 0.2f;
-                    cell11.BorderWidthBottom = 0.2f;
-                    cell11.BorderWidthLeft = 0;
-                    cell11.BorderWidthRight = 0;
-                    Maintable.AddCell(cell11);
-
-                    PdfPCell cell12 = new PdfPCell(new Phrase(" ESI\n" + "LWF\n" + "ADM", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cell12.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cell12.Colspan = 1;
-                    cell12.BorderWidthTop = 0.2f;
-                    cell12.BorderWidthBottom = 0.2f;
-                    cell12.BorderWidthLeft = 0;
-                    cell12.BorderWidthRight = 0;
-                    Maintable.AddCell(cell12);
-
-                    PdfPCell cell13 = new PdfPCell(new Phrase("Adv\n" + "Uni\n" + "Misd", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cell13.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cell13.Colspan = 1;
-                    cell13.BorderWidthTop = 0.2f;
-                    cell13.BorderWidthBottom = 0.2f;
-                    cell13.BorderWidthLeft = 0;
-                    cell13.BorderWidthRight = 0;
-                    Maintable.AddCell(cell13);
-
-                    PdfPCell cellFine = new PdfPCell(new Phrase("Fine\n" + "Misc", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cellFine.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cellFine.Colspan = 1;
-                    cellFine.BorderWidthTop = 0.2f;
-                    cellFine.BorderWidthBottom = 0.2f;
-                    cellFine.BorderWidthLeft = 0;
-                    cellFine.BorderWidthRight = 0;
-                    Maintable.AddCell(cellFine);
-
-                    PdfPCell cellDed = new PdfPCell(new Phrase("TotalDeduction", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cellDed.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cellDed.Colspan = 1;
-                    cellDed.BorderWidthTop = 0.2f;
-                    cellDed.BorderWidthBottom = 0.2f;
-                    cellDed.BorderWidthLeft = 0;
-                    cellDed.BorderWidthRight = 0;
-                    Maintable.AddCell(cellDed);
-
-                    PdfPCell cellnetpay = new PdfPCell(new Phrase("NetPay\nOthers", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cellnetpay.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cellnetpay.Colspan = 1;
-                    cellnetpay.BorderWidthTop = 0.2f;
-                    cellnetpay.BorderWidthBottom = 0.2f;
-                    cellnetpay.BorderWidthLeft = 0;
-                    cellnetpay.BorderWidthRight = 0;
-                    Maintable.AddCell(cellnetpay);
-
-                    PdfPCell cellOtpay = new PdfPCell(new Phrase("OT PAY\n" + "ESI\n" + "OT NET", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cellOtpay.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cellOtpay.Colspan = 1;
-                    cellOtpay.BorderWidthTop = 0.2f;
-                    cellOtpay.BorderWidthBottom = 0.2f;
-                    cellOtpay.BorderWidthLeft = 0;
-                    cellOtpay.BorderWidthRight = 0;
-                    Maintable.AddCell(cellOtpay);
-
-                    PdfPCell cellGrand = new PdfPCell(new Phrase("GRAND TOTAL", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cellGrand.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cellGrand.Colspan = 1;
-                    cellGrand.BorderWidthTop = 0.2f;
-                    cellGrand.BorderWidthBottom = 0.2f;
-                    cellGrand.BorderWidthLeft = 0;
-                    cellGrand.BorderWidthRight = 0;
-                    Maintable.AddCell(cellGrand);
-
-                    PdfPCell cellSign = new PdfPCell(new Phrase("SIGN", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cellSign.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cellSign.Colspan = 1;
-                    cellSign.BorderWidthTop = 0.2f;
-                    cellSign.BorderWidthBottom = 0.2f;
-                    cellSign.BorderWidthLeft = 0;
-                    cellSign.BorderWidthRight = 0;
-                    Maintable.AddCell(cellSign);
-
-                    int pagecount = 0;
-                    string Sno = "";
-                    string ClientID = "";
-                    //string Clientname = "";
-                    string Empid = "";
-                    string Empname = "";
-                    string Desgn = "";
-                    float Noofduties = 0;
-                    float Ots = 0;
-                    float Tot = 0;
-                    float Wo = 0;
-                    float Leave = 0;
-                    float PH = 0;
-                    float CanteenAdv = 0;
-                    float Uniform = 0;
-                    float Penalty = 0;
-                    float ATMDed = 0;
-                    float TotalDeds = 0;
-                    float Gross = 0;
-                    float PF = 0;
-                    float ESI = 0;
-                    float ProfTax = 0;
-                    float OWF = 0;
-                    float AdminCharges = 0;
-                    float Misd = 0;
-                    float TotalDeductions = 0;
-                    float Netpay = 0;
-                    float OTAmt = 0;
-                    float ESIONOT = 0;
-                    float OTNet = 0;
-                    float ActualAmount = 0;
-                    string BankName = "";
-                    string AcNo = "";
-                    string RefNo = "";
-                    string IFSCCode = "";
-                    float Others = 0;
-                    string Remarks = "";
-
-                    float TotalNoofduties = 0;
-                    float TotalOts = 0;
-                    float TotalTot = 0;
-                    float TotalWo = 0;
-                    float TotalLeave = 0;
-                    float TotalPH = 0;
-                    float TotalCanteenAdv = 0;
-                    float TotalUniform = 0;
-                    float TotalPenalty = 0;
-                    float TotalATMDed = 0;
-                    float TotalTotalDeds = 0;
-                    float TotalGross = 0;
-                    float TotalPF = 0;
-                    float TotalESI = 0;
-                    float TotalProfTax = 0;
-                    float TotalOWF = 0;
-                    float TotalAdminCharges = 0;
-                    float TotalMisd = 0;
-                    float TotalTotalDeductions = 0;
-                    float TotalNetpay = 0;
-                    float TotalOTAmt = 0;
-                    float TotalESIONOT = 0;
-                    float TotalOTNet = 0;
-                    float TotalActualAmount = 0;
-                    float TotalOthers = 0;
-
-                    for (int i = 0; i < dt.Rows.Count; i++)
-                    {
-                        if (dtgroup.Rows[j]["Clientid"].ToString() == dt.Rows[i]["Clientid"].ToString())
-                        {
-
-                            Sno = dt.Rows[i]["Sno"].ToString();
-                            ClientID = dt.Rows[i]["Clientid"].ToString();
-                            // Clientname = dt.Rows[i]["Client Name"].ToString();
-                            Empid = dt.Rows[i]["EmpId"].ToString();
-                            Empname = dt.Rows[i]["Name"].ToString();
-                            Noofduties = Convert.ToSingle(dt.Rows[i]["NoOfDuties"].ToString());
-                            Ots = Convert.ToSingle(dt.Rows[i]["ots"].ToString());
-                            CanteenAdv = Convert.ToSingle(dt.Rows[i]["CanteenAdv"].ToString());
-                            Uniform = Convert.ToSingle(dt.Rows[i]["UniformDed"].ToString());
-                            Penalty = Convert.ToSingle(dt.Rows[i]["penalty"].ToString());
-                            ATMDed = Convert.ToSingle(dt.Rows[i]["ATMDed"].ToString());
-                            Gross = Convert.ToSingle(dt.Rows[i]["Gross"].ToString());
-                            PF = Convert.ToSingle(dt.Rows[i]["PF"].ToString());
-                            ESI = Convert.ToSingle(dt.Rows[i]["ESI"].ToString());
-                            ProfTax = Convert.ToSingle(dt.Rows[i]["ProfTax"].ToString());
-                            OWF = Convert.ToSingle(dt.Rows[i]["OWF"].ToString());
-                            AdminCharges = Convert.ToSingle(dt.Rows[i]["AdminCharges"].ToString());
-                            Misd = Convert.ToSingle(dt.Rows[i]["Misd"].ToString());
-                            TotalDeductions = Convert.ToSingle(dt.Rows[i]["TotalDeductions"].ToString());
-                            Netpay = Convert.ToSingle(dt.Rows[i]["Netpay"].ToString());
-                            OTAmt = Convert.ToSingle(dt.Rows[i]["OTAmt"].ToString());
-                            ESIONOT = Convert.ToSingle(dt.Rows[i]["ESIONOT"].ToString());
-                            OTNet = Convert.ToSingle(dt.Rows[i]["OTNet"].ToString());
-                            Others = Convert.ToSingle(dt.Rows[i]["OthersAllw"].ToString());
-                            ActualAmount = Convert.ToSingle(dt.Rows[i]["ActualAmount"].ToString());
-                            BankName = dt.Rows[i]["Bank"].ToString();
-                            AcNo = dt.Rows[i]["ACNo"].ToString();
-                            RefNo = dt.Rows[i]["RefNo"].ToString();
-                            IFSCCode = dt.Rows[i]["IFSCCode"].ToString();
-                            Remarks = dt.Rows[i]["Remarks"].ToString();
-
-                            PdfPCell cellsno = new PdfPCell(new Phrase(Sno, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            cellsno.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                            cellsno.Colspan = 1;
-                            cellsno.BorderWidthTop = 0.2f;
-                            cellsno.BorderWidthBottom = 0;
-                            cellsno.BorderWidthLeft = 0;
-                            cellsno.BorderWidthRight = 0;
-                            Maintable.AddCell(cellsno);
-
-                            PdfPCell cellempname = new PdfPCell(new Phrase(Empid + "\n" + Empname, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                            cellempname.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                            cellempname.Colspan = 2;
-                            cellempname.BorderWidthTop = 0.2f;
-                            cellempname.BorderWidthBottom = 0;
-                            cellempname.BorderWidthLeft = 0;
-                            cellempname.BorderWidthRight = 0;
-                            Maintable.AddCell(cellempname);
-
-                            PdfPCell cellduty = new PdfPCell(new Phrase(Noofduties.ToString() + "\n" + Ots.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            cellduty.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                            cellduty.Colspan = 1;
-                            cellduty.BorderWidthTop = 0.2f;
-                            cellduty.BorderWidthBottom = 0;
-                            cellduty.BorderWidthLeft = 0;
-                            cellduty.BorderWidthRight = 0;
-                            Maintable.AddCell(cellduty);
-                            TotalNoofduties += Noofduties;
-                            TotalOts += Ots;
-
-                            PdfPCell cellGross = new PdfPCell(new Phrase(Gross.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                            cellGross.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                            cellGross.Colspan = 1;
-                            cellGross.BorderWidthTop = 0.2f;
-                            cellGross.BorderWidthBottom = 0;
-                            cellGross.BorderWidthLeft = 0;
-                            cellGross.BorderWidthRight = 0;
-                            Maintable.AddCell(cellGross);
-                            TotalGross += Gross;
-
-                            PdfPCell cellPF = new PdfPCell(new Phrase(PF.ToString() + "\n" + ProfTax.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            cellPF.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                            cellPF.Colspan = 1;
-                            cellPF.BorderWidthTop = 0.2f;
-                            cellPF.BorderWidthBottom = 0;
-                            cellPF.BorderWidthLeft = 0;
-                            cellPF.BorderWidthRight = 0;
-                            Maintable.AddCell(cellPF);
-                            TotalPF += PF;
-                            TotalProfTax += ProfTax;
-
-                            PdfPCell cellESI = new PdfPCell(new Phrase(ESI + "\n" + OWF + "\n" + AdminCharges, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            cellESI.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                            cellESI.Colspan = 1;
-                            cellESI.BorderWidthTop = 0.2f;
-                            cellESI.BorderWidthBottom = 0;
-                            cellESI.BorderWidthLeft = 0;
-                            cellESI.BorderWidthRight = 0;
-                            Maintable.AddCell(cellESI);
-                            TotalESI += ESI;
-                            TotalOWF += OWF;
-                            TotalAdminCharges += AdminCharges;
-
-                            PdfPCell celladv = new PdfPCell(new Phrase(CanteenAdv + "\n" + Uniform + "\n" + Misd, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            celladv.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                            celladv.Colspan = 1;
-                            celladv.BorderWidthTop = 0.2f;
-                            celladv.BorderWidthBottom = 0;
-                            celladv.BorderWidthLeft = 0;
-                            celladv.BorderWidthRight = 0;
-                            Maintable.AddCell(celladv);
-                            TotalCanteenAdv += CanteenAdv;
-                            TotalUniform += Uniform;
-                            TotalMisd += Misd;
-
-                            PdfPCell cellFine2 = new PdfPCell(new Phrase(Penalty + "\n" + ATMDed, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            cellFine2.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                            cellFine2.Colspan = 1;
-                            cellFine2.BorderWidthTop = 0.2f;
-                            cellFine2.BorderWidthBottom = 0;
-                            cellFine2.BorderWidthLeft = 0;
-                            cellFine2.BorderWidthRight = 0;
-                            Maintable.AddCell(cellFine2);
-                            TotalPenalty += Penalty;
-                            TotalATMDed += ATMDed;
-
-                            PdfPCell cellDed2 = new PdfPCell(new Phrase(TotalDeductions.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                            cellDed2.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                            cellDed2.Colspan = 1;
-                            cellDed2.BorderWidthTop = 0.2f;
-                            cellDed2.BorderWidthBottom = 0;
-                            cellDed2.BorderWidthLeft = 0;
-                            cellDed2.BorderWidthRight = 0;
-                            Maintable.AddCell(cellDed2);
-                            TotalTotalDeductions += TotalDeductions;
-
-                            PdfPCell cellnetpay2 = new PdfPCell(new Phrase(Netpay.ToString() + "\n" + Others.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                            cellnetpay2.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                            cellnetpay2.Colspan = 1;
-                            cellnetpay2.BorderWidthTop = 0.2f;
-                            cellnetpay2.BorderWidthBottom = 0;
-                            cellnetpay2.BorderWidthLeft = 0;
-                            cellnetpay2.BorderWidthRight = 0;
-                            Maintable.AddCell(cellnetpay2);
-                            TotalNetpay += Netpay;
-                            TotalOthers += Others;
-
-                            PdfPCell cellOtpay2 = new PdfPCell(new Phrase(OTAmt + "\n" + ESIONOT + "\n" + OTNet, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            cellOtpay2.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                            cellOtpay2.Colspan = 1;
-                            cellOtpay2.BorderWidthTop = 0.2f;
-                            cellOtpay2.BorderWidthBottom = 0;
-                            cellOtpay2.BorderWidthLeft = 0;
-                            cellOtpay2.BorderWidthRight = 0;
-                            Maintable.AddCell(cellOtpay2);
-                            TotalOTAmt += OTAmt;
-                            TotalESIONOT += ESIONOT;
-                            TotalOTNet += OTNet;
-
-                            PdfPCell cellGrand2 = new PdfPCell(new Phrase(ActualAmount.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                            cellGrand2.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                            cellGrand2.Colspan = 1;
-                            cellGrand2.BorderWidthTop = 0.2f;
-                            cellGrand2.BorderWidthBottom = 0;
-                            cellGrand2.BorderWidthLeft = 0;
-                            cellGrand2.BorderWidthRight = 0;
-                            Maintable.AddCell(cellGrand2);
-                            TotalActualAmount += ActualAmount;
-
-                            PdfPCell cellSign2 = new PdfPCell(new Phrase("", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            cellSign2.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                            cellSign2.Colspan = 1;
-                            cellSign2.BorderWidthTop = 0.2f;
-                            cellSign2.BorderWidthBottom = 0;
-                            cellSign2.BorderWidthLeft = 0;
-                            cellSign2.BorderWidthRight = 0;
-                            Maintable.AddCell(cellSign2);
-
-                            PdfPCell cellSno2 = new PdfPCell(new Phrase("", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            cellSno2.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
-                            cellSno2.Colspan = 1;
-                            cellSno2.BorderWidthTop = 0;
-                            cellSno2.BorderWidthBottom = 0.2f;
-                            cellSno2.BorderWidthLeft = 0;
-                            cellSno2.BorderWidthRight = 0;
-                            Maintable.AddCell(cellSno2);
-
-                            PdfPCell cellBank = new PdfPCell(new Phrase("Bank : " + BankName, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            cellBank.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
-                            cellBank.Colspan = 2;
-                            cellBank.BorderWidthTop = 0;
-                            cellBank.BorderWidthBottom = 0.2f;
-                            cellBank.BorderWidthLeft = 0;
-                            cellBank.BorderWidthRight = 0;
-                            Maintable.AddCell(cellBank);
-
-                            PdfPCell cellacno = new PdfPCell(new Phrase("AC No " + AcNo, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            cellacno.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
-                            cellacno.Colspan = 4;
-                            cellacno.BorderWidthTop = 0;
-                            cellacno.BorderWidthBottom = 0.2f;
-                            cellacno.BorderWidthLeft = 0;
-                            cellacno.BorderWidthRight = 0;
-                            Maintable.AddCell(cellacno);
-
-                            PdfPCell cellrefno = new PdfPCell(new Phrase("Refno " + RefNo, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            cellrefno.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
-                            cellrefno.Colspan = 3;
-                            cellrefno.BorderWidthTop = 0;
-                            cellrefno.BorderWidthBottom = 0.2f;
-                            cellrefno.BorderWidthLeft = 0;
-                            cellrefno.BorderWidthRight = 0;
-                            Maintable.AddCell(cellrefno);
-
-                            PdfPCell cellifsccode = new PdfPCell(new Phrase("IFSC " + IFSCCode, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            cellifsccode.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
-                            cellifsccode.Colspan = 2;
-                            cellifsccode.BorderWidthTop = 0;
-                            cellifsccode.BorderWidthBottom = 0.2f;
-                            cellifsccode.BorderWidthLeft = 0;
-                            cellifsccode.BorderWidthRight = 0;
-                            Maintable.AddCell(cellifsccode);
-
-                            PdfPCell cellspace = new PdfPCell(new Phrase(Remarks, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            cellspace.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
-                            cellspace.Colspan = 2;
-                            cellspace.BorderWidthTop = 0;
-                            cellspace.BorderWidthBottom = 0.2f;
-                            cellspace.BorderWidthLeft = 0;
-                            cellspace.BorderWidthRight = 0;
-                            Maintable.AddCell(cellspace);
-                        }
-
-                    }
-
-                    PdfPCell cellsnototal = new PdfPCell(new Phrase("", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cellsnototal.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cellsnototal.Colspan = 1;
-                    cellsnototal.BorderWidthTop = 0.2f;
-                    cellsnototal.BorderWidthBottom = 0.2f;
-                    cellsnototal.BorderWidthLeft = 0;
-                    cellsnototal.BorderWidthRight = 0;
-                    Maintable.AddCell(cellsnototal);
-
-                    PdfPCell cellempnametotal = new PdfPCell(new Phrase("", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cellempnametotal.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cellempnametotal.Colspan = 2;
-                    cellempnametotal.BorderWidthTop = 0.2f;
-                    cellempnametotal.BorderWidthBottom = 0.2f;
-                    cellempnametotal.BorderWidthLeft = 0;
-                    cellempnametotal.BorderWidthRight = 0;
-                    Maintable.AddCell(cellempnametotal);
-
-                    PdfPCell celldutytotal = new PdfPCell(new Phrase(TotalNoofduties.ToString() + "\n" + TotalOts.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    celldutytotal.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    celldutytotal.Colspan = 1;
-                    celldutytotal.BorderWidthTop = 0.2f;
-                    celldutytotal.BorderWidthBottom = 0.2f;
-                    celldutytotal.BorderWidthLeft = 0;
-                    celldutytotal.BorderWidthRight = 0;
-                    Maintable.AddCell(celldutytotal);
-
-                    PdfPCell cellGrosstotal = new PdfPCell(new Phrase(TotalGross.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cellGrosstotal.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cellGrosstotal.Colspan = 1;
-                    cellGrosstotal.BorderWidthTop = 0.2f;
-                    cellGrosstotal.BorderWidthBottom = 0.2f;
-                    cellGrosstotal.BorderWidthLeft = 0;
-                    cellGrosstotal.BorderWidthRight = 0;
-                    Maintable.AddCell(cellGrosstotal);
-
-                    PdfPCell cellPFtotal = new PdfPCell(new Phrase(TotalPF.ToString() + "\n" + TotalProfTax.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cellPFtotal.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cellPFtotal.Colspan = 1;
-                    cellPFtotal.BorderWidthTop = 0.2f;
-                    cellPFtotal.BorderWidthBottom = 0.2f;
-                    cellPFtotal.BorderWidthLeft = 0;
-                    cellPFtotal.BorderWidthRight = 0;
-                    Maintable.AddCell(cellPFtotal);
-
-                    PdfPCell cellESItotal = new PdfPCell(new Phrase(TotalESI + "\n" + TotalOWF + "\n" + TotalAdminCharges, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cellESItotal.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cellESItotal.Colspan = 1;
-                    cellESItotal.BorderWidthTop = 0.2f;
-                    cellESItotal.BorderWidthBottom = 0.2f;
-                    cellESItotal.BorderWidthLeft = 0;
-                    cellESItotal.BorderWidthRight = 0;
-                    Maintable.AddCell(cellESItotal);
-
-                    PdfPCell celladvtotal = new PdfPCell(new Phrase(TotalCanteenAdv + "\n" + TotalUniform + "\n" + TotalMisd, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    celladvtotal.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    celladvtotal.Colspan = 1;
-                    celladvtotal.BorderWidthTop = 0.2f;
-                    celladvtotal.BorderWidthBottom = 0.2f;
-                    celladvtotal.BorderWidthLeft = 0;
-                    celladvtotal.BorderWidthRight = 0;
-                    Maintable.AddCell(celladvtotal);
-
-                    PdfPCell cellFine2total = new PdfPCell(new Phrase(TotalPenalty + "\n" + TotalATMDed, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cellFine2total.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cellFine2total.Colspan = 1;
-                    cellFine2total.BorderWidthTop = 0.2f;
-                    cellFine2total.BorderWidthBottom = 0.2f;
-                    cellFine2total.BorderWidthLeft = 0;
-                    cellFine2total.BorderWidthRight = 0;
-                    Maintable.AddCell(cellFine2total);
-
-                    PdfPCell cellDed2total = new PdfPCell(new Phrase(TotalTotalDeductions.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cellDed2total.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cellDed2total.Colspan = 1;
-                    cellDed2total.BorderWidthTop = 0.2f;
-                    cellDed2total.BorderWidthBottom = 0.2f;
-                    cellDed2total.BorderWidthLeft = 0;
-                    cellDed2total.BorderWidthRight = 0;
-                    Maintable.AddCell(cellDed2total);
-
-
-                    PdfPCell cellnetpay2total = new PdfPCell(new Phrase(TotalNetpay.ToString() + "\n" + TotalOthers.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cellnetpay2total.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cellnetpay2total.Colspan = 1;
-                    cellnetpay2total.BorderWidthTop = 0.2f;
-                    cellnetpay2total.BorderWidthBottom = 0.2f;
-                    cellnetpay2total.BorderWidthLeft = 0;
-                    cellnetpay2total.BorderWidthRight = 0;
-                    Maintable.AddCell(cellnetpay2total);
-
-
-                    PdfPCell cellOtpay2total = new PdfPCell(new Phrase(TotalOTAmt + "\n" + TotalESIONOT + "\n" + TotalOTNet, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cellOtpay2total.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cellOtpay2total.Colspan = 1;
-                    cellOtpay2total.BorderWidthTop = 0.2f;
-                    cellOtpay2total.BorderWidthBottom = 0.2f;
-                    cellOtpay2total.BorderWidthLeft = 0;
-                    cellOtpay2total.BorderWidthRight = 0;
-                    Maintable.AddCell(cellOtpay2total);
-
-                    PdfPCell cellGrand2total = new PdfPCell(new Phrase(TotalActualAmount.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cellGrand2total.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cellGrand2total.Colspan = 1;
-                    cellGrand2total.BorderWidthTop = 0.2f;
-                    cellGrand2total.BorderWidthBottom = 0.2f;
-                    cellGrand2total.BorderWidthLeft = 0;
-                    cellGrand2total.BorderWidthRight = 0;
-                    Maintable.AddCell(cellGrand2total);
-
-
-                    PdfPCell cellSign2total = new PdfPCell(new Phrase("", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                    cellSign2total.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    cellSign2total.Colspan = 1;
-                    cellSign2total.BorderWidthTop = 0.2f;
-                    cellSign2total.BorderWidthBottom = 0.2f;
-                    cellSign2total.BorderWidthLeft = 0;
-                    cellSign2total.BorderWidthRight = 0;
-                    Maintable.AddCell(cellSign2total);
-
-                    document.Add(Maintable);
-
-
-                }
-
-
-                string filename = "WageSheetSummary" + ".pdf";
-
-                document.Close();
-                Response.ContentType = "application/pdf";
-                Response.AddHeader("content-disposition", "attachment;filename=\"" + filename + "\"");
-                Response.Buffer = true;
-                Response.Clear();
-                Response.OutputStream.Write(ms.GetBuffer(), 0, ms.GetBuffer().Length);
-                Response.OutputStream.Flush();
-                Response.End();
-            }
-        }
+        //    DataTable dtEmpidsList = new DataTable();
+        //    dtEmpidsList.Columns.Add("Empid");
+        //    if (list.Count != 0)
+        //    {
+        //        foreach (string s in list)
+        //        {
+        //            DataRow row = dtEmpidsList.NewRow();
+        //            row["Empid"] = s;
+        //            dtEmpidsList.Rows.Add(row);
+        //        }
+        //    }
+
+        //    DataTable dt = null;
+        //    var clientid = ddlClients.SelectedValue;
+        //    string SPName = "WageSheetSummary";
+
+
+        //    Hashtable ht = new Hashtable();
+        //    ht.Add("@clientids", clientid);
+        //    ht.Add("@Month", month);
+        //    ht.Add("@EmpIDList", dtEmpidsList);
+        //    ht.Add("@Option", "Paysheet");
+
+
+        //    dt = config.ExecuteAdaptorWithParams(SPName, ht).Result;
+        //    DataTable dtgroup = dt.DefaultView.ToTable(true, "ClientID");
+
+        //    string strQry = "select * from companyinfo where BranchID='" + Session["Branch"].ToString() + "' ";
+        //    DataTable compInfo = config.ExecuteAdaptorAsyncWithQueryParams(strQry).Result;
+        //    string companyName = "Your Company Name";
+        //    string companyAddress = "Your Company Address";
+        //    string PFNOForms = "";
+        //    string TotalPFNOForms = "";
+        //    if (compInfo.Rows.Count > 0)
+        //    {
+        //        companyName = compInfo.Rows[0]["CompanyName"].ToString();
+        //        companyAddress = compInfo.Rows[0]["Address"].ToString();
+        //        //PFNOForms = compInfo.Rows[0]["PFNoForms"].ToString();
+        //    }
+
+
+        //    MemoryStream ms = new MemoryStream();
+        //    string fontsyle = "Courier New";
+
+
+        //    int Fontsize = 12;
+        //    if (dt.Rows.Count > 0)
+        //    {
+
+        //        Document document = new Document(PageSize.A4.Rotate());
+        //        var writer = PdfWriter.GetInstance(document, ms);
+        //        document.Open();
+        //        BaseFont bf = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+
+        //        for (int j = 0; j < dtgroup.Rows.Count; j++)
+        //        {
+        //            document.NewPage();
+
+
+        //            PdfPTable Maintable = new PdfPTable(14);
+        //            Maintable.TotalWidth = 790;
+        //            Maintable.HeaderRows = 3;
+        //            Maintable.LockedWidth = true;
+        //            float[] width = new float[] { 1f, 1.5f, 1.5f, 1f, 1f, 1f, 1f, 1.2f, 1f, 1f, 1f, 1f, 1f, 1f };
+        //            Maintable.SetWidths(width);
+
+
+
+        //            PdfPCell cell = new PdfPCell(new Phrase("", FontFactory.GetFont(fontsyle, Fontsize + 1, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cell.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+        //            cell.Colspan = 7;
+        //            cell.Border = 0;
+        //            //Maintable.AddCell(cell);
+
+        //            cell = new PdfPCell(new Phrase("Zone", FontFactory.GetFont(fontsyle, Fontsize + 1, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cell.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+        //            cell.Colspan = 1;
+        //            cell.Border = 0;
+        //            //Maintable.AddCell(cell);
+
+        //            cell = new PdfPCell(new Phrase("PF1/WB1/KOLKATA/WEST/SEC", FontFactory.GetFont(fontsyle, Fontsize + 1, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cell.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cell.Colspan = 6;
+        //            cell.Border = 0;
+        //            // Maintable.AddCell(cell);
+
+        //            PdfPCell cellunit = new PdfPCell(new Phrase("UNIT SUMMARY OF", FontFactory.GetFont(fontsyle, Fontsize + 1, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cellunit.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+        //            cellunit.Colspan = 3;
+        //            cellunit.Border = 0;
+        //            Maintable.AddCell(cellunit);
+
+        //            PdfPCell cell33 = new PdfPCell(new Phrase("", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cell33.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cell33.Colspan = 2;
+        //            cell33.Border = 0;
+        //            Maintable.AddCell(cell33);
+
+        //            PdfPCell cell52 = new PdfPCell(new Phrase("", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cell52.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cell52.Colspan = 2;
+        //            cell52.Border = 0;
+        //            Maintable.AddCell(cell52);
+
+        //            cell52 = new PdfPCell(new Phrase("Unit Code", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cell52.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+        //            cell52.Colspan = 2;
+        //            cell52.Border = 0;
+        //            Maintable.AddCell(cell52);
+
+        //            string Clientid = dtgroup.Rows[j]["Clientid"].ToString();
+        //            PdfPCell cell22 = new PdfPCell(new Phrase(Clientid, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cell22.HorizontalAlignment = 3; //0=Left, 1=Centre, 2=Right
+        //            cell22.Colspan = 5;
+        //            cell22.Border = 0;
+        //            Maintable.AddCell(cell22);
+
+        //            PdfPCell celldata2 = new PdfPCell(new Phrase("EMPLOYEE", FontFactory.GetFont(fontsyle, Fontsize + 1, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            celldata2.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+        //            celldata2.Colspan = 3;
+        //            celldata2.Border = 0;
+        //            Maintable.AddCell(celldata2);
+
+        //            PdfPCell cell3 = new PdfPCell(new Phrase("Salary Month", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cell3.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cell3.Colspan = 2;
+        //            cell3.Border = 0;
+        //            Maintable.AddCell(cell3);
+
+        //            PdfPCell cell5 = new PdfPCell(new Phrase(GetMonthName() + " " + GetMonthOfYear(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cell5.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cell5.Colspan = 2;
+        //            cell5.Border = 0;
+        //            Maintable.AddCell(cell5);
+
+        //            cell5 = new PdfPCell(new Phrase("Unit", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cell5.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+        //            cell5.Colspan = 1;
+        //            cell5.Border = 0;
+        //            Maintable.AddCell(cell5);
+
+        //            string strClientname = "select ClientName from Clients where clientid='" + Clientid + "'";
+        //            DataTable dtclientname = config.ExecuteAdaptorAsyncWithQueryParams(strClientname).Result;
+        //            string Clientname = "";
+        //            if (dtclientname.Rows.Count > 0)
+        //            {
+        //                Clientname = dtclientname.Rows[0]["ClientName"].ToString();
+        //            }
+
+        //            PdfPCell cell2 = new PdfPCell(new Phrase(Clientname, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cell2.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cell2.Colspan = 6;
+        //            cell2.Border = 0;
+        //            Maintable.AddCell(cell2);
+
+
+
+        //            PdfPCell cell6 = new PdfPCell(new Phrase("Slno", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cell6.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cell6.Colspan = 1;
+        //            cell6.BorderWidthTop = 0.2f;
+        //            cell6.BorderWidthBottom = 0.2f;
+        //            cell6.BorderWidthLeft = 0;
+        //            cell6.BorderWidthRight = 0;
+        //            Maintable.AddCell(cell6);
+
+        //            PdfPCell cell7 = new PdfPCell(new Phrase("Emp No\n" + "Employee Name", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cell7.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cell7.Colspan = 2;
+        //            cell7.BorderWidthTop = 0.2f;
+        //            cell7.BorderWidthBottom = 0.2f;
+        //            cell7.BorderWidthLeft = 0;
+        //            cell7.BorderWidthRight = 0;
+        //            Maintable.AddCell(cell7);
+
+        //            PdfPCell cell8 = new PdfPCell(new Phrase("DUTY\n" + "OT DUTY", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cell8.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cell8.Colspan = 1;
+        //            cell8.BorderWidthTop = 0.2f;
+        //            cell8.BorderWidthBottom = 0.2f;
+        //            cell8.BorderWidthLeft = 0;
+        //            cell8.BorderWidthRight = 0;
+        //            Maintable.AddCell(cell8);
+
+        //            PdfPCell cell9 = new PdfPCell(new Phrase("Gross", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cell9.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cell9.Colspan = 1;
+        //            cell9.BorderWidthTop = 0.2f;
+        //            cell9.BorderWidthBottom = 0.2f;
+        //            cell9.BorderWidthLeft = 0;
+        //            cell9.BorderWidthRight = 0;
+        //            Maintable.AddCell(cell9);
+
+        //            PdfPCell cell11 = new PdfPCell(new Phrase("PF\n" + "PT", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cell11.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cell11.Colspan = 1;
+        //            cell11.BorderWidthTop = 0.2f;
+        //            cell11.BorderWidthBottom = 0.2f;
+        //            cell11.BorderWidthLeft = 0;
+        //            cell11.BorderWidthRight = 0;
+        //            Maintable.AddCell(cell11);
+
+        //            PdfPCell cell12 = new PdfPCell(new Phrase(" ESI\n" + "LWF\n" + "ADM", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cell12.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cell12.Colspan = 1;
+        //            cell12.BorderWidthTop = 0.2f;
+        //            cell12.BorderWidthBottom = 0.2f;
+        //            cell12.BorderWidthLeft = 0;
+        //            cell12.BorderWidthRight = 0;
+        //            Maintable.AddCell(cell12);
+
+        //            PdfPCell cell13 = new PdfPCell(new Phrase("Adv\n" + "Uni\n" + "Misd", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cell13.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cell13.Colspan = 1;
+        //            cell13.BorderWidthTop = 0.2f;
+        //            cell13.BorderWidthBottom = 0.2f;
+        //            cell13.BorderWidthLeft = 0;
+        //            cell13.BorderWidthRight = 0;
+        //            Maintable.AddCell(cell13);
+
+        //            PdfPCell cellFine = new PdfPCell(new Phrase("Fine\n" + "Misc", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cellFine.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cellFine.Colspan = 1;
+        //            cellFine.BorderWidthTop = 0.2f;
+        //            cellFine.BorderWidthBottom = 0.2f;
+        //            cellFine.BorderWidthLeft = 0;
+        //            cellFine.BorderWidthRight = 0;
+        //            Maintable.AddCell(cellFine);
+
+        //            PdfPCell cellDed = new PdfPCell(new Phrase("TotalDeduction", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cellDed.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cellDed.Colspan = 1;
+        //            cellDed.BorderWidthTop = 0.2f;
+        //            cellDed.BorderWidthBottom = 0.2f;
+        //            cellDed.BorderWidthLeft = 0;
+        //            cellDed.BorderWidthRight = 0;
+        //            Maintable.AddCell(cellDed);
+
+        //            PdfPCell cellnetpay = new PdfPCell(new Phrase("NetPay\nOthers", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cellnetpay.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cellnetpay.Colspan = 1;
+        //            cellnetpay.BorderWidthTop = 0.2f;
+        //            cellnetpay.BorderWidthBottom = 0.2f;
+        //            cellnetpay.BorderWidthLeft = 0;
+        //            cellnetpay.BorderWidthRight = 0;
+        //            Maintable.AddCell(cellnetpay);
+
+        //            PdfPCell cellOtpay = new PdfPCell(new Phrase("OT PAY\n" + "ESI\n" + "OT NET", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cellOtpay.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cellOtpay.Colspan = 1;
+        //            cellOtpay.BorderWidthTop = 0.2f;
+        //            cellOtpay.BorderWidthBottom = 0.2f;
+        //            cellOtpay.BorderWidthLeft = 0;
+        //            cellOtpay.BorderWidthRight = 0;
+        //            Maintable.AddCell(cellOtpay);
+
+        //            PdfPCell cellGrand = new PdfPCell(new Phrase("GRAND TOTAL", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cellGrand.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cellGrand.Colspan = 1;
+        //            cellGrand.BorderWidthTop = 0.2f;
+        //            cellGrand.BorderWidthBottom = 0.2f;
+        //            cellGrand.BorderWidthLeft = 0;
+        //            cellGrand.BorderWidthRight = 0;
+        //            Maintable.AddCell(cellGrand);
+
+        //            PdfPCell cellSign = new PdfPCell(new Phrase("SIGN", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cellSign.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cellSign.Colspan = 1;
+        //            cellSign.BorderWidthTop = 0.2f;
+        //            cellSign.BorderWidthBottom = 0.2f;
+        //            cellSign.BorderWidthLeft = 0;
+        //            cellSign.BorderWidthRight = 0;
+        //            Maintable.AddCell(cellSign);
+
+        //            int pagecount = 0;
+        //            string Sno = "";
+        //            string ClientID = "";
+        //            //string Clientname = "";
+        //            string Empid = "";
+        //            string Empname = "";
+        //            string Desgn = "";
+        //            float Noofduties = 0;
+        //            float Ots = 0;
+        //            float Tot = 0;
+        //            float Wo = 0;
+        //            float Leave = 0;
+        //            float PH = 0;
+        //            float CanteenAdv = 0;
+        //            float Uniform = 0;
+        //            float Penalty = 0;
+        //            float ATMDed = 0;
+        //            float TotalDeds = 0;
+        //            float Gross = 0;
+        //            float PF = 0;
+        //            float ESI = 0;
+        //            float ProfTax = 0;
+        //            float OWF = 0;
+        //            float AdminCharges = 0;
+        //            float Misd = 0;
+        //            float TotalDeductions = 0;
+        //            float Netpay = 0;
+        //            float OTAmt = 0;
+        //            float ESIONOT = 0;
+        //            float OTNet = 0;
+        //            float ActualAmount = 0;
+        //            string BankName = "";
+        //            string AcNo = "";
+        //            string RefNo = "";
+        //            string IFSCCode = "";
+        //            float Others = 0;
+        //            string Remarks = "";
+
+        //            float TotalNoofduties = 0;
+        //            float TotalOts = 0;
+        //            float TotalTot = 0;
+        //            float TotalWo = 0;
+        //            float TotalLeave = 0;
+        //            float TotalPH = 0;
+        //            float TotalCanteenAdv = 0;
+        //            float TotalUniform = 0;
+        //            float TotalPenalty = 0;
+        //            float TotalATMDed = 0;
+        //            float TotalTotalDeds = 0;
+        //            float TotalGross = 0;
+        //            float TotalPF = 0;
+        //            float TotalESI = 0;
+        //            float TotalProfTax = 0;
+        //            float TotalOWF = 0;
+        //            float TotalAdminCharges = 0;
+        //            float TotalMisd = 0;
+        //            float TotalTotalDeductions = 0;
+        //            float TotalNetpay = 0;
+        //            float TotalOTAmt = 0;
+        //            float TotalESIONOT = 0;
+        //            float TotalOTNet = 0;
+        //            float TotalActualAmount = 0;
+        //            float TotalOthers = 0;
+
+        //            for (int i = 0; i < dt.Rows.Count; i++)
+        //            {
+        //                if (dtgroup.Rows[j]["Clientid"].ToString() == dt.Rows[i]["Clientid"].ToString())
+        //                {
+
+        //                    Sno = dt.Rows[i]["Sno"].ToString();
+        //                    ClientID = dt.Rows[i]["Clientid"].ToString();
+        //                    // Clientname = dt.Rows[i]["Client Name"].ToString();
+        //                    Empid = dt.Rows[i]["EmpId"].ToString();
+        //                    Empname = dt.Rows[i]["Name"].ToString();
+        //                    Noofduties = Convert.ToSingle(dt.Rows[i]["NoOfDuties"].ToString());
+        //                    Ots = Convert.ToSingle(dt.Rows[i]["ots"].ToString());
+        //                    CanteenAdv = Convert.ToSingle(dt.Rows[i]["CanteenAdv"].ToString());
+        //                    Uniform = Convert.ToSingle(dt.Rows[i]["UniformDed"].ToString());
+        //                    Penalty = Convert.ToSingle(dt.Rows[i]["penalty"].ToString());
+        //                    ATMDed = Convert.ToSingle(dt.Rows[i]["ATMDed"].ToString());
+        //                    Gross = Convert.ToSingle(dt.Rows[i]["Gross"].ToString());
+        //                    PF = Convert.ToSingle(dt.Rows[i]["PF"].ToString());
+        //                    ESI = Convert.ToSingle(dt.Rows[i]["ESI"].ToString());
+        //                    ProfTax = Convert.ToSingle(dt.Rows[i]["ProfTax"].ToString());
+        //                    OWF = Convert.ToSingle(dt.Rows[i]["OWF"].ToString());
+        //                    AdminCharges = Convert.ToSingle(dt.Rows[i]["AdminCharges"].ToString());
+        //                    Misd = Convert.ToSingle(dt.Rows[i]["Misd"].ToString());
+        //                    TotalDeductions = Convert.ToSingle(dt.Rows[i]["TotalDeductions"].ToString());
+        //                    Netpay = Convert.ToSingle(dt.Rows[i]["Netpay"].ToString());
+        //                    OTAmt = Convert.ToSingle(dt.Rows[i]["OTAmt"].ToString());
+        //                    ESIONOT = Convert.ToSingle(dt.Rows[i]["ESIONOT"].ToString());
+        //                    OTNet = Convert.ToSingle(dt.Rows[i]["OTNet"].ToString());
+        //                    Others = Convert.ToSingle(dt.Rows[i]["OthersAllw"].ToString());
+        //                    ActualAmount = Convert.ToSingle(dt.Rows[i]["ActualAmount"].ToString());
+        //                    BankName = dt.Rows[i]["Bank"].ToString();
+        //                    AcNo = dt.Rows[i]["ACNo"].ToString();
+        //                    RefNo = dt.Rows[i]["RefNo"].ToString();
+        //                    IFSCCode = dt.Rows[i]["IFSCCode"].ToString();
+        //                    Remarks = dt.Rows[i]["Remarks"].ToString();
+
+        //                    PdfPCell cellsno = new PdfPCell(new Phrase(Sno, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+        //                    cellsno.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //                    cellsno.Colspan = 1;
+        //                    cellsno.BorderWidthTop = 0.2f;
+        //                    cellsno.BorderWidthBottom = 0;
+        //                    cellsno.BorderWidthLeft = 0;
+        //                    cellsno.BorderWidthRight = 0;
+        //                    Maintable.AddCell(cellsno);
+
+        //                    PdfPCell cellempname = new PdfPCell(new Phrase(Empid + "\n" + Empname, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //                    cellempname.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //                    cellempname.Colspan = 2;
+        //                    cellempname.BorderWidthTop = 0.2f;
+        //                    cellempname.BorderWidthBottom = 0;
+        //                    cellempname.BorderWidthLeft = 0;
+        //                    cellempname.BorderWidthRight = 0;
+        //                    Maintable.AddCell(cellempname);
+
+        //                    PdfPCell cellduty = new PdfPCell(new Phrase(Noofduties.ToString() + "\n" + Ots.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+        //                    cellduty.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //                    cellduty.Colspan = 1;
+        //                    cellduty.BorderWidthTop = 0.2f;
+        //                    cellduty.BorderWidthBottom = 0;
+        //                    cellduty.BorderWidthLeft = 0;
+        //                    cellduty.BorderWidthRight = 0;
+        //                    Maintable.AddCell(cellduty);
+        //                    TotalNoofduties += Noofduties;
+        //                    TotalOts += Ots;
+
+        //                    PdfPCell cellGross = new PdfPCell(new Phrase(Gross.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //                    cellGross.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //                    cellGross.Colspan = 1;
+        //                    cellGross.BorderWidthTop = 0.2f;
+        //                    cellGross.BorderWidthBottom = 0;
+        //                    cellGross.BorderWidthLeft = 0;
+        //                    cellGross.BorderWidthRight = 0;
+        //                    Maintable.AddCell(cellGross);
+        //                    TotalGross += Gross;
+
+        //                    PdfPCell cellPF = new PdfPCell(new Phrase(PF.ToString() + "\n" + ProfTax.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+        //                    cellPF.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //                    cellPF.Colspan = 1;
+        //                    cellPF.BorderWidthTop = 0.2f;
+        //                    cellPF.BorderWidthBottom = 0;
+        //                    cellPF.BorderWidthLeft = 0;
+        //                    cellPF.BorderWidthRight = 0;
+        //                    Maintable.AddCell(cellPF);
+        //                    TotalPF += PF;
+        //                    TotalProfTax += ProfTax;
+
+        //                    PdfPCell cellESI = new PdfPCell(new Phrase(ESI + "\n" + OWF + "\n" + AdminCharges, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+        //                    cellESI.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //                    cellESI.Colspan = 1;
+        //                    cellESI.BorderWidthTop = 0.2f;
+        //                    cellESI.BorderWidthBottom = 0;
+        //                    cellESI.BorderWidthLeft = 0;
+        //                    cellESI.BorderWidthRight = 0;
+        //                    Maintable.AddCell(cellESI);
+        //                    TotalESI += ESI;
+        //                    TotalOWF += OWF;
+        //                    TotalAdminCharges += AdminCharges;
+
+        //                    PdfPCell celladv = new PdfPCell(new Phrase(CanteenAdv + "\n" + Uniform + "\n" + Misd, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+        //                    celladv.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //                    celladv.Colspan = 1;
+        //                    celladv.BorderWidthTop = 0.2f;
+        //                    celladv.BorderWidthBottom = 0;
+        //                    celladv.BorderWidthLeft = 0;
+        //                    celladv.BorderWidthRight = 0;
+        //                    Maintable.AddCell(celladv);
+        //                    TotalCanteenAdv += CanteenAdv;
+        //                    TotalUniform += Uniform;
+        //                    TotalMisd += Misd;
+
+        //                    PdfPCell cellFine2 = new PdfPCell(new Phrase(Penalty + "\n" + ATMDed, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+        //                    cellFine2.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //                    cellFine2.Colspan = 1;
+        //                    cellFine2.BorderWidthTop = 0.2f;
+        //                    cellFine2.BorderWidthBottom = 0;
+        //                    cellFine2.BorderWidthLeft = 0;
+        //                    cellFine2.BorderWidthRight = 0;
+        //                    Maintable.AddCell(cellFine2);
+        //                    TotalPenalty += Penalty;
+        //                    TotalATMDed += ATMDed;
+
+        //                    PdfPCell cellDed2 = new PdfPCell(new Phrase(TotalDeductions.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //                    cellDed2.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //                    cellDed2.Colspan = 1;
+        //                    cellDed2.BorderWidthTop = 0.2f;
+        //                    cellDed2.BorderWidthBottom = 0;
+        //                    cellDed2.BorderWidthLeft = 0;
+        //                    cellDed2.BorderWidthRight = 0;
+        //                    Maintable.AddCell(cellDed2);
+        //                    TotalTotalDeductions += TotalDeductions;
+
+        //                    PdfPCell cellnetpay2 = new PdfPCell(new Phrase(Netpay.ToString() + "\n" + Others.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //                    cellnetpay2.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //                    cellnetpay2.Colspan = 1;
+        //                    cellnetpay2.BorderWidthTop = 0.2f;
+        //                    cellnetpay2.BorderWidthBottom = 0;
+        //                    cellnetpay2.BorderWidthLeft = 0;
+        //                    cellnetpay2.BorderWidthRight = 0;
+        //                    Maintable.AddCell(cellnetpay2);
+        //                    TotalNetpay += Netpay;
+        //                    TotalOthers += Others;
+
+        //                    PdfPCell cellOtpay2 = new PdfPCell(new Phrase(OTAmt + "\n" + ESIONOT + "\n" + OTNet, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+        //                    cellOtpay2.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //                    cellOtpay2.Colspan = 1;
+        //                    cellOtpay2.BorderWidthTop = 0.2f;
+        //                    cellOtpay2.BorderWidthBottom = 0;
+        //                    cellOtpay2.BorderWidthLeft = 0;
+        //                    cellOtpay2.BorderWidthRight = 0;
+        //                    Maintable.AddCell(cellOtpay2);
+        //                    TotalOTAmt += OTAmt;
+        //                    TotalESIONOT += ESIONOT;
+        //                    TotalOTNet += OTNet;
+
+        //                    PdfPCell cellGrand2 = new PdfPCell(new Phrase(ActualAmount.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //                    cellGrand2.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //                    cellGrand2.Colspan = 1;
+        //                    cellGrand2.BorderWidthTop = 0.2f;
+        //                    cellGrand2.BorderWidthBottom = 0;
+        //                    cellGrand2.BorderWidthLeft = 0;
+        //                    cellGrand2.BorderWidthRight = 0;
+        //                    Maintable.AddCell(cellGrand2);
+        //                    TotalActualAmount += ActualAmount;
+
+        //                    PdfPCell cellSign2 = new PdfPCell(new Phrase("", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+        //                    cellSign2.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //                    cellSign2.Colspan = 1;
+        //                    cellSign2.BorderWidthTop = 0.2f;
+        //                    cellSign2.BorderWidthBottom = 0;
+        //                    cellSign2.BorderWidthLeft = 0;
+        //                    cellSign2.BorderWidthRight = 0;
+        //                    Maintable.AddCell(cellSign2);
+
+        //                    PdfPCell cellSno2 = new PdfPCell(new Phrase("", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+        //                    cellSno2.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+        //                    cellSno2.Colspan = 1;
+        //                    cellSno2.BorderWidthTop = 0;
+        //                    cellSno2.BorderWidthBottom = 0.2f;
+        //                    cellSno2.BorderWidthLeft = 0;
+        //                    cellSno2.BorderWidthRight = 0;
+        //                    Maintable.AddCell(cellSno2);
+
+        //                    PdfPCell cellBank = new PdfPCell(new Phrase("Bank : " + BankName, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+        //                    cellBank.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+        //                    cellBank.Colspan = 2;
+        //                    cellBank.BorderWidthTop = 0;
+        //                    cellBank.BorderWidthBottom = 0.2f;
+        //                    cellBank.BorderWidthLeft = 0;
+        //                    cellBank.BorderWidthRight = 0;
+        //                    Maintable.AddCell(cellBank);
+
+        //                    PdfPCell cellacno = new PdfPCell(new Phrase("AC No " + AcNo, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+        //                    cellacno.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+        //                    cellacno.Colspan = 4;
+        //                    cellacno.BorderWidthTop = 0;
+        //                    cellacno.BorderWidthBottom = 0.2f;
+        //                    cellacno.BorderWidthLeft = 0;
+        //                    cellacno.BorderWidthRight = 0;
+        //                    Maintable.AddCell(cellacno);
+
+        //                    PdfPCell cellrefno = new PdfPCell(new Phrase("Refno " + RefNo, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+        //                    cellrefno.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+        //                    cellrefno.Colspan = 3;
+        //                    cellrefno.BorderWidthTop = 0;
+        //                    cellrefno.BorderWidthBottom = 0.2f;
+        //                    cellrefno.BorderWidthLeft = 0;
+        //                    cellrefno.BorderWidthRight = 0;
+        //                    Maintable.AddCell(cellrefno);
+
+        //                    PdfPCell cellifsccode = new PdfPCell(new Phrase("IFSC " + IFSCCode, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+        //                    cellifsccode.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+        //                    cellifsccode.Colspan = 2;
+        //                    cellifsccode.BorderWidthTop = 0;
+        //                    cellifsccode.BorderWidthBottom = 0.2f;
+        //                    cellifsccode.BorderWidthLeft = 0;
+        //                    cellifsccode.BorderWidthRight = 0;
+        //                    Maintable.AddCell(cellifsccode);
+
+        //                    PdfPCell cellspace = new PdfPCell(new Phrase(Remarks, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+        //                    cellspace.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+        //                    cellspace.Colspan = 2;
+        //                    cellspace.BorderWidthTop = 0;
+        //                    cellspace.BorderWidthBottom = 0.2f;
+        //                    cellspace.BorderWidthLeft = 0;
+        //                    cellspace.BorderWidthRight = 0;
+        //                    Maintable.AddCell(cellspace);
+        //                }
+
+        //            }
+
+        //            PdfPCell cellsnototal = new PdfPCell(new Phrase("", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cellsnototal.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cellsnototal.Colspan = 1;
+        //            cellsnototal.BorderWidthTop = 0.2f;
+        //            cellsnototal.BorderWidthBottom = 0.2f;
+        //            cellsnototal.BorderWidthLeft = 0;
+        //            cellsnototal.BorderWidthRight = 0;
+        //            Maintable.AddCell(cellsnototal);
+
+        //            PdfPCell cellempnametotal = new PdfPCell(new Phrase("", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cellempnametotal.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cellempnametotal.Colspan = 2;
+        //            cellempnametotal.BorderWidthTop = 0.2f;
+        //            cellempnametotal.BorderWidthBottom = 0.2f;
+        //            cellempnametotal.BorderWidthLeft = 0;
+        //            cellempnametotal.BorderWidthRight = 0;
+        //            Maintable.AddCell(cellempnametotal);
+
+        //            PdfPCell celldutytotal = new PdfPCell(new Phrase(TotalNoofduties.ToString() + "\n" + TotalOts.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            celldutytotal.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            celldutytotal.Colspan = 1;
+        //            celldutytotal.BorderWidthTop = 0.2f;
+        //            celldutytotal.BorderWidthBottom = 0.2f;
+        //            celldutytotal.BorderWidthLeft = 0;
+        //            celldutytotal.BorderWidthRight = 0;
+        //            Maintable.AddCell(celldutytotal);
+
+        //            PdfPCell cellGrosstotal = new PdfPCell(new Phrase(TotalGross.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cellGrosstotal.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cellGrosstotal.Colspan = 1;
+        //            cellGrosstotal.BorderWidthTop = 0.2f;
+        //            cellGrosstotal.BorderWidthBottom = 0.2f;
+        //            cellGrosstotal.BorderWidthLeft = 0;
+        //            cellGrosstotal.BorderWidthRight = 0;
+        //            Maintable.AddCell(cellGrosstotal);
+
+        //            PdfPCell cellPFtotal = new PdfPCell(new Phrase(TotalPF.ToString() + "\n" + TotalProfTax.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cellPFtotal.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cellPFtotal.Colspan = 1;
+        //            cellPFtotal.BorderWidthTop = 0.2f;
+        //            cellPFtotal.BorderWidthBottom = 0.2f;
+        //            cellPFtotal.BorderWidthLeft = 0;
+        //            cellPFtotal.BorderWidthRight = 0;
+        //            Maintable.AddCell(cellPFtotal);
+
+        //            PdfPCell cellESItotal = new PdfPCell(new Phrase(TotalESI + "\n" + TotalOWF + "\n" + TotalAdminCharges, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cellESItotal.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cellESItotal.Colspan = 1;
+        //            cellESItotal.BorderWidthTop = 0.2f;
+        //            cellESItotal.BorderWidthBottom = 0.2f;
+        //            cellESItotal.BorderWidthLeft = 0;
+        //            cellESItotal.BorderWidthRight = 0;
+        //            Maintable.AddCell(cellESItotal);
+
+        //            PdfPCell celladvtotal = new PdfPCell(new Phrase(TotalCanteenAdv + "\n" + TotalUniform + "\n" + TotalMisd, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            celladvtotal.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            celladvtotal.Colspan = 1;
+        //            celladvtotal.BorderWidthTop = 0.2f;
+        //            celladvtotal.BorderWidthBottom = 0.2f;
+        //            celladvtotal.BorderWidthLeft = 0;
+        //            celladvtotal.BorderWidthRight = 0;
+        //            Maintable.AddCell(celladvtotal);
+
+        //            PdfPCell cellFine2total = new PdfPCell(new Phrase(TotalPenalty + "\n" + TotalATMDed, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cellFine2total.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cellFine2total.Colspan = 1;
+        //            cellFine2total.BorderWidthTop = 0.2f;
+        //            cellFine2total.BorderWidthBottom = 0.2f;
+        //            cellFine2total.BorderWidthLeft = 0;
+        //            cellFine2total.BorderWidthRight = 0;
+        //            Maintable.AddCell(cellFine2total);
+
+        //            PdfPCell cellDed2total = new PdfPCell(new Phrase(TotalTotalDeductions.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cellDed2total.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cellDed2total.Colspan = 1;
+        //            cellDed2total.BorderWidthTop = 0.2f;
+        //            cellDed2total.BorderWidthBottom = 0.2f;
+        //            cellDed2total.BorderWidthLeft = 0;
+        //            cellDed2total.BorderWidthRight = 0;
+        //            Maintable.AddCell(cellDed2total);
+
+
+        //            PdfPCell cellnetpay2total = new PdfPCell(new Phrase(TotalNetpay.ToString() + "\n" + TotalOthers.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cellnetpay2total.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cellnetpay2total.Colspan = 1;
+        //            cellnetpay2total.BorderWidthTop = 0.2f;
+        //            cellnetpay2total.BorderWidthBottom = 0.2f;
+        //            cellnetpay2total.BorderWidthLeft = 0;
+        //            cellnetpay2total.BorderWidthRight = 0;
+        //            Maintable.AddCell(cellnetpay2total);
+
+
+        //            PdfPCell cellOtpay2total = new PdfPCell(new Phrase(TotalOTAmt + "\n" + TotalESIONOT + "\n" + TotalOTNet, FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cellOtpay2total.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cellOtpay2total.Colspan = 1;
+        //            cellOtpay2total.BorderWidthTop = 0.2f;
+        //            cellOtpay2total.BorderWidthBottom = 0.2f;
+        //            cellOtpay2total.BorderWidthLeft = 0;
+        //            cellOtpay2total.BorderWidthRight = 0;
+        //            Maintable.AddCell(cellOtpay2total);
+
+        //            PdfPCell cellGrand2total = new PdfPCell(new Phrase(TotalActualAmount.ToString(), FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cellGrand2total.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cellGrand2total.Colspan = 1;
+        //            cellGrand2total.BorderWidthTop = 0.2f;
+        //            cellGrand2total.BorderWidthBottom = 0.2f;
+        //            cellGrand2total.BorderWidthLeft = 0;
+        //            cellGrand2total.BorderWidthRight = 0;
+        //            Maintable.AddCell(cellGrand2total);
+
+
+        //            PdfPCell cellSign2total = new PdfPCell(new Phrase("", FontFactory.GetFont(fontsyle, Fontsize - 2, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+        //            cellSign2total.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+        //            cellSign2total.Colspan = 1;
+        //            cellSign2total.BorderWidthTop = 0.2f;
+        //            cellSign2total.BorderWidthBottom = 0.2f;
+        //            cellSign2total.BorderWidthLeft = 0;
+        //            cellSign2total.BorderWidthRight = 0;
+        //            Maintable.AddCell(cellSign2total);
+
+        //            document.Add(Maintable);
+
+
+        //        }
+
+
+        //        string filename = "WageSheetSummary" + ".pdf";
+
+        //        document.Close();
+        //        Response.ContentType = "application/pdf";
+        //        Response.AddHeader("content-disposition", "attachment;filename=\"" + filename + "\"");
+        //        Response.Buffer = true;
+        //        Response.Clear();
+        //        Response.OutputStream.Write(ms.GetBuffer(), 0, ms.GetBuffer().Length);
+        //        Response.OutputStream.Flush();
+        //        Response.End();
+        //    }
+        //}
 
         protected void lbtn_ExportNew_Click(object sender, EventArgs e)
         {

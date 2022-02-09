@@ -8,6 +8,7 @@ using System.IO;
 using System.Data.OleDb;
 using KLTS.Data;
 using Kuduma.Portal.DAL;
+using ClosedXML.Excel;
 
 namespace Kuduma.Portal
 {
@@ -81,26 +82,104 @@ namespace Kuduma.Portal
 
         protected void lnkImportfromexcel_Click(object sender, EventArgs e)
         {
-            gve.Export("Sampleempdetails.xls", this.gvlistofemp);
+            gve.NewExport("Sampleempdetails.xlsx", this.gvlistofemp);
         }
         DataTable dt = new DataTable();
         protected void btnsave_Click(object sender, EventArgs e)
         {
             int result = 0;
             string ExcelSheetname = "";
-            string FileName = FileUploadEmpDetails.FileName;
-            string path = Path.Combine(Server.MapPath("~/ImportDocuments"), Guid.NewGuid().ToString() + Path.GetExtension(FileUploadEmpDetails.PostedFile.FileName));
-            FileUploadEmpDetails.PostedFile.SaveAs(path);
+            //string FileName = FileUploadEmpDetails.FileName;
+            //string path = Path.Combine(Server.MapPath("~/ImportDocuments"), Guid.NewGuid().ToString() + Path.GetExtension(FileUploadEmpDetails.PostedFile.FileName));
+            //FileUploadEmpDetails.PostedFile.SaveAs(path);
 
-            OleDbConnection con = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + path + ";Extended Properties=Excel 12.0;");
-            con.Open();
-            dt = con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-            ExcelSheetname = dt.Rows[0]["TABLE_NAME"].ToString();
+            //OleDbConnection con = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + path + ";Extended Properties=Excel 12.0;");
+            //con.Open();
+            //dt = con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+            //ExcelSheetname = dt.Rows[0]["TABLE_NAME"].ToString();
 
-            OleDbCommand cmd = new OleDbCommand("Select [IDNO],[Employee Name],[Fathers Name],[Mother Name],[Date of Birth],[Sex],[Marital Status],[Designation],[Mobile No],[Department],[UAN Number],[Aadhar Number],[PAN Number],[Present Address],[Permanent Address],[Client ID],[Branch],[Division],[Bank Account No],[IFSC],[Bank Name],[Date of Joining],[Date of leaving],[ESI Applicable],[ESI No],[PF Applicable],[PF No],[PT Applicable],[Employee Type],[Old Emp ID] from [" + ExcelSheetname + "]", con);
-            OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+            //OleDbCommand cmd = new OleDbCommand("Select [IDNO],[Employee Name],[Fathers Name],[Mother Name],[Date of Birth],[Sex],[Marital Status],[Designation],[Mobile No],[Department],[UAN Number],[Aadhar Number],[PAN Number],[Present Address],[Permanent Address],[Client ID],[Branch],[Division],[Bank Account No],[IFSC],[Bank Name],[Date of Joining],[Date of leaving],[ESI Applicable],[ESI No],[PF Applicable],[PF No],[PT Applicable],[Employee Type],[Old Emp ID] from [" + ExcelSheetname + "]", con);
+            //OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+            //DataTable ds = new DataTable();
+            //da.Fill(ds);
+
+            string filePath = Server.MapPath("~/ImportDocuments/") + Path.GetFileName(FileUploadEmpDetails.PostedFile.FileName);
+            FileUploadEmpDetails.PostedFile.SaveAs(filePath);
+
+            string extn = Path.GetExtension(FileUploadEmpDetails.PostedFile.FileName);
+
+            //Create a new DataTable.
             DataTable ds = new DataTable();
-            da.Fill(ds);
+
+            if (extn.EndsWith(".xlsx"))
+            {
+                using (XLWorkbook workBook = new XLWorkbook(filePath))
+                {
+                    IXLWorksheet workSheet = workBook.Worksheet(1);
+
+
+                    int lastrow = workSheet.LastRowUsed().RowNumber();
+                    var rows = workSheet.Rows(1, lastrow);
+
+                    //Create a new DataTable.
+
+                    //Loop through the Worksheet rows.
+                    bool firstRow = true;
+                    foreach (IXLRow row in rows)
+                    {
+                        //Use the first row to add columns to DataTable.
+                        if (firstRow)
+                        {
+                            foreach (IXLCell cell in row.Cells())
+                            {
+                                if (!string.IsNullOrEmpty(cell.Value.ToString()))
+                                {
+                                    ds.Columns.Add(cell.Value.ToString());
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            firstRow = false;
+                        }
+                        else
+                        {
+                            int i = 0;
+                            DataRow toInsert = ds.NewRow();
+                            foreach (IXLCell cell in row.Cells(1, ds.Columns.Count))
+                            {
+                                try
+                                {
+                                    toInsert[i] = cell.Value.ToString();
+                                }
+                                catch (Exception ex)
+                                {
+
+                                }
+                                i++;
+                            }
+                            ds.Rows.Add(toInsert);
+                        }
+
+                    }
+                }
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "Show alert", "alert('Please save file in Excel WorkBook(.xlsx) format');", true);
+                return;
+            }
+
+            for (int s = 0; s < ds.Rows.Count; s++)
+            {
+                string clid = ds.Rows[s][1].ToString().Trim();
+
+                if (clid.Length == 0)
+                {
+                    ds.Rows.RemoveAt(s);
+                }
+            }
 
 
             using (SqlConnection sqlcon = new SqlConnection(ConfigurationManager.ConnectionStrings["KLTSConnectionString"].ConnectionString))
@@ -326,6 +405,11 @@ namespace Kuduma.Portal
                     }
 
                 }
+            }
+
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
             }
         }
 

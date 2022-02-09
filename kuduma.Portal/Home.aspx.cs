@@ -90,9 +90,9 @@ namespace Kuduma.Portal
             {
                 RedirectPage = DtPrefix.Rows[0]["REDIRECT_PAGE"].ToString();
                 ID = DtPrefix.Rows[0]["ID"].ToString();
-                if (ID == "1" && RedirectPage == "Reminders.aspx")
+                if (ID == "1" && RedirectPage == "Employees.aspx")
                 {
-                    Response.Redirect("~/Reminders.aspx");
+                    Response.Redirect("~/Module_Employees/Employees.aspx");
                 }
                 if (ID == "2" && RedirectPage == "Employees.aspx")
                 {
@@ -119,8 +119,8 @@ namespace Kuduma.Portal
                     Response.Redirect("~/Module_Settings/Settings.aspx");
                 }
             }
-            Session["homepage"] = "Reminders.aspx";
-            Response.Redirect("Reminders.aspx");
+            Session["homepage"] = "Employees.aspx";
+            Response.Redirect("~/Module_Employees/Employees.aspx");
 
         }
 
