@@ -488,7 +488,34 @@ namespace Kuduma.Portal
             try
             {
 
-                // CheckEmpid();
+                CheckEmpid();
+
+                if (rdbmanual.Checked == true)
+                {
+                    if (txtEmID.Text.Trim().Length < 9)
+                    {
+                        lblMsg.Text = "Empid Should have 9 digits!";
+                        return;
+                    }
+
+                    if (txtEmID.Text.Trim().Substring(0, 1) != "K")
+                    {
+                        lblMsg.Text = "Empid prefix Should have 'K'";
+                        return;
+                    }
+                    string query = "select empid,(Empfname+' '+empmname+' '+emplname) as name from empdetails where empid='" + txtEmID.Text + "' ";
+                    DataTable dt = config.ExecuteAdaptorAsyncWithQueryParams(query).Result;
+                    string name = "";
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        name = dt.Rows[0]["name"].ToString();
+                        lblMsg.Visible = true;
+                        lblMsg.Text = "Employee ID already exists for Employee " + name;
+                        return;
+                    }
+
+                }
 
                 #region  Begin  Check Validations as on  [18-09-2013]
 
@@ -500,28 +527,7 @@ namespace Kuduma.Portal
 
                 }
 
-                if (txtEmID.Text.Trim().Length < 6)
-                {
-                    lblMsg.Text = "Empid entered 6 digit Id!";
-                    return;
-
-                }
-
-
-
-
-                string Checkempid = "select nyaempid from empdetails where NYAempid='" + txtEmID.Text + "' ";
-                DataTable dtempid = config.ExecuteAdaptorAsyncWithQueryParams(Checkempid).Result;
-                if (dtempid.Rows.Count > 0)
-                {
-                    if (rdbGeneral.Checked == true || rdbStaff.Checked == true)
-                    {
-                        NYAEmpId();
-                        //employeeid();
-                        //lblMsg.Text = "This Employee Id No: '" + txtEmID.Text + "' is already exist";
-                        //return;
-                    }
-                }
+               
 
                 #endregion     /*End  Validation For Empid Validation */
 
