@@ -1228,15 +1228,6 @@ namespace Kuduma.Portal {
         protected global::System.Web.UI.WebControls.CheckBox ChkpfonNHSRate;
         
         /// <summary>
-        /// ChkpfonNFHS control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox ChkpfonNFHS;
-        
-        /// <summary>
         /// ChkpfonUniformCharges control.
         /// </summary>
         /// <remarks>
@@ -1541,15 +1532,6 @@ namespace Kuduma.Portal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox ChkESIonNHSRate;
-        
-        /// <summary>
-        /// ChkESIonNFHS control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox ChkESIonNFHS;
         
         /// <summary>
         /// ChkESIonUniformCharges control.

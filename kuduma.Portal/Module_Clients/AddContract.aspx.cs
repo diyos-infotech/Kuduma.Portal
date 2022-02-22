@@ -4146,13 +4146,13 @@ namespace Kuduma.Portal
 
             //new pfon check boxes 
 
-            ChkpfonBasic.Checked = ChkpfonDA.Checked = ChkpfonHRA.Checked = ChkpfonConv.Checked = ChkpfonMedicalAllw.Checked = ChkpfonFoodAllw.Checked = ChkpfonSiteAllw.Checked = ChkpfonSpecialAllw.Checked = ChkpfonOA.Checked = ChkpfonWA.Checked = ChkpfonGunAllw.Checked = ChkpfonFireAllw.Checked = ChkpfonBonus.Checked = ChkpfonGratuity.Checked = ChkpfonLA.Checked = ChkpfonOTRate.Checked = ChkpfonESIPayrate.Checked = ChkpfonPFPayrate.Checked = ChkpfonCCA.Checked = ChkpfonNFHS.Checked = ChkpfonRC.Checked = ChkpfonPLAmount.Checked = ChkpfonTLAmount.Checked = ChkpfonServicecharge.Checked = ChkpfonNHSRate.Checked = ChkpfonWoRate.Checked = ChkpfonTravelAllw.Checked = ChkpfonOTHrs.Checked = ChkpfonPerformanceAllw.Checked = ChkpfonMobileAllw.Checked = ChkpfonUniformCharges.Checked = ChkpfonServiceWeightage.Checked = false;
+            ChkpfonBasic.Checked = ChkpfonDA.Checked = ChkpfonHRA.Checked = ChkpfonConv.Checked = ChkpfonMedicalAllw.Checked = ChkpfonFoodAllw.Checked = ChkpfonSiteAllw.Checked = ChkpfonSpecialAllw.Checked = ChkpfonOA.Checked = ChkpfonWA.Checked = ChkpfonGunAllw.Checked = ChkpfonFireAllw.Checked = ChkpfonBonus.Checked = ChkpfonGratuity.Checked = ChkpfonLA.Checked = ChkpfonOTRate.Checked = ChkpfonESIPayrate.Checked = ChkpfonPFPayrate.Checked = ChkpfonCCA.Checked /*= ChkpfonNFHS.Checked*/ = ChkpfonRC.Checked = ChkpfonPLAmount.Checked = ChkpfonTLAmount.Checked = ChkpfonServicecharge.Checked = ChkpfonNHSRate.Checked = ChkpfonWoRate.Checked = ChkpfonTravelAllw.Checked = ChkpfonOTHrs.Checked = ChkpfonPerformanceAllw.Checked = ChkpfonMobileAllw.Checked = ChkpfonUniformCharges.Checked = ChkpfonServiceWeightage.Checked = false;
 
             //end 
 
             //new ESIon check boxes 
 
-            ChkESIonBasic.Checked = ChkESIonDA.Checked = ChkESIonHRA.Checked = ChkESIonConv.Checked = ChkESIonMedicalAllw.Checked = ChkESIonFoodAllw.Checked = ChkESIonSiteAllw.Checked = ChkESIonSpecialAllw.Checked = ChkESIonOA.Checked = ChkESIonWA.Checked = ChkESIonGunAllw.Checked = ChkESIonFireAllw.Checked = ChkESIonBonus.Checked = ChkESIonGratuity.Checked = ChkESIonLA.Checked = ChkESIonOTRate.Checked = ChkESIonESIPayrate.Checked = ChkESIonPFPayrate.Checked = ChkESIonCCA.Checked = ChkESIonNFHS.Checked = ChkESIonRC.Checked = ChkESIonPLAmount.Checked = ChkESIonTLAmount.Checked = ChkESIonServicecharge.Checked = ChkESIonNHSRate.Checked = ChkESIonWoRate.Checked = ChkESIonTravelAllw.Checked = ChkESIonOTHrs.Checked = ChkESIonPerformanceAllw.Checked = ChkESIonMobileAllw.Checked = ChkESIonUniformCharges.Checked = ChkESIonServiceWeightage.Checked = false;
+            ChkESIonBasic.Checked = ChkESIonDA.Checked = ChkESIonHRA.Checked = ChkESIonConv.Checked = ChkESIonMedicalAllw.Checked = ChkESIonFoodAllw.Checked = ChkESIonSiteAllw.Checked = ChkESIonSpecialAllw.Checked = ChkESIonOA.Checked = ChkESIonWA.Checked = ChkESIonGunAllw.Checked = ChkESIonFireAllw.Checked = ChkESIonBonus.Checked = ChkESIonGratuity.Checked = ChkESIonLA.Checked = ChkESIonOTRate.Checked = ChkESIonESIPayrate.Checked = ChkESIonPFPayrate.Checked = ChkESIonCCA.Checked /*= ChkESIonNFHS.Checked*/ = ChkESIonRC.Checked = ChkESIonPLAmount.Checked = ChkESIonTLAmount.Checked = ChkESIonServicecharge.Checked = ChkESIonNHSRate.Checked = ChkESIonWoRate.Checked = ChkESIonTravelAllw.Checked = ChkESIonOTHrs.Checked = ChkESIonPerformanceAllw.Checked = ChkESIonMobileAllw.Checked = ChkESIonUniformCharges.Checked = ChkESIonServiceWeightage.Checked = false;
 
             //end 
             txtTds.Text = txtPono.Text = txtPoDate.Text = txtExpectdateofreceipt.Text = txtLumpsumtext.Text = string.Empty;
@@ -4738,8 +4738,8 @@ namespace Kuduma.Portal
                 if (ChkpfonCCA.Checked)
                     pfonCCA = 1;
 
-                if (ChkpfonNFHS.Checked)
-                    pfonNFHS = 1;
+                //if (ChkpfonNFHS.Checked)
+                //    pfonNFHS = 1;
 
                 if (ChkpfonRC.Checked)
                     pfonRC = 1;
@@ -4844,8 +4844,8 @@ namespace Kuduma.Portal
                 if (ChkESIonCCA.Checked)
                     ESIonCCA = 1;
 
-                if (ChkESIonNFHS.Checked)
-                    ESIonNFHS = 1;
+                //if (ChkESIonNFHS.Checked)
+                //    ESIonNFHS = 1;
 
                 if (ChkESIonRC.Checked)
                     ESIonRC = 1;
@@ -5583,12 +5583,12 @@ namespace Kuduma.Portal
             checkPFonOT.Checked = false;
 
             //new pfon 
-            ChkpfonBasic.Checked = ChkpfonDA.Checked = ChkpfonHRA.Checked = ChkpfonConv.Checked = ChkpfonMedicalAllw.Checked = ChkpfonFoodAllw.Checked = ChkpfonSiteAllw.Checked = ChkpfonSpecialAllw.Checked = ChkpfonOA.Checked = ChkpfonWA.Checked = ChkpfonGunAllw.Checked = ChkpfonFireAllw.Checked = ChkpfonBonus.Checked = ChkpfonGratuity.Checked = ChkpfonLA.Checked = ChkpfonOTRate.Checked = ChkpfonESIPayrate.Checked = ChkpfonPFPayrate.Checked = ChkpfonCCA.Checked = ChkpfonNFHS.Checked = ChkpfonRC.Checked = ChkpfonPLAmount.Checked = ChkpfonTLAmount.Checked = ChkpfonServicecharge.Checked = ChkpfonNHSRate.Checked = ChkpfonWoRate.Checked = ChkpfonTravelAllw.Checked = ChkpfonOTHrs.Checked = ChkpfonPerformanceAllw.Checked = ChkpfonMobileAllw.Checked = ChkpfonUniformCharges.Checked = ChkpfonServiceWeightage.Checked = false;
+            ChkpfonBasic.Checked = ChkpfonDA.Checked = ChkpfonHRA.Checked = ChkpfonConv.Checked = ChkpfonMedicalAllw.Checked = ChkpfonFoodAllw.Checked = ChkpfonSiteAllw.Checked = ChkpfonSpecialAllw.Checked = ChkpfonOA.Checked = ChkpfonWA.Checked = ChkpfonGunAllw.Checked = ChkpfonFireAllw.Checked = ChkpfonBonus.Checked = ChkpfonGratuity.Checked = ChkpfonLA.Checked = ChkpfonOTRate.Checked = ChkpfonESIPayrate.Checked = ChkpfonPFPayrate.Checked = ChkpfonCCA.Checked /*= ChkpfonNFHS.Checked*/ = ChkpfonRC.Checked = ChkpfonPLAmount.Checked = ChkpfonTLAmount.Checked = ChkpfonServicecharge.Checked = ChkpfonNHSRate.Checked = ChkpfonWoRate.Checked = ChkpfonTravelAllw.Checked = ChkpfonOTHrs.Checked = ChkpfonPerformanceAllw.Checked = ChkpfonMobileAllw.Checked = ChkpfonUniformCharges.Checked = ChkpfonServiceWeightage.Checked = false;
 
             //new ESIon
 
             ChkESIonBasic.Checked = ChkESIonDA.Checked = ChkESIonHRA.Checked = ChkESIonConv.Checked = ChkESIonMedicalAllw.Checked =
-            ChkESIonFoodAllw.Checked = ChkESIonSiteAllw.Checked = ChkESIonSpecialAllw.Checked = ChkESIonOA.Checked = ChkESIonWA.Checked = ChkESIonGunAllw.Checked = ChkESIonFireAllw.Checked = ChkESIonBonus.Checked = ChkESIonGratuity.Checked = ChkESIonLA.Checked = ChkESIonOTRate.Checked = ChkESIonESIPayrate.Checked = ChkESIonPFPayrate.Checked = ChkESIonCCA.Checked = ChkESIonNFHS.Checked = ChkESIonRC.Checked = ChkESIonPLAmount.Checked = ChkESIonTLAmount.Checked = ChkESIonServicecharge.Checked = ChkESIonNHSRate.Checked = ChkESIonWoRate.Checked = ChkESIonTravelAllw.Checked = ChkESIonOTHrs.Checked = ChkESIonPerformanceAllw.Checked = ChkESIonMobileAllw.Checked = ChkESIonUniformCharges.Checked = ChkESIonServiceWeightage.Checked = false;
+            ChkESIonFoodAllw.Checked = ChkESIonSiteAllw.Checked = ChkESIonSpecialAllw.Checked = ChkESIonOA.Checked = ChkESIonWA.Checked = ChkESIonGunAllw.Checked = ChkESIonFireAllw.Checked = ChkESIonBonus.Checked = ChkESIonGratuity.Checked = ChkESIonLA.Checked = ChkESIonOTRate.Checked = ChkESIonESIPayrate.Checked = ChkESIonPFPayrate.Checked = ChkESIonCCA.Checked /*= ChkESIonNFHS.Checked*/ = ChkESIonRC.Checked = ChkESIonPLAmount.Checked = ChkESIonTLAmount.Checked = ChkESIonServicecharge.Checked = ChkESIonNHSRate.Checked = ChkESIonWoRate.Checked = ChkESIonTravelAllw.Checked = ChkESIonOTHrs.Checked = ChkESIonPerformanceAllw.Checked = ChkESIonMobileAllw.Checked = ChkESIonUniformCharges.Checked = ChkESIonServiceWeightage.Checked = false;
 
 
             checkESIonOT.Checked = false;
@@ -5787,7 +5787,7 @@ namespace Kuduma.Portal
                 ChkpfonESIPayrate.Checked = bool.Parse(DtContractsData.Rows[0]["pfonESIPayrate"].ToString());
                 ChkpfonPFPayrate.Checked = bool.Parse(DtContractsData.Rows[0]["pfonPFPayrate"].ToString());
                 ChkpfonCCA.Checked = bool.Parse(DtContractsData.Rows[0]["pfonCCA"].ToString());
-                ChkpfonNFHS.Checked = bool.Parse(DtContractsData.Rows[0]["pfonNFHS"].ToString());
+                //ChkpfonNFHS.Checked = bool.Parse(DtContractsData.Rows[0]["pfonNFHS"].ToString());
                 ChkpfonRC.Checked = bool.Parse(DtContractsData.Rows[0]["pfonRC"].ToString());
                 ChkpfonPLAmount.Checked = bool.Parse(DtContractsData.Rows[0]["pfonPLAmount"].ToString());
                 ChkpfonTLAmount.Checked = bool.Parse(DtContractsData.Rows[0]["pfonTLAmount"].ToString());
@@ -5821,7 +5821,7 @@ namespace Kuduma.Portal
                 ChkESIonESIPayrate.Checked = bool.Parse(DtContractsData.Rows[0]["ESIonESIPayrate"].ToString());
                 ChkESIonPFPayrate.Checked = bool.Parse(DtContractsData.Rows[0]["ESIonPFPayrate"].ToString());
                 ChkESIonCCA.Checked = bool.Parse(DtContractsData.Rows[0]["ESIonCCA"].ToString());
-                ChkESIonNFHS.Checked = bool.Parse(DtContractsData.Rows[0]["ESIonNFHS"].ToString());
+                //ChkESIonNFHS.Checked = bool.Parse(DtContractsData.Rows[0]["ESIonNFHS"].ToString());
                 ChkESIonRC.Checked = bool.Parse(DtContractsData.Rows[0]["ESIonRC"].ToString());
                 ChkESIonPLAmount.Checked = bool.Parse(DtContractsData.Rows[0]["ESIonPLAmount"].ToString());
                 ChkESIonTLAmount.Checked = bool.Parse(DtContractsData.Rows[0]["ESIonTLAmount"].ToString());
@@ -9897,8 +9897,8 @@ namespace Kuduma.Portal
             if (ChkpfonCCA.Checked)
                 pfonCCA = 1;
 
-            if (ChkpfonNFHS.Checked)
-                pfonNFHS = 1;
+            //if (ChkpfonNFHS.Checked)
+            //    pfonNFHS = 1;
 
             if (ChkpfonRC.Checked)
                 pfonRC = 1;
@@ -10003,8 +10003,8 @@ namespace Kuduma.Portal
             if (ChkESIonCCA.Checked)
                 ESIonCCA = 1;
 
-            if (ChkESIonNFHS.Checked)
-                ESIonNFHS = 1;
+            //if (ChkESIonNFHS.Checked)
+            //    ESIonNFHS = 1;
 
             if (ChkESIonRC.Checked)
                 ESIonRC = 1;
