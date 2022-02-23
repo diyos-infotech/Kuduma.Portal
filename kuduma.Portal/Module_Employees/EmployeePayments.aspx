@@ -418,10 +418,10 @@
                                             </td>
                                             <td>
                                                 <asp:DropDownList ID="ddlpaymenttype" runat="server" Width="125px" class="sdrop">
-                                                    <asp:ListItem>All</asp:ListItem>
+                                                    <asp:ListItem>Duties+OTs</asp:ListItem>
                                                     <asp:ListItem>Only Duties</asp:ListItem>
                                                     <asp:ListItem>Only OTs</asp:ListItem>                                                     
-                                                    <asp:ListItem>FORM-T</asp:ListItem>
+                                                    <asp:ListItem>ALL</asp:ListItem>
                                                 </asp:DropDownList>
 
                                             </td>
