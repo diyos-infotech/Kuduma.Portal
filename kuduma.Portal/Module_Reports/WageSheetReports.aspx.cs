@@ -2169,6 +2169,7 @@ namespace Kuduma.Portal.Module_Reports
         float totalcdRankAllowance = 0;
         float totalRankAllowance = 0;
         float totalAdvBonus = 0;
+        float totalBGVDed = 0;
         #endregion Total Variables
 
         protected void DisplayData()
@@ -2818,7 +2819,7 @@ namespace Kuduma.Portal.Module_Reports
                                     }
 
 
-                                    string strTransportDed = dt.Rows[i]["RentDed1"].ToString();
+                                    string strTransportDed = dt.Rows[i]["RentDed"].ToString();
                                     if (strTransportDed.Trim().Length > 0)
                                     {
                                         totalTransportDed += Convert.ToSingle(strTransportDed);
@@ -4728,7 +4729,17 @@ namespace Kuduma.Portal.Module_Reports
                             GVListEmployees.Columns[138].Visible = false;
 
                         }
+                        Label lblTotalBGVDed = GVListEmployees.FooterRow.FindControl("lblTotalBGVDed") as Label;
+                        lblTotalBGVDed.Text = Math.Round(totalBGVDed).ToString();
+                        if (totalBGVDed > 0)
+                        {
+                            GVListEmployees.Columns[139].Visible = true;
+                        }
+                        else
+                        {
+                            GVListEmployees.Columns[139].Visible = false;
 
+                        }
 
                         Label lblTotalDeductions = GVListEmployees.FooterRow.FindControl("lblTotalDeductions") as Label;
                         lblTotalDeductions.Text = Math.Round(totalDed).ToString();
@@ -4737,11 +4748,11 @@ namespace Kuduma.Portal.Module_Reports
                         lblTotalAdvanceAgainstBonus.Text = Math.Round(totalAdvBonus).ToString();
                         if (totalAdvBonus > 0)
                         {
-                            GVListEmployees.Columns[140].Visible = true;
+                            GVListEmployees.Columns[141].Visible = true;
                         }
                         else
                         {
-                            GVListEmployees.Columns[140].Visible = false;
+                            GVListEmployees.Columns[141].Visible = false;
 
                         }
 

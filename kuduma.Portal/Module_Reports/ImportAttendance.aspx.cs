@@ -612,7 +612,8 @@ namespace Kuduma.Portal
                     float OtHour = 0;
                     float OtAmt = 0;
                     float Advance = 0;
-
+                    float RentDed = 0;
+                    float BGVDed = 0;
                     #endregion
 
                     #region Variables for Posting order Table data and EmpAttendance(Default Values)
@@ -873,6 +874,14 @@ namespace Kuduma.Portal
                             {
                                 FoodAllw = float.Parse(ds.Tables[0].Rows[i]["Food Allw"].ToString());
                             }
+                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["RentDed"].ToString().Trim()) == false)
+                            {
+                                RentDed = float.Parse(ds.Tables[0].Rows[i]["RentDed"].ToString());
+                            }
+                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["BGVDed"].ToString().Trim()) == false)
+                            {
+                                BGVDed = float.Parse(ds.Tables[0].Rows[i]["BGVDed"].ToString());
+                            }
 
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["OT Per Hour"].ToString().Trim()) == false)
                             {
@@ -965,6 +974,8 @@ namespace Kuduma.Portal
                             Httable.Add("@OTPerHour", OtHour);
                             Httable.Add("@OTAmt", OtAmt);
                             Httable.Add("@Stoppayment", stoppayment);
+                            Httable.Add("@RentDed", RentDed);
+                            Httable.Add("@BGVDed", BGVDed);
                             Httable.Add("@RowNo", i+2);
 
                             #endregion
@@ -1160,6 +1171,9 @@ namespace Kuduma.Portal
                 float OtHour = 0;
                 float OtAmt = 0;
                 float Advance = 0;
+
+                float RentDed = 0;
+                float BGVDed = 0;
                 string RemarksText = "";
 
                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -1481,6 +1495,14 @@ namespace Kuduma.Portal
                                 if (String.IsNullOrEmpty(dr["Uniform Ded"].ToString()) == false)
                                 {
                                     UniformDed = float.Parse(dr["Uniform Ded"].ToString());
+                                }
+                                if (String.IsNullOrEmpty(dr["RentDed"].ToString()) == false)
+                                {
+                                    RentDed = float.Parse(dr["RentDed"].ToString());
+                                }
+                                if (String.IsNullOrEmpty(dr["BGVDed"].ToString()) == false)
+                                {
+                                    BGVDed = float.Parse(dr["BGVDed"].ToString());
                                 }
 
                                 if (String.IsNullOrEmpty(dr["Other Ded"].ToString()) == false)
@@ -3291,6 +3313,8 @@ namespace Kuduma.Portal
                             Httable.Add("@OTPerHour", OtperHour);
                             Httable.Add("@OTAmt", OtAmt);
                             Httable.Add("@Stoppayment", stoppayment);
+                            Httable.Add("@RentDed", RentDed);
+                            Httable.Add("@BGVDed", BGVDed);
                             Httable.Add("@RowNo", j+2);
                             #endregion
 
