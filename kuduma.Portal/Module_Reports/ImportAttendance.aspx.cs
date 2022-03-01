@@ -605,14 +605,6 @@ namespace Kuduma.Portal
                     float daywos = 0;
                     string stoppayment = "";
                     float pldays = 0;
-                    float leavewages = 0;
-                    float Bonus = 0;
-                    float FoodAllw = 0;
-                    float OtperHour = 0;
-                    float OtHour = 0;
-                    float OtAmt = 0;
-                    float Advance = 0;
-
                     #endregion
 
                     #region Variables for Posting order Table data and EmpAttendance(Default Values)
@@ -827,7 +819,7 @@ namespace Kuduma.Portal
                             }
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Advance"].ToString().Trim()) == false)
                             {
-                                Advance = float.Parse(ds.Tables[0].Rows[i]["Advance"].ToString());
+                                penalty = float.Parse(ds.Tables[0].Rows[i]["Advance"].ToString());
                             }
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Incentives"].ToString().Trim()) == false)
                             {
@@ -859,37 +851,6 @@ namespace Kuduma.Portal
                                 AttBonus = float.Parse(ds.Tables[0].Rows[i]["Attendance Bonus"].ToString());
                             }
 
-                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Leave Wages"].ToString().Trim()) == false)
-                            {
-                                leavewages = float.Parse(ds.Tables[0].Rows[i]["Leave Wages"].ToString());
-                            }
-
-                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Bonus"].ToString().Trim()) == false)
-                            {
-                                Bonus = float.Parse(ds.Tables[0].Rows[i]["Bonus"].ToString());
-                            }
-
-                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Food Allw"].ToString().Trim()) == false)
-                            {
-                                FoodAllw = float.Parse(ds.Tables[0].Rows[i]["Food Allw"].ToString());
-                            }
-
-                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["OT Per Hour"].ToString().Trim()) == false)
-                            {
-                                OtperHour = float.Parse(ds.Tables[0].Rows[i]["OT Per Hour"].ToString());
-                            }
-
-                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["OT Hour"].ToString().Trim()) == false)
-                            {
-                                OtHour = float.Parse(ds.Tables[0].Rows[i]["OT Hour"].ToString());
-                            }
-
-                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["OT Amt"].ToString().Trim()) == false)
-                            {
-                                OtAmt = float.Parse(ds.Tables[0].Rows[i]["OT Amt"].ToString());
-                            }
-
-                           
                             stoppayment = ds.Tables[0].Rows[i]["Stop Payment"].ToString();
                             if (stoppayment == "Y" || stoppayment == "YES" || stoppayment == "y" || stoppayment == "yes" || stoppayment == "Yes")
                             {
@@ -955,15 +916,8 @@ namespace Kuduma.Portal
                             Httable.Add("@sno", SNo);
                             Httable.Add("@Arrears", Arrears);
                             Httable.Add("@AttBonus", AttBonus);
-                            Httable.Add("@Advance", Advance);
                             Httable.Add("@RemarksText", RemarksText);
                             Httable.Add("@oldempid", oldempid);
-                            Httable.Add("@Leavewages", leavewages);
-                            Httable.Add("@Bonus", Bonus);
-                            Httable.Add("@FoodAllowance", FoodAllw);
-                            Httable.Add("@OTHour", OtperHour);
-                            Httable.Add("@OTPerHour", OtHour);
-                            Httable.Add("@OTAmt", OtAmt);
                             Httable.Add("@Stoppayment", stoppayment);
                             Httable.Add("@RowNo", i+2);
 
@@ -1153,13 +1107,6 @@ namespace Kuduma.Portal
                 float duties = 0;
                 float ots = 0;
                 float pldays = 0;
-                float leavewages = 0;
-                float Bonus = 0;
-                float FoodAllw = 0;
-                float OtperHour = 0;
-                float OtHour = 0;
-                float OtAmt = 0;
-                float Advance = 0;
                 string RemarksText = "";
 
                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -1466,7 +1413,7 @@ namespace Kuduma.Portal
                                 }
                                 if (String.IsNullOrEmpty(dr["Advance"].ToString()) == false)
                                 {
-                                    Advance = float.Parse(dr["Advance"].ToString());
+                                    penalty = float.Parse(dr["Advance"].ToString());
                                 }
                                 if (String.IsNullOrEmpty(dr["Incentives"].ToString()) == false)
                                 {
@@ -1502,38 +1449,6 @@ namespace Kuduma.Portal
                                 {
                                     AttBonus = float.Parse(dr["Attendance Bonus"].ToString());
                                 }
-
-                                if (String.IsNullOrEmpty(dr["Leave Wages"].ToString().Trim()) == false)
-                                {
-                                    leavewages = float.Parse(dr["Leave Wages"].ToString());
-                                }
-
-                                if (String.IsNullOrEmpty(dr["Bonus"].ToString().Trim()) == false)
-                                {
-                                    Bonus = float.Parse(dr["Bonus"].ToString());
-                                }
-
-                                if (String.IsNullOrEmpty(dr["Food Allw"].ToString().Trim()) == false)
-                                {
-                                    FoodAllw = float.Parse(dr["Food Allw"].ToString());
-                                }
-
-                                if (String.IsNullOrEmpty(dr["OT Per Hour"].ToString().Trim()) == false)
-                                {
-                                    OtperHour = float.Parse(dr["OT Per Hour"].ToString());
-                                }
-
-                                if (String.IsNullOrEmpty(dr["OT Hour"].ToString().Trim()) == false)
-                                {
-                                    OtHour = float.Parse(dr["OT Hour"].ToString());
-                                }
-
-                                if (String.IsNullOrEmpty(dr["OT Amt"].ToString().Trim()) == false)
-                                {
-                                    OtAmt = float.Parse(dr["OT Amt"].ToString());
-                                }
-
-
                                 if (String.IsNullOrEmpty(dr["Stop Payment"].ToString()) == false)
                                 {
                                     stoppayment = dr["Stop Payment"].ToString();
@@ -3282,14 +3197,7 @@ namespace Kuduma.Portal
                             Httable.Add("@OTHours", OTHrs);
                             Httable.Add("@Arrears", Arrears);
                             Httable.Add("@AttBonus", AttBonus);
-                            Httable.Add("@Advance", Advance);
                             Httable.Add("@RemarksText", RemarksText);
-                            Httable.Add("@Leavewages", leavewages);
-                            Httable.Add("@Bonus", Bonus);
-                            Httable.Add("@FoodAllowance", FoodAllw);
-                            Httable.Add("@OTHour", OtHour);
-                            Httable.Add("@OTPerHour", OtperHour);
-                            Httable.Add("@OTAmt", OtAmt);
                             Httable.Add("@Stoppayment", stoppayment);
                             Httable.Add("@RowNo", j+2);
                             #endregion
@@ -3376,6 +3284,12 @@ namespace Kuduma.Portal
 
             }
         }
+
+        
+
+
+
+
         protected void ddloption_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ddloption.SelectedIndex == 1)
