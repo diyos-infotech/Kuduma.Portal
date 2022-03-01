@@ -1401,7 +1401,7 @@
 
 
                                             <%-- 113--%>
-                                            <asp:TemplateField HeaderText="U.D." ItemStyle-HorizontalAlign="Center" Visible="false">
+                                            <asp:TemplateField HeaderText="Uniform Ded" ItemStyle-HorizontalAlign="Center" Visible="false">
                                                 <ItemTemplate>
                                                     <asp:Label ID="lbluniform" runat="server" Text='<%#Bind("UniformDed","{0:0}") %>'></asp:Label>
                                                 </ItemTemplate>
@@ -1570,7 +1570,7 @@
                                             <%-- 126--%>
                                             <asp:TemplateField HeaderText="Rent Ded" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblTransportDed" runat="server" Text='<%#Bind("RentDed1","{0:0}") %>'></asp:Label>
+                                                    <asp:Label ID="lblTransportDed" runat="server" Text='<%#Bind("RentDed","{0:0}") %>'></asp:Label>
                                                 </ItemTemplate>
                                                 <FooterTemplate>
                                                     <div style="text-align: justify">
@@ -1728,10 +1728,20 @@
                                                 </FooterTemplate>
                                             </asp:TemplateField>
 
+                                             <%-- 139--%>
+                                            <asp:TemplateField HeaderText="BGV Ded" ItemStyle-HorizontalAlign="Center">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblBGVDed" runat="server" Text='<%#Bind("BGVDed","{0:0}") %>'></asp:Label>
+                                                </ItemTemplate>
+                                                <FooterTemplate>
+                                                    <div style="text-align: justify">
+                                                        <asp:Label runat="server" ID="lblTotalBGVDed"></asp:Label>
+                                                    </div>
+                                                </FooterTemplate>
+                                            </asp:TemplateField>
 
 
-
-                                            <%-- 139--%>
+                                            <%-- 140--%>
                                             <asp:TemplateField HeaderText="Total Ded" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
                                                     <asp:Label ID="lblDeductions" runat="server" Text='<%#Bind("TotalDeductions","{0:0}") %>'></asp:Label>
@@ -1742,7 +1752,7 @@
                                             </asp:TemplateField>
 
 
-                                            <%-- 140--%>
+                                            <%-- 141--%>
                                             <asp:TemplateField HeaderText="Advance Against Bonus" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
                                                     <asp:Label ID="lblAdvanceAgainstBonus" runat="server" Text='<%#Bind("AdvBonus","{0:0}") %>'></asp:Label>
@@ -1752,7 +1762,7 @@
                                                 </FooterTemplate>
                                             </asp:TemplateField>
 
-                                            <%-- 141--%>
+                                            <%-- 142--%>
                                             <asp:TemplateField HeaderText="Net Amt" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
                                                     <asp:Label ID="lblnetamount" runat="server" Text='<%#Bind("ActualAmount","{0:0}") %>'> </asp:Label>
@@ -1762,7 +1772,7 @@
                                                 </FooterTemplate>
                                             </asp:TemplateField>
 
-                                            <%-- 142--%>
+                                            <%-- 143--%>
                                             <asp:TemplateField HeaderText="Signature orThumb Impression of the Workman" ItemStyle-HorizontalAlign="Left">
                                                 <ItemTemplate>
                                                     <asp:Label ID="lblRemarks" runat="server" Text='<%#Bind("Remarks") %>'></asp:Label>

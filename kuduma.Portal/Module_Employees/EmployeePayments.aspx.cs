@@ -404,7 +404,7 @@ namespace Kuduma.Portal
                         float totalHardshipAllw = 0;
                         float totalPaidHolidayAllw = 0;
                         float totalRegistrationFee = 0;
-
+                        float totalBGVDed = 0;
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
                             float actAmount = 0;
@@ -644,7 +644,7 @@ namespace Kuduma.Portal
                                 }
 
 
-                                string strTransportDed = dt.Rows[i]["RentDed1"].ToString();
+                                string strTransportDed = dt.Rows[i]["RentDed"].ToString();
                                 if (strTransportDed.Trim().Length > 0)
                                 {
                                     totalTransportDed += Convert.ToSingle(strTransportDed);
@@ -922,6 +922,13 @@ namespace Kuduma.Portal
                                 if (strRegistrationFee.Trim().Length > 0)
                                 {
                                     totalRegistrationFee += Convert.ToSingle(strRegistrationFee);
+
+                                }
+
+                                string strBGVDed = dt.Rows[i]["BGVDed"].ToString();
+                                if (strBGVDed.Trim().Length > 0)
+                                {
+                                    totalBGVDed += Convert.ToSingle(strBGVDed);
 
                                 }
 
@@ -1927,7 +1934,7 @@ namespace Kuduma.Portal
 
 
                         Label lblTotalRegistrationFee = gvattendancezero.FooterRow.FindControl("lblTotalRegistrationFee") as Label;
-                        lblTotalRegistrationFee.Text = Math.Round(totalTelephoneBillDed).ToString();
+                        lblTotalRegistrationFee.Text = Math.Round(totalRegistrationFee).ToString();
                         if (totalRegistrationFee > 0)
                         {
                             gvattendancezero.Columns[87].Visible = true;
@@ -1937,6 +1944,16 @@ namespace Kuduma.Portal
                             gvattendancezero.Columns[87].Visible = false;
                         }
 
+                        Label lblTotalBGVDed = gvattendancezero.FooterRow.FindControl("lblTotalBGVDed") as Label;
+                        lblTotalBGVDed.Text = Math.Round(totalBGVDed).ToString();
+                        if (totalBGVDed > 0)
+                        {
+                            gvattendancezero.Columns[88].Visible = true;
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[88].Visible = false;
+                        }
 
                         //New code add as on 24/12/2013 by venkat
 
@@ -4591,7 +4608,36 @@ namespace Kuduma.Portal
                                 tableDeductions.AddCell(cellTelephoneBillDed2);
 
                             }
+                            forConvert = Convert.ToSingle(dt.Rows[i]["RentDed"].ToString());
+                            if (forConvert > 0)
+                            {
+                                PdfPCell cellTelephoneBillDed = new PdfPCell(new Phrase("Rent Ded", FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
+                                cellTelephoneBillDed.HorizontalAlignment = 0;
+                                cellTelephoneBillDed.Colspan = 1;
+                                tableDeductions.AddCell(cellTelephoneBillDed);
 
+
+                                PdfPCell cellTelephoneBillDed2 = new PdfPCell(new Phrase(forConvert.ToString("0.00"), FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
+                                cellTelephoneBillDed2.HorizontalAlignment = 2;
+                                cellTelephoneBillDed2.Colspan = 1;
+                                tableDeductions.AddCell(cellTelephoneBillDed2);
+
+                            }
+                            forConvert = Convert.ToSingle(dt.Rows[i]["BGVDed"].ToString());
+                            if (forConvert > 0)
+                            {
+                                PdfPCell cellTelephoneBillDed = new PdfPCell(new Phrase("BGV Ded", FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
+                                cellTelephoneBillDed.HorizontalAlignment = 0;
+                                cellTelephoneBillDed.Colspan = 1;
+                                tableDeductions.AddCell(cellTelephoneBillDed);
+
+
+                                PdfPCell cellTelephoneBillDed2 = new PdfPCell(new Phrase(forConvert.ToString("0.00"), FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
+                                cellTelephoneBillDed2.HorizontalAlignment = 2;
+                                cellTelephoneBillDed2.Colspan = 1;
+                                tableDeductions.AddCell(cellTelephoneBillDed2);
+
+                            }
 
 
                             PdfPCell ChildTable2 = new PdfPCell(tableDeductions);
@@ -33416,6 +33462,8 @@ FixedTelephoneAllw, FixedReimbursement, FixedHardshipAllw, FixedPaidHolidayAllw,
                     float LoanDed = 0;
                     float AdvDed = 0;
                     float WCDed = 0;
+                    float BGVDed = 0;
+                    float RentDed = 0;
                     //end added deductions
 
                     //fixed wages 
@@ -33537,6 +33585,8 @@ CFixedTelephoneAllw, CFixedReimbursement, CFixedHardshipAllw, CFixedPaidHolidayA
                     string ALoanDed = "";
                     string AAdvDed = "";
                     string AWCDed = "";
+                    string ARentDed = "";
+                    string ABGVDed = "";
 
 
                     //for fixed wages A
@@ -33666,7 +33716,8 @@ totalFixedTelephoneAllw, totalFixedReimbursement, totalFixedHardshipAllw, totalF
                     float totalREGDed = 0;
                     float totalFoodDed = 0;
                     float totalAdminCharge = 0;
-
+                    float totalRentDed = 0;
+                    float totalBGVDed = 0;
                     float totalIDCardDed = 0;
                     float totalExtraDed = 0;
                     float totalOtherDed = 0;
@@ -33752,7 +33803,8 @@ totalFixedTelephoneAllw, totalFixedReimbursement, totalFixedHardshipAllw, totalF
                     string AtotalLoanDed = "";
                     string AtotalAdvDed = "";
                     string AtotalWCDed = "";
-
+                    string AtotalRentDed = "";
+                    string AtotalBGVDed = "";
                     string AtotalAttbonus = "";
                     string AtotalArrears = "";
                     string AtotalPerformanceAllw = "";
@@ -34001,6 +34053,26 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                         else
                         {
                             AUniformDed = "-";
+                        }
+
+                        RentDed = float.Parse(dt.Rows[i]["RentDed"].ToString());
+                        if (RentDed > 0)
+                        {
+                            ARentDed = RentDed.ToString();
+                        }
+                        else
+                        {
+                            ARentDed = "-";
+                        }
+
+                        BGVDed = float.Parse(dt.Rows[i]["BGVDed"].ToString());
+                        if (BGVDed > 0)
+                        {
+                            ABGVDed = BGVDed.ToString();
+                        }
+                        else
+                        {
+                            ABGVDed = "-";
                         }
 
                         LWF = float.Parse(dt.Rows[i]["owf"].ToString());
@@ -37214,6 +37286,14 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                         {
                             CcellHead14.Add(new Chunk("Ad.Chrg", FontFactory.GetFont(Fontstyle, 9, Font.NORMAL, BaseColor.BLACK)));
                         }
+                        if (ARentDed != "-")
+                        {
+                            CcellHead14.Add(new Chunk("Rent Ded", FontFactory.GetFont(Fontstyle, 9, Font.NORMAL, BaseColor.BLACK)));
+                        }
+                        if (ABGVDed != "-")
+                        {
+                            CcellHead14.Add(new Chunk("BGV Ded", FontFactory.GetFont(Fontstyle, 9, Font.NORMAL, BaseColor.BLACK)));
+                        }
                         CcellHead14.SetLeading(0, 1.2f);
                         cell.AddElement(CcellHead14);
                         cell.HorizontalAlignment = 0;
@@ -37314,6 +37394,14 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                         if (AAdmincharge != "-")
                         {
                             CcellHead15.Add(new Chunk(AAdmincharge, FontFactory.GetFont(Fontstyle, 9, Font.NORMAL, BaseColor.BLACK)));
+                        }
+                        if (ARentDed != "-")
+                        {
+                            CcellHead15.Add(new Chunk(ARentDed, FontFactory.GetFont(Fontstyle, 9, Font.NORMAL, BaseColor.BLACK)));
+                        }
+                        if (ABGVDed != "-")
+                        {
+                            CcellHead15.Add(new Chunk(ABGVDed, FontFactory.GetFont(Fontstyle, 9, Font.NORMAL, BaseColor.BLACK)));
                         }
 
 
@@ -37502,6 +37590,26 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                             AtotalAdminCharge = "-";
                         }
 
+
+                        totalRentDed += RentDed;
+                        if (totalRentDed > 0)
+                        {
+                            AtotalRentDed = totalRentDed.ToString();
+                        }
+                        else
+                        {
+                            AtotalRentDed = "-";
+                        }
+
+                        totalBGVDed += BGVDed;
+                        if (totalBGVDed > 0)
+                        {
+                            AtotalBGVDed = totalBGVDed.ToString();
+                        }
+                        else
+                        {
+                            AtotalBGVDed = "-";
+                        }
 
 
                         #endregion for total
@@ -38686,6 +38794,14 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                     {
                         CcellHead16.Add(new Chunk("Ad.Chrg", FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
                     }
+                    if (AtotalRentDed != "-")
+                    {
+                        CcellHead16.Add(new Chunk("Rent Ded", FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
+                    }
+                    if (AtotalBGVDed != "-")
+                    {
+                        CcellHead16.Add(new Chunk("BGV Ded", FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
+                    }
 
                     CcellHead16.SetLeading(0, 1.2f);
                     cell.AddElement(CcellHead16);
@@ -38785,6 +38901,14 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                     if (AtotalAdminCharge != "-")
                     {
                         CcellHead17.Add(new Chunk(AtotalAdminCharge + "\n", FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
+                    }
+                    if (AtotalRentDed != "-")
+                    {
+                        CcellHead17.Add(new Chunk(AtotalRentDed + "\n", FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
+                    }
+                    if (AtotalBGVDed != "-")
+                    {
+                        CcellHead17.Add(new Chunk(AtotalBGVDed + "\n", FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
                     }
 
                     CcellHead17.SetLeading(0, 1.2f);

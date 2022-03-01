@@ -605,6 +605,17 @@ namespace Kuduma.Portal
                     float daywos = 0;
                     string stoppayment = "";
                     float pldays = 0;
+
+                    float leavewages = 0;
+                    float Bonus = 0;
+                    float FoodAllw = 0;
+                    float OtperHour = 0;
+                    float OtHour = 0;
+                    float OtAmt = 0;
+                    float Advance = 0;
+                    float RentDed = 0;
+                    float BGVDed = 0;
+
                     #endregion
 
                     #region Variables for Posting order Table data and EmpAttendance(Default Values)
@@ -851,6 +862,47 @@ namespace Kuduma.Portal
                                 AttBonus = float.Parse(ds.Tables[0].Rows[i]["Attendance Bonus"].ToString());
                             }
 
+
+                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Leave Wages"].ToString().Trim()) == false)
+                            {
+                                leavewages = float.Parse(ds.Tables[0].Rows[i]["Leave Wages"].ToString());
+                            }
+
+                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Bonus"].ToString().Trim()) == false)
+                            {
+                                Bonus = float.Parse(ds.Tables[0].Rows[i]["Bonus"].ToString());
+                            }
+
+                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Food Allw"].ToString().Trim()) == false)
+                            {
+                                FoodAllw = float.Parse(ds.Tables[0].Rows[i]["Food Allw"].ToString());
+                            }
+                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["RentDed"].ToString().Trim()) == false)
+                            {
+                                RentDed = float.Parse(ds.Tables[0].Rows[i]["RentDed"].ToString());
+                            }
+                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["BGVDed"].ToString().Trim()) == false)
+                            {
+                                BGVDed = float.Parse(ds.Tables[0].Rows[i]["BGVDed"].ToString());
+                            }
+
+                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["OT Per Hour"].ToString().Trim()) == false)
+                            {
+                                OtperHour = float.Parse(ds.Tables[0].Rows[i]["OT Per Hour"].ToString());
+                            }
+
+                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["OT Hour"].ToString().Trim()) == false)
+                            {
+                                OtHour = float.Parse(ds.Tables[0].Rows[i]["OT Hour"].ToString());
+                            }
+
+                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["OT Amt"].ToString().Trim()) == false)
+                            {
+                                OtAmt = float.Parse(ds.Tables[0].Rows[i]["OT Amt"].ToString());
+                            }
+
+                           
+
                             stoppayment = ds.Tables[0].Rows[i]["Stop Payment"].ToString();
                             if (stoppayment == "Y" || stoppayment == "YES" || stoppayment == "y" || stoppayment == "yes" || stoppayment == "Yes")
                             {
@@ -919,6 +971,8 @@ namespace Kuduma.Portal
                             Httable.Add("@RemarksText", RemarksText);
                             Httable.Add("@oldempid", oldempid);
                             Httable.Add("@Stoppayment", stoppayment);
+                            Httable.Add("@RentDed", RentDed);
+                            Httable.Add("@BGVDed", BGVDed);
                             Httable.Add("@RowNo", i+2);
 
                             #endregion
@@ -1107,6 +1161,18 @@ namespace Kuduma.Portal
                 float duties = 0;
                 float ots = 0;
                 float pldays = 0;
+
+                float leavewages = 0;
+                float Bonus = 0;
+                float FoodAllw = 0;
+                float OtperHour = 0;
+                float OtHour = 0;
+                float OtAmt = 0;
+                float Advance = 0;
+
+                float RentDed = 0;
+                float BGVDed = 0;
+
                 string RemarksText = "";
 
                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -1428,6 +1494,14 @@ namespace Kuduma.Portal
                                 if (String.IsNullOrEmpty(dr["Uniform Ded"].ToString()) == false)
                                 {
                                     UniformDed = float.Parse(dr["Uniform Ded"].ToString());
+                                }
+                                if (String.IsNullOrEmpty(dr["RentDed"].ToString()) == false)
+                                {
+                                    RentDed = float.Parse(dr["RentDed"].ToString());
+                                }
+                                if (String.IsNullOrEmpty(dr["BGVDed"].ToString()) == false)
+                                {
+                                    BGVDed = float.Parse(dr["BGVDed"].ToString());
                                 }
 
                                 if (String.IsNullOrEmpty(dr["Other Ded"].ToString()) == false)
@@ -3199,6 +3273,8 @@ namespace Kuduma.Portal
                             Httable.Add("@AttBonus", AttBonus);
                             Httable.Add("@RemarksText", RemarksText);
                             Httable.Add("@Stoppayment", stoppayment);
+                            Httable.Add("@RentDed", RentDed);
+                            Httable.Add("@BGVDed", BGVDed);
                             Httable.Add("@RowNo", j+2);
                             #endregion
 

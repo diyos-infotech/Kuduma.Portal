@@ -1043,9 +1043,9 @@
                                                     </td>
 
 
-                                                    <td style="width: 80px">
+                                                    <%--<td style="width: 80px">
                                                         <asp:CheckBox ID="ChkpfonNFHS" runat="server" TabIndex="32" Text="&nbsp;NFHS" />
-                                                    </td>
+                                                    </td>--%>
 
 
                                                 </tr>
@@ -1235,9 +1235,9 @@
                                                     </td>
 
 
-                                                    <td style="width: 80px">
+                                                    <%--<td style="width: 80px">
                                                         <asp:CheckBox ID="ChkESIonNFHS" runat="server" TabIndex="32" Text="&nbsp;NFHS" />
-                                                    </td>
+                                                    </td>--%>
 
 
                                                 </tr>
@@ -2407,10 +2407,10 @@
 
 
 
-                                            <asp:TemplateField HeaderText="NFHs">
+                                            <asp:TemplateField HeaderText="NFHs" Visible="false">
                                                 <ItemTemplate>
-                                                    <asp:TextBox ID="txtNfhs1" runat="server" CssClass="form-control" Width="45px" Style="text-align: center"> </asp:TextBox>
-                                                    <cc1:FilteredTextBoxExtender ID="Fnhs" runat="server" Enabled="True" TargetControlID="txtNfhs1"
+                                                    <asp:TextBox ID="txtNfhs1" Visible="false" runat="server" CssClass="form-control" Width="45px" Style="text-align: center"> </asp:TextBox>
+                                                    <cc1:FilteredTextBoxExtender ID="Fnhs"  runat="server" Enabled="True" TargetControlID="txtNfhs1"
                                                         ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="15px" />
@@ -2486,6 +2486,7 @@
                                                         <asp:ListItem>27</asp:ListItem>
                                                         <asp:ListItem>30</asp:ListItem>
                                                         <asp:ListItem>31</asp:ListItem>
+                                                        <asp:ListItem>perday</asp:ListItem>
                                                     </asp:DropDownList>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
