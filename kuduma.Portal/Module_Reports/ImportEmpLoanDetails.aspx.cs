@@ -83,9 +83,9 @@ namespace Kuduma.Portal
         public void sampleGrid()
         {
 
-            string query = "select top 1 '' as 'ID NO','' as 'Loan Type', '' as 'Amount', '' as 'NoofInstalments','' as 'LoanIssuedDate', '' as 'LoanCuttingFrom' from Emploandetails";
-
+            string query = "select top 1 '' as 'ID NO','' as 'Loan Type', '' as 'Amount', '' as 'NoofInstalments','' as 'LoanIssuedDate', '' as 'LoanCuttingFrom' ";
             DataTable dt = config.ExecuteAdaptorAsyncWithQueryParams(query).Result;
+
             if (dt.Rows.Count > 0)
             {
                 GvInputEmpLoanDetails.DataSource = dt;
@@ -295,7 +295,7 @@ namespace Kuduma.Portal
 
             #region Begin Getmax Id from DB
             int ExcelNo = 0;
-            string selectquerycomppanyid = "select max(cast(Excel_No as int )) as Id from emploanmaster";
+            string selectquerycomppanyid = "select isnull(max(cast(Excel_No as int)),0) as Id from emploanmaster";
             DataTable dt = config.ExecuteAdaptorAsyncWithQueryParams(selectquerycomppanyid).Result;
 
             if (dt.Rows.Count > 0)

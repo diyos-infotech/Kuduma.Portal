@@ -487,7 +487,7 @@
                                                     </td>
                                                     <td>
                                                         <asp:RadioButton ID="rdbStaff" TabIndex="2" runat="server" GroupName="E1" Visible="true" AutoPostBack="True" OnCheckedChanged="rdbGeneral_CheckedChanged"   Text=" Staff" />
-                                                        <asp:RadioButton ID="rdbmanual" runat="server" GroupName="E1" Visible="false" Text=" Manual" Style="padding-left: 3px" AutoPostBack="True" OnCheckedChanged="rdbmanual_CheckedChanged" />
+                                                        <asp:RadioButton ID="rdbmanual" runat="server" GroupName="E1" Text=" Manual" Style="padding-left: 3px" AutoPostBack="True" OnCheckedChanged="rdbmanual_CheckedChanged" />
                                                         <asp:RadioButton ID="rdbRejoin" runat="server" GroupName="E1" Text=" Rejoin"  Style="padding-left: 3px" Visible="false" />
                                                         <asp:RadioButton ID="RadioButton1" runat="server" GroupName="E1" Text=" RDB1" Style="padding-left: 3px" Visible="false" />
 

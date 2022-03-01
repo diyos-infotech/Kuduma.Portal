@@ -2606,24 +2606,19 @@ namespace Kuduma.Portal
                     string companyName = "Your Company Name";
                     string companyAddress = "Your Company Address";
                     string phoneno = "";
-                    string PFNOForms = "";
-                    string TotalPFNOForms = "";
+
                     if (compInfo.Rows.Count > 0)
                     {
                         companyName = compInfo.Rows[0]["CompanyName"].ToString();
                         companyAddress = compInfo.Rows[0]["Address"].ToString();
                         phoneno = compInfo.Rows[0]["phoneno"].ToString();
-                        //PFNOForms = compInfo.Rows[0]["PFNoForms"].ToString();
                     }
 
                     float forConvert = 0;
                     float forConvert1 = 0;
                     float forConvert5 = 0;
-
                     float PFEmployer = 0;
                     float ESIEmployer = 0;
-
-
 
 
 
@@ -2694,13 +2689,9 @@ namespace Kuduma.Portal
                             float totalcdFixedRankAllw = 0;
 
 
-                            //float totalcdTravellingAllowance = 0;
-                            //float totalcdPerformanceAllowance = 0;
-
-                            // var output = new FileStream(fileheader2, FileMode., FileAccess.Write, FileShare.None);
+                          
                             #region
 
-                            //string imagepath = Server.MapPath("~/assets/BillLogo.png");
 
                             string imagepath = Server.MapPath("~/assets/" + CmpIDPrefix + "BillLogo.png");
 
@@ -2733,45 +2724,41 @@ namespace Kuduma.Portal
                                 tablewageslip.AddCell(companylogo);
                             }
 
-                            PdfPCell cellHead1 = new PdfPCell(new Phrase("Pay Slip  ", FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
-                            cellHead1.HorizontalAlignment = 0;
-                            cellHead1.Colspan = 4;
-                            cellHead1.Border = 0;
-                            cellHead1.PaddingLeft = 140;
-                            cellHead1.PaddingTop = -5;
-                            cellHead1.PaddingBottom = -10;
-                            tablewageslip.AddCell(cellHead1);
+                            
 
                             PdfPCell cellHead2 = new PdfPCell(new Phrase(companyName, FontFactory.GetFont(fontsyle, 13, Font.NORMAL, BaseColor.BLACK)));
                             cellHead2.HorizontalAlignment = 1;
                             cellHead2.Colspan = 5;
                             cellHead2.Border = 0;
-                            cellHead2.PaddingTop = -53;
-                            cellHead2.PaddingBottom = 10;
+                            //cellHead2.PaddingTop = -33;
+                            //cellHead2.PaddingBottom = 10;
                             tablewageslip.AddCell(cellHead2);
 
                             PdfPCell cellHead31 = new PdfPCell(new Phrase(companyAddress, FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
                             cellHead31.HorizontalAlignment = 1;
                             cellHead31.Colspan = 5;
                             cellHead31.Border = 0;
-                            cellHead31.PaddingTop = -40;
-                            cellHead31.PaddingBottom = -10;
+                           // cellHead31.PaddingTop = -40;
+                            //cellHead31.PaddingBottom = -10;
                             cellHead31.SetLeading(0, 1.2f);
                             tablewageslip.AddCell(cellHead31);
 
-                            PdfPCell cellHead41 = new PdfPCell(new Phrase("Phno :" + phoneno, FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
-                            cellHead41.HorizontalAlignment = 1;
-                            cellHead41.Colspan = 5;
-                            cellHead41.Border = 0;
-                            cellHead41.PaddingTop = -26;
-                            cellHead41.PaddingBottom = 5;
-                            tablewageslip.AddCell(cellHead41);
+                            if (phoneno.Length > 0)
+                            {
+                                PdfPCell cellHead41 = new PdfPCell(new Phrase("Phno :" + phoneno, FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
+                                cellHead41.HorizontalAlignment = 1;
+                                cellHead41.Colspan = 5;
+                                cellHead41.Border = 0;
+                                cellHead41.PaddingTop = -26;
+                                cellHead41.PaddingBottom = 5;
+                                tablewageslip.AddCell(cellHead41);
+                            }
 
                             PdfPCell cellHead4 = new PdfPCell(new Phrase("Pay Slip for month of " + GetMonthName() + " " + GetMonthOfYear(), FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
                             cellHead4.HorizontalAlignment = 1;
                             cellHead4.Colspan = 5;
                             cellHead4.Border = 0;
-                            cellHead4.PaddingTop = -15;
+                            //cellHead4.PaddingTop = -15;
                             tablewageslip.AddCell(cellHead4);
 
                             string EmpSex = "";
@@ -4780,8 +4767,8 @@ namespace Kuduma.Portal
                             cellcmnyadd1.Colspan = 5;
                             cellcmnyadd1.MinimumHeight = 10;
                             cellcmnyadd1.Border = 0;
-                            cellcmnyadd1.PaddingTop = 60;
-                            //  tablewageslip.AddCell(cellcmnyadd1);
+                            cellcmnyadd1.PaddingTop = 30;
+                            tablewageslip.AddCell(cellcmnyadd1);
 
 
 
@@ -4808,7 +4795,7 @@ namespace Kuduma.Portal
                             else
                             {
                                 slipsCount++;
-                                if (slipsCount == 3)
+                                if (slipsCount == 2)
                                 {
                                     slipsCount = 0;
                                     document.NewPage();

@@ -1,4 +1,3 @@
-D:\GitProjects\kuduma.Portal\kuduma.Portal\obj\Debug\kuduma.Portal.csprojResolveAssemblyReference.cache
 D:\GitProjects\kuduma.Portal\kuduma.Portal\bin\ApplicationInsights.config
 D:\GitProjects\kuduma.Portal\kuduma.Portal\bin\roslyn\csc.exe
 D:\GitProjects\kuduma.Portal\kuduma.Portal\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
@@ -45,3 +44,6 @@ D:\GitProjects\kuduma.Portal\kuduma.Portal\bin\Microsoft.CodeDom.Providers.DotNe
 D:\GitProjects\kuduma.Portal\kuduma.Portal\bin\Microsoft.IO.RecyclableMemoryStream.xml
 D:\GitProjects\kuduma.Portal\kuduma.Portal\obj\Debug\kuduma.Portal.dll
 D:\GitProjects\kuduma.Portal\kuduma.Portal\obj\Debug\kuduma.Portal.pdb
+D:\GitProjects\Kuduma.Portal\kuduma.Portal\obj\Debug\kuduma.Portal.csproj.AssemblyReference.cache
+D:\GitProjects\Kuduma.Portal\kuduma.Portal\obj\Debug\kuduma.Portal.csproj.CoreCompileInputs.cache
+D:\GitProjects\Kuduma.Portal\kuduma.Portal\obj\Debug\kuduma.Portal.csproj.CopyComplete
