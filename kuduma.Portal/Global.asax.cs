@@ -71,12 +71,13 @@ namespace Kuduma.Portal
                     }
                     streamWriter = new StreamWriter(fileStream);
 
+                    Exception expn = exception.InnerException;
 
                     string message = string.Format("Time: {0}", DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"));
                     message += Environment.NewLine;
                     message += "-----------------------------------------------------------";
                     message += Environment.NewLine;
-                    message += string.Format("Message: {0}", exception.InnerException.Message);
+                    message += string.Format("Message: {0}", expn.InnerException);
                     message += Environment.NewLine;
                     message += string.Format("StackTrace: {0}", exception.StackTrace);
                     message += Environment.NewLine;
@@ -89,7 +90,7 @@ namespace Kuduma.Portal
 
                     streamWriter.WriteLine(message);
 
-                    string Body = exception.InnerException.Message;
+                    string Body = expn.InnerException.Message.ToString();
                     string Line1 = "Please contact admin.. To continue refresh / reload the page.";
 
                     StringBuilder sb = new StringBuilder();

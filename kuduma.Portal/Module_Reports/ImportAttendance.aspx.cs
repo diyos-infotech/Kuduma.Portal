@@ -381,7 +381,7 @@ namespace Kuduma.Portal
             string date = string.Empty;
             if (txtmonth.Text.Trim().Length > 0)
             {
-                date = DateTime.Parse(txtmonth.Text.Trim(), CultureInfo.GetCultureInfo("en-gb")).ToString();
+                date = DateTime.Parse(txtmonth.Text.Trim(), CultureInfo.GetCultureInfo("en-gb")).ToString().Trim();
             }
 
             int year = Convert.ToDateTime(date).Year;
@@ -407,11 +407,11 @@ namespace Kuduma.Portal
 
             if (txtmonth.Text.Trim().Length > 0)
             {
-                date = DateTime.Parse(txtmonth.Text.Trim(), CultureInfo.GetCultureInfo("en-gb")).ToString();
+                date = DateTime.Parse(txtmonth.Text.Trim(), CultureInfo.GetCultureInfo("en-gb")).ToString().Trim();
             }
 
-            string month = DateTime.Parse(date).Month.ToString();
-            string Year = DateTime.Parse(date).Year.ToString();
+            string month = DateTime.Parse(date).Month.ToString().Trim();
+            string Year = DateTime.Parse(date).Year.ToString().Trim();
 
             string Month = month + Year.Substring(2, 2);
 
@@ -423,9 +423,9 @@ namespace Kuduma.Portal
 
             if (dtExcelID.Rows.Count > 0)
             {
-                if (String.IsNullOrEmpty(dtExcelID.Rows[0]["Id"].ToString()) == false)
+                if (String.IsNullOrEmpty(dtExcelID.Rows[0]["Id"].ToString().Trim()) == false)
                 {
-                    ExcelNo = Convert.ToInt32(dtExcelID.Rows[0]["Id"].ToString()) + 1;
+                    ExcelNo = Convert.ToInt32(dtExcelID.Rows[0]["Id"].ToString().Trim()) + 1;
                 }
                 else
                 {
@@ -438,7 +438,7 @@ namespace Kuduma.Portal
             //
             if (ddlAttendanceMode.SelectedIndex == 0)
             {
-                // string filename = Path.Combine(Server.MapPath("~/ImportDocuments"), Guid.NewGuid().ToString() + Path.GetExtension(fileupload1.PostedFile.FileName));
+                // string filename = Path.Combine(Server.MapPath("~/ImportDocuments"), Guid.NewGuid().ToString().Trim() + Path.GetExtension(fileupload1.PostedFile.FileName));
                 // fileupload1.PostedFile.SaveAs(filename);
                 // string extn = Path.GetExtension(fileupload1.PostedFile.FileName);
                 // string constring = "";
@@ -513,9 +513,9 @@ namespace Kuduma.Portal
                             {
                                 foreach (IXLCell cell in row.Cells())
                                 {
-                                    if (!string.IsNullOrEmpty(cell.Value.ToString()))
+                                    if (!string.IsNullOrEmpty(cell.Value.ToString().Trim()))
                                     {
-                                        dtexcel.Columns.Add(cell.Value.ToString());
+                                        dtexcel.Columns.Add(cell.Value.ToString().Trim());
                                     }
                                     else
                                     {
@@ -532,7 +532,7 @@ namespace Kuduma.Portal
                                 {
                                     try
                                     {
-                                        toInsert[i] = cell.Value.ToString();
+                                        toInsert[i] = cell.Value.ToString().Trim();
                                     }
                                     catch (Exception ex)
                                     {
@@ -637,7 +637,7 @@ namespace Kuduma.Portal
 
                     #endregion
 
-                    clientid = ds.Tables[0].Rows[i]["Client Id"].ToString();
+                    clientid = ds.Tables[0].Rows[i]["Client Id"].ToString().Trim();
 
 
                     if (ddloption.SelectedIndex == 1)
@@ -664,8 +664,8 @@ namespace Kuduma.Portal
 
                     if (DTContractID.Rows.Count > 0)
                     {
-                        ContractID = DTContractID.Rows[0]["contractid"].ToString();
-                        PaysheetDates = int.Parse(DTContractID.Rows[0]["PaySheetDates"].ToString());
+                        ContractID = DTContractID.Rows[0]["contractid"].ToString().Trim();
+                        PaysheetDates = int.Parse(DTContractID.Rows[0]["PaySheetDates"].ToString().Trim());
                     }
                     else
                     {
@@ -675,7 +675,7 @@ namespace Kuduma.Portal
 
                     DateTime mGendays = DateTime.Now;
                     DateTime date1 = DateTime.Parse(txtmonth.Text, CultureInfo.GetCultureInfo("en-gb"));
-                    mGendays = DateTime.Parse(date1.ToString());
+                    mGendays = DateTime.Parse(date1.ToString().Trim());
                     Gendays = Timings.Instance.GetNoofDaysForEnteredMonth(mGendays, PaysheetDates);
 
 
@@ -685,9 +685,9 @@ namespace Kuduma.Portal
 
                     if (dtSnoID.Rows.Count > 0)
                     {
-                        if (String.IsNullOrEmpty(dtSnoID.Rows[0]["sno"].ToString()) == false)
+                        if (String.IsNullOrEmpty(dtSnoID.Rows[0]["sno"].ToString().Trim()) == false)
                         {
-                            SNo = Convert.ToInt32(dtSnoID.Rows[0]["sno"].ToString()) + 1;
+                            SNo = Convert.ToInt32(dtSnoID.Rows[0]["sno"].ToString().Trim()) + 1;
                         }
                         else
                         {
@@ -703,11 +703,11 @@ namespace Kuduma.Portal
                         string sqlchkoldempid = "";
                         string oldempid = "";
 
-                        empid = ds.Tables[0].Rows[i]["Emp Id"].ToString();
+                        empid = ds.Tables[0].Rows[i]["Emp Id"].ToString().Trim();
 
                         if (ddlempidtype.SelectedIndex == 1)
                         {
-                            empid = ds.Tables[0].Rows[i]["OldEmpId"].ToString();
+                            empid = ds.Tables[0].Rows[i]["OldEmpId"].ToString().Trim();
 
                             sqlchkoldempid = "select empid,empid,EmpFName , oldempid from empdetails where oldempid='" + empid + "'";
                             //and empid like '%" + EmpIDPrefix + "%' 
@@ -717,7 +717,7 @@ namespace Kuduma.Portal
                             if (dtchkoldempid.Rows.Count > 0)
                             {
                                 empstatus = 1;
-                                empid = dtchkoldempid.Rows[0]["empid"].ToString();
+                                empid = dtchkoldempid.Rows[0]["empid"].ToString().Trim();
                             }
                         }
 
@@ -728,9 +728,9 @@ namespace Kuduma.Portal
                         if (dtchkempid.Rows.Count > 0)
                         {
                             empstatus = 1;
-                            empid = dtchkempid.Rows[0]["empid"].ToString();
-                            oldempid = dtchkempid.Rows[0]["oldempid"].ToString();
-                            EmpName = dtchkempid.Rows[0]["EmpFName"].ToString();
+                            empid = dtchkempid.Rows[0]["empid"].ToString().Trim();
+                            oldempid = dtchkempid.Rows[0]["oldempid"].ToString().Trim();
+                            EmpName = dtchkempid.Rows[0]["EmpFName"].ToString().Trim();
 
                         }
                         else
@@ -752,7 +752,7 @@ namespace Kuduma.Portal
                         string ClientStatus = "0";
                         if (dtclientStatus.Rows.Count > 0)
                         {
-                            ClientStatus = dtclientStatus.Rows[0]["ClientStatus"].ToString();
+                            ClientStatus = dtclientStatus.Rows[0]["ClientStatus"].ToString().Trim();
                         }
                         if (ClientStatus == "0")
                         {
@@ -763,13 +763,13 @@ namespace Kuduma.Portal
                         if (empid.Length > 0)
                         {
 
-                            design = ds.Tables[0].Rows[i]["Designation"].ToString();
+                            design = ds.Tables[0].Rows[i]["Designation"].ToString().Trim();
 
                             string sqldesgn = "select DesignId from Designations where Design='" + design + "'";
                             DataTable dtdesgn = config.ExecuteAdaptorAsyncWithQueryParams(sqldesgn).Result;
                             if (dtdesgn.Rows.Count > 0)
                             {
-                                design = dtdesgn.Rows[0]["DesignId"].ToString();
+                                design = dtdesgn.Rows[0]["DesignId"].ToString().Trim();
                             }
                             else
                             {
@@ -778,8 +778,8 @@ namespace Kuduma.Portal
                                 design = "0";
                             }
 
-                            string Fmonth = (DtLastDay).Month.ToString();
-                            string FYear = (DtLastDay).Year.ToString();
+                            string Fmonth = (DtLastDay).Month.ToString().Trim();
+                            string FYear = (DtLastDay).Year.ToString().Trim();
 
                             string DOLDate = "";
                             if (Fmonth.Length == 1)
@@ -798,112 +798,112 @@ namespace Kuduma.Portal
 
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Duties"].ToString().Trim()) == false)
                             {
-                                duties = float.Parse(ds.Tables[0].Rows[i]["Duties"].ToString());
+                                duties = float.Parse(ds.Tables[0].Rows[i]["Duties"].ToString().Trim());
                             }
 
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Wos"].ToString().Trim()) == false)
                             {
-                                Wos = float.Parse(ds.Tables[0].Rows[i]["WOs"].ToString());
+                                Wos = float.Parse(ds.Tables[0].Rows[i]["WOs"].ToString().Trim());
                             }
 
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["NHS"].ToString().Trim()) == false)
                             {
-                                NHS = float.Parse(ds.Tables[0].Rows[i]["NHS"].ToString());
+                                NHS = float.Parse(ds.Tables[0].Rows[i]["NHS"].ToString().Trim());
                             }
 
 
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["OTs"].ToString().Trim()) == false)
                             {
-                                ots = float.Parse(ds.Tables[0].Rows[i]["OTs"].ToString());
+                                ots = float.Parse(ds.Tables[0].Rows[i]["OTs"].ToString().Trim());
 
                             }
 
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["PL Days"].ToString().Trim()) == false)
                             {
-                                pldays = float.Parse(ds.Tables[0].Rows[i]["PL Days"].ToString());
+                                pldays = float.Parse(ds.Tables[0].Rows[i]["PL Days"].ToString().Trim());
 
                             }
 
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Canteen Advance"].ToString().Trim()) == false)
                             {
-                                canteenadvance = float.Parse(ds.Tables[0].Rows[i]["Canteen Advance"].ToString());
+                                canteenadvance = float.Parse(ds.Tables[0].Rows[i]["Canteen Advance"].ToString().Trim());
                             }
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Advance"].ToString().Trim()) == false)
                             {
-                                penalty = float.Parse(ds.Tables[0].Rows[i]["Advance"].ToString());
+                                penalty = float.Parse(ds.Tables[0].Rows[i]["Advance"].ToString().Trim());
                             }
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Incentives"].ToString().Trim()) == false)
                             {
-                                incentives = float.Parse(ds.Tables[0].Rows[i]["Incentives"].ToString());
+                                incentives = float.Parse(ds.Tables[0].Rows[i]["Incentives"].ToString().Trim());
                             }
 
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Uniform Ded"].ToString().Trim()) == false)
                             {
-                                UniformDed = float.Parse(ds.Tables[0].Rows[i]["Uniform Ded"].ToString());
+                                UniformDed = float.Parse(ds.Tables[0].Rows[i]["Uniform Ded"].ToString().Trim());
                             }
 
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Other Ded"].ToString().Trim()) == false)
                             {
-                                ATMDed = float.Parse(ds.Tables[0].Rows[i]["Other Ded"].ToString());
+                                ATMDed = float.Parse(ds.Tables[0].Rows[i]["Other Ded"].ToString().Trim());
                             }
 
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["OT Hrs"].ToString().Trim()) == false)
                             {
-                                OTHrs = float.Parse(ds.Tables[0].Rows[i]["OT Hrs"].ToString());
+                                OTHrs = float.Parse(ds.Tables[0].Rows[i]["OT Hrs"].ToString().Trim());
                             }
 
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Arrears"].ToString().Trim()) == false)
                             {
-                                Arrears = float.Parse(ds.Tables[0].Rows[i]["Arrears"].ToString());
+                                Arrears = float.Parse(ds.Tables[0].Rows[i]["Arrears"].ToString().Trim());
                             }
 
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Attendance Bonus"].ToString().Trim()) == false)
                             {
-                                AttBonus = float.Parse(ds.Tables[0].Rows[i]["Attendance Bonus"].ToString());
+                                AttBonus = float.Parse(ds.Tables[0].Rows[i]["Attendance Bonus"].ToString().Trim());
                             }
 
 
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Leave Wages"].ToString().Trim()) == false)
                             {
-                                leavewages = float.Parse(ds.Tables[0].Rows[i]["Leave Wages"].ToString());
+                                leavewages = float.Parse(ds.Tables[0].Rows[i]["Leave Wages"].ToString().Trim());
                             }
 
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Bonus"].ToString().Trim()) == false)
                             {
-                                Bonus = float.Parse(ds.Tables[0].Rows[i]["Bonus"].ToString());
+                                Bonus = float.Parse(ds.Tables[0].Rows[i]["Bonus"].ToString().Trim());
                             }
 
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["Food Allw"].ToString().Trim()) == false)
                             {
-                                FoodAllw = float.Parse(ds.Tables[0].Rows[i]["Food Allw"].ToString());
+                                FoodAllw = float.Parse(ds.Tables[0].Rows[i]["Food Allw"].ToString().Trim());
                             }
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["RentDed"].ToString().Trim()) == false)
                             {
-                                RentDed = float.Parse(ds.Tables[0].Rows[i]["RentDed"].ToString());
+                                RentDed = float.Parse(ds.Tables[0].Rows[i]["RentDed"].ToString().Trim());
                             }
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["BGVDed"].ToString().Trim()) == false)
                             {
-                                BGVDed = float.Parse(ds.Tables[0].Rows[i]["BGVDed"].ToString());
+                                BGVDed = float.Parse(ds.Tables[0].Rows[i]["BGVDed"].ToString().Trim());
                             }
 
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["OT Per Hour"].ToString().Trim()) == false)
                             {
-                                OtperHour = float.Parse(ds.Tables[0].Rows[i]["OT Per Hour"].ToString());
+                                OtperHour = float.Parse(ds.Tables[0].Rows[i]["OT Per Hour"].ToString().Trim());
                             }
 
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["OT Hour"].ToString().Trim()) == false)
                             {
-                                OtHour = float.Parse(ds.Tables[0].Rows[i]["OT Hour"].ToString());
+                                OtHour = float.Parse(ds.Tables[0].Rows[i]["OT Hour"].ToString().Trim());
                             }
 
                             if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["OT Amt"].ToString().Trim()) == false)
                             {
-                                OtAmt = float.Parse(ds.Tables[0].Rows[i]["OT Amt"].ToString());
+                                OtAmt = float.Parse(ds.Tables[0].Rows[i]["OT Amt"].ToString().Trim());
                             }
 
                            
 
-                            stoppayment = ds.Tables[0].Rows[i]["Stop Payment"].ToString();
+                            stoppayment = ds.Tables[0].Rows[i]["Stop Payment"].ToString().Trim();
                             if (stoppayment == "Y" || stoppayment == "YES" || stoppayment == "y" || stoppayment == "yes" || stoppayment == "Yes")
                             {
                                 stoppayment = "1";
@@ -939,8 +939,8 @@ namespace Kuduma.Portal
 
                             if (dtduties.Rows.Count > 0)
                             {
-                                dutiesv = decimal.Parse(dtduties.Rows[0]["Duties"].ToString());
-                                otsv = decimal.Parse(dtduties.Rows[0]["ots"].ToString());
+                                dutiesv = decimal.Parse(dtduties.Rows[0]["Duties"].ToString().Trim());
+                                otsv = decimal.Parse(dtduties.Rows[0]["ots"].ToString().Trim());
                             }
 
                             Hashtable Httable = new Hashtable();
@@ -1012,7 +1012,7 @@ namespace Kuduma.Portal
             if (ddlAttendanceMode.SelectedIndex == 1)
             {
 
-                //   string filename = Path.Combine(Server.MapPath("~/ImportDocuments"), Guid.NewGuid().ToString() + Path.GetExtension(fileupload1.PostedFile.FileName));
+                //   string filename = Path.Combine(Server.MapPath("~/ImportDocuments"), Guid.NewGuid().ToString().Trim() + Path.GetExtension(fileupload1.PostedFile.FileName));
                 //   fileupload1.PostedFile.SaveAs(filename);
                 //   string extn = Path.GetExtension(fileupload1.PostedFile.FileName);
                 //   string constring = "";
@@ -1097,9 +1097,9 @@ namespace Kuduma.Portal
                             {
                                 foreach (IXLCell cell in row.Cells())
                                 {
-                                    if (!string.IsNullOrEmpty(cell.Value.ToString()))
+                                    if (!string.IsNullOrEmpty(cell.Value.ToString().Trim()))
                                     {
-                                        dtexcel.Columns.Add(cell.Value.ToString());
+                                        dtexcel.Columns.Add(cell.Value.ToString().Trim());
                                     }
                                     else
                                     {
@@ -1116,7 +1116,7 @@ namespace Kuduma.Portal
                                 {
                                     try
                                     {
-                                        toInsert[i] = cell.Value.ToString();
+                                        toInsert[i] = cell.Value.ToString().Trim();
                                     }
                                     catch (Exception ex)
                                     {
@@ -1306,9 +1306,9 @@ namespace Kuduma.Portal
                     if ((k % 2) == 0 || k == 0 || (k % 2) == 1)
                     {
 
-                        clientid = ds.Tables[0].Rows[k]["Client Id"].ToString();
+                        clientid = ds.Tables[0].Rows[k]["Client Id"].ToString().Trim();
                         ViewState["clientid"] = clientid;
-                        clientid = ViewState["clientid"].ToString();
+                        clientid = ViewState["clientid"].ToString().Trim();
                     }
 
                     if (ddloption.SelectedIndex == 1)
@@ -1326,9 +1326,9 @@ namespace Kuduma.Portal
 
                     if (dtSno.Rows.Count > 0)
                     {
-                        if (String.IsNullOrEmpty(dtSno.Rows[0]["Sno"].ToString()) == false)
+                        if (String.IsNullOrEmpty(dtSno.Rows[0]["Sno"].ToString().Trim()) == false)
                         {
-                            Sno = Convert.ToInt32(dtSno.Rows[0]["Sno"].ToString()) + 1;
+                            Sno = Convert.ToInt32(dtSno.Rows[0]["Sno"].ToString().Trim()) + 1;
                         }
                         else
                         {
@@ -1349,7 +1349,7 @@ namespace Kuduma.Portal
 
                     if (DTContractID.Rows.Count > 0)
                     {
-                        Contractid = DTContractID.Rows[0]["contractid"].ToString();
+                        Contractid = DTContractID.Rows[0]["contractid"].ToString().Trim();
                     }
                     else
                     {
@@ -1367,9 +1367,9 @@ namespace Kuduma.Portal
                             empstatus = 0;
                             string sqlchkempid = "";
                             string oldempid = "";
-                            empid = ds.Tables[0].Rows[k]["Emp Id"].ToString();
+                            empid = ds.Tables[0].Rows[k]["Emp Id"].ToString().Trim();
                             ViewState["empid"] = empid;
-                            empid = ViewState["empid"].ToString();
+                            empid = ViewState["empid"].ToString().Trim();
 
                             if (ddlempidtype.SelectedIndex == 0)
                             {
@@ -1385,8 +1385,8 @@ namespace Kuduma.Portal
                             if (dtchkempid.Rows.Count > 0)
                             {
                                 empstatus = 1;
-                                empid = dtchkempid.Rows[0]["empid"].ToString();
-                                oldempid = dtchkempid.Rows[0]["oldempid"].ToString();
+                                empid = dtchkempid.Rows[0]["empid"].ToString().Trim();
+                                oldempid = dtchkempid.Rows[0]["oldempid"].ToString().Trim();
 
                             }
                             else
@@ -1410,15 +1410,15 @@ namespace Kuduma.Portal
 
                             if ((k % 2) == 0 || k == 0 || (k % 2) == 1)
                             {
-                                design = ds.Tables[0].Rows[k]["Designation"].ToString();
+                                design = ds.Tables[0].Rows[k]["Designation"].ToString().Trim();
                                 ViewState["design"] = design;
-                                design = ViewState["design"].ToString();
+                                design = ViewState["design"].ToString().Trim();
 
                                 string sqldesgn = "select DesignId from Designations where Design='" + design + "'";
                                 DataTable dtdesgn = config.ExecuteAdaptorAsyncWithQueryParams(sqldesgn).Result;
                                 if (dtdesgn.Rows.Count > 0)
                                 {
-                                    design = dtdesgn.Rows[0]["DesignId"].ToString();
+                                    design = dtdesgn.Rows[0]["DesignId"].ToString().Trim();
                                 }
                                 else
                                 {
@@ -1463,69 +1463,69 @@ namespace Kuduma.Portal
                                 duties = 0;
                                 ots = 0;
 
-                                if (String.IsNullOrEmpty(dr["OTs"].ToString()) == false)
+                                if (String.IsNullOrEmpty(dr["OTs"].ToString().Trim()) == false)
                                 {
-                                    ots = float.Parse(dr["OTs"].ToString());
+                                    ots = float.Parse(dr["OTs"].ToString().Trim());
                                 }
 
-                                if (String.IsNullOrEmpty(dr["PL Days"].ToString()) == false)
+                                if (String.IsNullOrEmpty(dr["PL Days"].ToString().Trim()) == false)
                                 {
-                                    pldays = float.Parse(dr["PL Days"].ToString());
+                                    pldays = float.Parse(dr["PL Days"].ToString().Trim());
                                 }
 
-                                if (String.IsNullOrEmpty(dr["Canteen Advance"].ToString()) == false)
+                                if (String.IsNullOrEmpty(dr["Canteen Advance"].ToString().Trim()) == false)
                                 {
-                                    canteenadvance = float.Parse(dr["Canteen Advance"].ToString());
+                                    canteenadvance = float.Parse(dr["Canteen Advance"].ToString().Trim());
                                 }
-                                if (String.IsNullOrEmpty(dr["Advance"].ToString()) == false)
+                                if (String.IsNullOrEmpty(dr["Advance"].ToString().Trim()) == false)
                                 {
-                                    penalty = float.Parse(dr["Advance"].ToString());
+                                    penalty = float.Parse(dr["Advance"].ToString().Trim());
                                 }
-                                if (String.IsNullOrEmpty(dr["Incentives"].ToString()) == false)
+                                if (String.IsNullOrEmpty(dr["Incentives"].ToString().Trim()) == false)
                                 {
-                                    incentives = float.Parse(dr["Incentives"].ToString());
+                                    incentives = float.Parse(dr["Incentives"].ToString().Trim());
                                 }
 
-                                //if (String.IsNullOrEmpty(dr["Fines"].ToString()) == false)
+                                //if (String.IsNullOrEmpty(dr["Fines"].ToString().Trim()) == false)
                                 //{
-                                //    Fines = float.Parse(dr["Fines"].ToString());
+                                //    Fines = float.Parse(dr["Fines"].ToString().Trim());
                                 //}
 
-                                if (String.IsNullOrEmpty(dr["Uniform Ded"].ToString()) == false)
+                                if (String.IsNullOrEmpty(dr["Uniform Ded"].ToString().Trim()) == false)
                                 {
-                                    UniformDed = float.Parse(dr["Uniform Ded"].ToString());
+                                    UniformDed = float.Parse(dr["Uniform Ded"].ToString().Trim());
                                 }
-                                if (String.IsNullOrEmpty(dr["RentDed"].ToString()) == false)
+                                if (String.IsNullOrEmpty(dr["RentDed"].ToString().Trim()) == false)
                                 {
-                                    RentDed = float.Parse(dr["RentDed"].ToString());
+                                    RentDed = float.Parse(dr["RentDed"].ToString().Trim());
                                 }
-                                if (String.IsNullOrEmpty(dr["BGVDed"].ToString()) == false)
+                                if (String.IsNullOrEmpty(dr["BGVDed"].ToString().Trim()) == false)
                                 {
-                                    BGVDed = float.Parse(dr["BGVDed"].ToString());
-                                }
-
-                                if (String.IsNullOrEmpty(dr["Other Ded"].ToString()) == false)
-                                {
-                                    ATMDed = float.Parse(dr["Other Ded"].ToString());
+                                    BGVDed = float.Parse(dr["BGVDed"].ToString().Trim());
                                 }
 
-                                if (String.IsNullOrEmpty(dr["OT Hrs"].ToString()) == false)
+                                if (String.IsNullOrEmpty(dr["Other Ded"].ToString().Trim()) == false)
                                 {
-                                    OTHrs = float.Parse(dr["OT Hrs"].ToString());
+                                    ATMDed = float.Parse(dr["Other Ded"].ToString().Trim());
                                 }
 
-                                if (String.IsNullOrEmpty(dr["Arrears"].ToString()) == false)
+                                if (String.IsNullOrEmpty(dr["OT Hrs"].ToString().Trim()) == false)
                                 {
-                                    Arrears = float.Parse(dr["Arrears"].ToString());
+                                    OTHrs = float.Parse(dr["OT Hrs"].ToString().Trim());
                                 }
 
-                                if (String.IsNullOrEmpty(dr["Attendance Bonus"].ToString()) == false)
+                                if (String.IsNullOrEmpty(dr["Arrears"].ToString().Trim()) == false)
                                 {
-                                    AttBonus = float.Parse(dr["Attendance Bonus"].ToString());
+                                    Arrears = float.Parse(dr["Arrears"].ToString().Trim());
                                 }
-                                if (String.IsNullOrEmpty(dr["Stop Payment"].ToString()) == false)
+
+                                if (String.IsNullOrEmpty(dr["Attendance Bonus"].ToString().Trim()) == false)
                                 {
-                                    stoppayment = dr["Stop Payment"].ToString();
+                                    AttBonus = float.Parse(dr["Attendance Bonus"].ToString().Trim());
+                                }
+                                if (String.IsNullOrEmpty(dr["Stop Payment"].ToString().Trim()) == false)
+                                {
+                                    stoppayment = dr["Stop Payment"].ToString().Trim();
                                 }
                                 if (stoppayment == "Y" || stoppayment == "YES" || stoppayment == "y" || stoppayment == "yes" || stoppayment == "Yes")
                                 {
@@ -1543,181 +1543,181 @@ namespace Kuduma.Portal
 
                                 if (days == 31)
                                 {
-                                    day1 = dr["1"].ToString();
+                                    day1 = dr["1"].ToString().Trim();
                                     if (day1.Trim().Length == 0 || day1 == "0")
                                     { day1 = "A"; }
 
-                                    day2 = dr["2"].ToString();
+                                    day2 = dr["2"].ToString().Trim();
                                     if (day2.Length == 0 || day2 == "0")
                                     { day2 = "A"; }
 
-                                    day3 = dr["3"].ToString();
+                                    day3 = dr["3"].ToString().Trim();
                                     if (day3.Length == 0 || day3 == "0")
                                     { day3 = "A"; }
 
-                                    day4 = dr["4"].ToString();
+                                    day4 = dr["4"].ToString().Trim();
                                     if (day4.Length == 0 || day4 == "0")
                                     {
                                         day4 = "A";
                                     }
 
-                                    day5 = dr["5"].ToString();
+                                    day5 = dr["5"].ToString().Trim();
                                     if (day5.Length == 0 || day5 == "0")
                                     {
                                         day5 = "A";
                                     }
 
-                                    day6 = dr["6"].ToString();
+                                    day6 = dr["6"].ToString().Trim();
                                     if (day6.Length == 0 || day6 == "0")
                                     {
                                         day6 = "A";
                                     }
 
-                                    day7 = dr["7"].ToString();
+                                    day7 = dr["7"].ToString().Trim();
                                     if (day7.Length == 0 || day7 == "0")
                                     {
                                         day7 = "A";
                                     }
 
-                                    day8 = dr["8"].ToString();
+                                    day8 = dr["8"].ToString().Trim();
                                     if (day8.Length == 0 || day8 == "0")
                                     {
                                         day8 = "A";
                                     }
 
-                                    day9 = dr["9"].ToString();
+                                    day9 = dr["9"].ToString().Trim();
                                     if (day9.Length == 0 || day9 == "0")
                                     {
                                         day9 = "A";
                                     }
 
-                                    day10 = dr["10"].ToString();
+                                    day10 = dr["10"].ToString().Trim();
                                     if (day10.Length == 0 || day10 == "0")
                                     {
                                         day10 = "A";
                                     }
 
-                                    day11 = dr["11"].ToString();
+                                    day11 = dr["11"].ToString().Trim();
                                     if (day11.Length == 0 || day11 == "0")
                                     {
                                         day11 = "A";
                                     }
 
-                                    day12 = dr["12"].ToString();
+                                    day12 = dr["12"].ToString().Trim();
                                     if (day12.Length == 0 || day12 == "0")
                                     {
                                         day12 = "A";
                                     }
 
-                                    day13 = dr["13"].ToString();
+                                    day13 = dr["13"].ToString().Trim();
                                     if (day13.Length == 0 || day13 == "0")
                                     {
                                         day13 = "A";
                                     }
 
-                                    day14 = dr["14"].ToString();
+                                    day14 = dr["14"].ToString().Trim();
                                     if (day14.Length == 0 || day14 == "0")
                                     {
                                         day14 = "A";
                                     }
 
-                                    day15 = dr["15"].ToString();
+                                    day15 = dr["15"].ToString().Trim();
                                     if (day15.Length == 0 || day15 == "0")
                                     {
                                         day15 = "A";
                                     }
 
-                                    day16 = dr["16"].ToString();
+                                    day16 = dr["16"].ToString().Trim();
                                     if (day16.Length == 0 || day16 == "0")
                                     {
                                         day16 = "A";
                                     }
 
-                                    day17 = dr["17"].ToString();
+                                    day17 = dr["17"].ToString().Trim();
                                     if (day17.Length == 0 || day17 == "0")
                                     {
                                         day17 = "A";
                                     }
 
-                                    day18 = dr["18"].ToString();
+                                    day18 = dr["18"].ToString().Trim();
                                     if (day18.Length == 0 || day18 == "0")
                                     {
                                         day18 = "A";
                                     }
 
-                                    day19 = dr["19"].ToString();
+                                    day19 = dr["19"].ToString().Trim();
                                     if (day19.Length == 0 || day19 == "0")
                                     {
                                         day19 = "A";
                                     }
 
-                                    day20 = dr["20"].ToString();
+                                    day20 = dr["20"].ToString().Trim();
                                     if (day20.Length == 0 || day20 == "0")
                                     {
                                         day20 = "A";
                                     }
 
-                                    day21 = dr["21"].ToString();
+                                    day21 = dr["21"].ToString().Trim();
                                     if (day21.Length == 0 || day21 == "0")
                                     {
                                         day21 = "A";
                                     }
 
-                                    day22 = dr["22"].ToString();
+                                    day22 = dr["22"].ToString().Trim();
                                     if (day22.Length == 0 || day22 == "0")
                                     {
                                         day22 = "A";
                                     }
 
-                                    day23 = dr["23"].ToString();
+                                    day23 = dr["23"].ToString().Trim();
                                     if (day23.Length == 0 || day23 == "0")
                                     {
                                         day23 = "A";
                                     }
 
-                                    day24 = dr["24"].ToString();
+                                    day24 = dr["24"].ToString().Trim();
                                     if (day24.Length == 0 || day24 == "0")
                                     {
                                         day24 = "A";
                                     }
 
-                                    day25 = dr["25"].ToString();
+                                    day25 = dr["25"].ToString().Trim();
                                     if (day25.Length == 0 || day25 == "0")
                                     {
                                         day25 = "A";
                                     }
 
-                                    day26 = dr["26"].ToString();
+                                    day26 = dr["26"].ToString().Trim();
                                     if (day26.Length == 0 || day26 == "0")
                                     {
                                         day26 = "A";
                                     }
 
-                                    day27 = dr["27"].ToString();
+                                    day27 = dr["27"].ToString().Trim();
                                     if (day27.Length == 0 || day27 == "0")
                                     {
                                         day27 = "A";
                                     }
 
-                                    day28 = dr["28"].ToString();
+                                    day28 = dr["28"].ToString().Trim();
                                     if (day28.Length == 0 || day28 == "0")
                                     {
                                         day28 = "A";
                                     }
 
-                                    day29 = dr["29"].ToString();
+                                    day29 = dr["29"].ToString().Trim();
                                     if (day29.Length == 0 || day29 == "0")
                                     {
                                         day29 = "A";
                                     }
 
-                                    day30 = dr["30"].ToString();
+                                    day30 = dr["30"].ToString().Trim();
                                     if (day30.Length == 0 || day30 == "0")
                                     {
                                         day30 = "A";
                                     }
 
-                                    day31 = dr["31"].ToString();
+                                    day31 = dr["31"].ToString().Trim();
                                     if (day31.Length == 0 || day31 == "0")
                                     {
                                         day31 = "A";
@@ -1725,175 +1725,175 @@ namespace Kuduma.Portal
                                 }
                                 if (days == 30)
                                 {
-                                    day1 = dr["1"].ToString();
+                                    day1 = dr["1"].ToString().Trim();
                                     if (day1.Trim().Length == 0 || day1 == "0")
                                     { day1 = "A"; }
 
-                                    day2 = dr["2"].ToString();
+                                    day2 = dr["2"].ToString().Trim();
                                     if (day2.Length == 0 || day2 == "0")
                                     { day2 = "A"; }
 
-                                    day3 = dr["3"].ToString();
+                                    day3 = dr["3"].ToString().Trim();
                                     if (day3.Length == 0 || day3 == "0")
                                     { day3 = "A"; }
 
-                                    day4 = dr["4"].ToString();
+                                    day4 = dr["4"].ToString().Trim();
                                     if (day4.Length == 0 || day4 == "0")
                                     {
                                         day4 = "A";
                                     }
 
-                                    day5 = dr["5"].ToString();
+                                    day5 = dr["5"].ToString().Trim();
                                     if (day5.Length == 0 || day5 == "0")
                                     {
                                         day5 = "A";
                                     }
 
-                                    day6 = dr["6"].ToString();
+                                    day6 = dr["6"].ToString().Trim();
                                     if (day6.Length == 0 || day6 == "0")
                                     {
                                         day6 = "A";
                                     }
 
-                                    day7 = dr["7"].ToString();
+                                    day7 = dr["7"].ToString().Trim();
                                     if (day7.Length == 0 || day7 == "0")
                                     {
                                         day7 = "A";
                                     }
 
-                                    day8 = dr["8"].ToString();
+                                    day8 = dr["8"].ToString().Trim();
                                     if (day8.Length == 0 || day8 == "0")
                                     {
                                         day8 = "A";
                                     }
 
-                                    day9 = dr["9"].ToString();
+                                    day9 = dr["9"].ToString().Trim();
                                     if (day9.Length == 0 || day9 == "0")
                                     {
                                         day9 = "A";
                                     }
 
-                                    day10 = dr["10"].ToString();
+                                    day10 = dr["10"].ToString().Trim();
                                     if (day10.Length == 0 || day10 == "0")
                                     {
                                         day10 = "A";
                                     }
 
-                                    day11 = dr["11"].ToString();
+                                    day11 = dr["11"].ToString().Trim();
                                     if (day11.Length == 0 || day11 == "0")
                                     {
                                         day11 = "A";
                                     }
 
-                                    day12 = dr["12"].ToString();
+                                    day12 = dr["12"].ToString().Trim();
                                     if (day12.Length == 0 || day12 == "0")
                                     {
                                         day12 = "A";
                                     }
 
-                                    day13 = dr["13"].ToString();
+                                    day13 = dr["13"].ToString().Trim();
                                     if (day13.Length == 0 || day13 == "0")
                                     {
                                         day13 = "A";
                                     }
 
-                                    day14 = dr["14"].ToString();
+                                    day14 = dr["14"].ToString().Trim();
                                     if (day14.Length == 0 || day14 == "0")
                                     {
                                         day14 = "A";
                                     }
 
-                                    day15 = dr["15"].ToString();
+                                    day15 = dr["15"].ToString().Trim();
                                     if (day15.Length == 0 || day15 == "0")
                                     {
                                         day15 = "A";
                                     }
 
-                                    day16 = dr["16"].ToString();
+                                    day16 = dr["16"].ToString().Trim();
                                     if (day16.Length == 0 || day16 == "0")
                                     {
                                         day16 = "A";
                                     }
 
-                                    day17 = dr["17"].ToString();
+                                    day17 = dr["17"].ToString().Trim();
                                     if (day17.Length == 0 || day17 == "0")
                                     {
                                         day17 = "A";
                                     }
 
-                                    day18 = dr["18"].ToString();
+                                    day18 = dr["18"].ToString().Trim();
                                     if (day18.Length == 0 || day18 == "0")
                                     {
                                         day18 = "A";
                                     }
 
-                                    day19 = dr["19"].ToString();
+                                    day19 = dr["19"].ToString().Trim();
                                     if (day19.Length == 0 || day19 == "0")
                                     {
                                         day19 = "A";
                                     }
 
-                                    day20 = dr["20"].ToString();
+                                    day20 = dr["20"].ToString().Trim();
                                     if (day20.Length == 0 || day20 == "0")
                                     {
                                         day20 = "A";
                                     }
 
-                                    day21 = dr["21"].ToString();
+                                    day21 = dr["21"].ToString().Trim();
                                     if (day21.Length == 0 || day21 == "0")
                                     {
                                         day21 = "A";
                                     }
 
-                                    day22 = dr["22"].ToString();
+                                    day22 = dr["22"].ToString().Trim();
                                     if (day22.Length == 0 || day22 == "0")
                                     {
                                         day22 = "A";
                                     }
 
-                                    day23 = dr["23"].ToString();
+                                    day23 = dr["23"].ToString().Trim();
                                     if (day23.Length == 0 || day23 == "0")
                                     {
                                         day23 = "A";
                                     }
 
-                                    day24 = dr["24"].ToString();
+                                    day24 = dr["24"].ToString().Trim();
                                     if (day24.Length == 0 || day24 == "0")
                                     {
                                         day24 = "A";
                                     }
 
-                                    day25 = dr["25"].ToString();
+                                    day25 = dr["25"].ToString().Trim();
                                     if (day25.Length == 0 || day25 == "0")
                                     {
                                         day25 = "A";
                                     }
 
-                                    day26 = dr["26"].ToString();
+                                    day26 = dr["26"].ToString().Trim();
                                     if (day26.Length == 0 || day26 == "0")
                                     {
                                         day26 = "A";
                                     }
 
-                                    day27 = dr["27"].ToString();
+                                    day27 = dr["27"].ToString().Trim();
                                     if (day27.Length == 0 || day27 == "0")
                                     {
                                         day27 = "A";
                                     }
 
-                                    day28 = dr["28"].ToString();
+                                    day28 = dr["28"].ToString().Trim();
                                     if (day28.Length == 0 || day28 == "0")
                                     {
                                         day28 = "A";
                                     }
 
-                                    day29 = dr["29"].ToString();
+                                    day29 = dr["29"].ToString().Trim();
                                     if (day29.Length == 0 || day29 == "0")
                                     {
                                         day29 = "A";
                                     }
 
-                                    day30 = dr["30"].ToString();
+                                    day30 = dr["30"].ToString().Trim();
                                     if (day30.Length == 0 || day30 == "0")
                                     {
                                         day30 = "A";
@@ -1901,169 +1901,169 @@ namespace Kuduma.Portal
                                 }
                                 if (days == 29)
                                 {
-                                    day1 = dr["1"].ToString();
+                                    day1 = dr["1"].ToString().Trim();
                                     if (day1.Trim().Length == 0 || day1 == "0")
                                     { day1 = "A"; }
 
-                                    day2 = dr["2"].ToString();
+                                    day2 = dr["2"].ToString().Trim();
                                     if (day2.Length == 0 || day2 == "0")
                                     { day2 = "A"; }
 
-                                    day3 = dr["3"].ToString();
+                                    day3 = dr["3"].ToString().Trim();
                                     if (day3.Length == 0 || day3 == "0")
                                     { day3 = "A"; }
 
-                                    day4 = dr["4"].ToString();
+                                    day4 = dr["4"].ToString().Trim();
                                     if (day4.Length == 0 || day4 == "0")
                                     {
                                         day4 = "A";
                                     }
 
-                                    day5 = dr["5"].ToString();
+                                    day5 = dr["5"].ToString().Trim();
                                     if (day5.Length == 0 || day5 == "0")
                                     {
                                         day5 = "A";
                                     }
 
-                                    day6 = dr["6"].ToString();
+                                    day6 = dr["6"].ToString().Trim();
                                     if (day6.Length == 0 || day6 == "0")
                                     {
                                         day6 = "A";
                                     }
 
-                                    day7 = dr["7"].ToString();
+                                    day7 = dr["7"].ToString().Trim();
                                     if (day7.Length == 0 || day7 == "0")
                                     {
                                         day7 = "A";
                                     }
 
-                                    day8 = dr["8"].ToString();
+                                    day8 = dr["8"].ToString().Trim();
                                     if (day8.Length == 0 || day8 == "0")
                                     {
                                         day8 = "A";
                                     }
 
-                                    day9 = dr["9"].ToString();
+                                    day9 = dr["9"].ToString().Trim();
                                     if (day9.Length == 0 || day9 == "0")
                                     {
                                         day9 = "A";
                                     }
 
-                                    day10 = dr["10"].ToString();
+                                    day10 = dr["10"].ToString().Trim();
                                     if (day10.Length == 0 || day10 == "0")
                                     {
                                         day10 = "A";
                                     }
 
-                                    day11 = dr["11"].ToString();
+                                    day11 = dr["11"].ToString().Trim();
                                     if (day11.Length == 0 || day11 == "0")
                                     {
                                         day11 = "A";
                                     }
 
-                                    day12 = dr["12"].ToString();
+                                    day12 = dr["12"].ToString().Trim();
                                     if (day12.Length == 0 || day12 == "0")
                                     {
                                         day12 = "A";
                                     }
 
-                                    day13 = dr["13"].ToString();
+                                    day13 = dr["13"].ToString().Trim();
                                     if (day13.Length == 0 || day13 == "0")
                                     {
                                         day13 = "A";
                                     }
 
-                                    day14 = dr["14"].ToString();
+                                    day14 = dr["14"].ToString().Trim();
                                     if (day14.Length == 0 || day14 == "0")
                                     {
                                         day14 = "A";
                                     }
 
-                                    day15 = dr["15"].ToString();
+                                    day15 = dr["15"].ToString().Trim();
                                     if (day15.Length == 0 || day15 == "0")
                                     {
                                         day15 = "A";
                                     }
 
-                                    day16 = dr["16"].ToString();
+                                    day16 = dr["16"].ToString().Trim();
                                     if (day16.Length == 0 || day16 == "0")
                                     {
                                         day16 = "A";
                                     }
 
-                                    day17 = dr["17"].ToString();
+                                    day17 = dr["17"].ToString().Trim();
                                     if (day17.Length == 0 || day17 == "0")
                                     {
                                         day17 = "A";
                                     }
 
-                                    day18 = dr["18"].ToString();
+                                    day18 = dr["18"].ToString().Trim();
                                     if (day18.Length == 0 || day18 == "0")
                                     {
                                         day18 = "A";
                                     }
 
-                                    day19 = dr["19"].ToString();
+                                    day19 = dr["19"].ToString().Trim();
                                     if (day19.Length == 0 || day19 == "0")
                                     {
                                         day19 = "A";
                                     }
 
-                                    day20 = dr["20"].ToString();
+                                    day20 = dr["20"].ToString().Trim();
                                     if (day20.Length == 0 || day20 == "0")
                                     {
                                         day20 = "A";
                                     }
 
-                                    day21 = dr["21"].ToString();
+                                    day21 = dr["21"].ToString().Trim();
                                     if (day21.Length == 0 || day21 == "0")
                                     {
                                         day21 = "A";
                                     }
 
-                                    day22 = dr["22"].ToString();
+                                    day22 = dr["22"].ToString().Trim();
                                     if (day22.Length == 0 || day22 == "0")
                                     {
                                         day22 = "A";
                                     }
 
-                                    day23 = dr["23"].ToString();
+                                    day23 = dr["23"].ToString().Trim();
                                     if (day23.Length == 0 || day23 == "0")
                                     {
                                         day23 = "A";
                                     }
 
-                                    day24 = dr["24"].ToString();
+                                    day24 = dr["24"].ToString().Trim();
                                     if (day24.Length == 0 || day24 == "0")
                                     {
                                         day24 = "A";
                                     }
 
-                                    day25 = dr["25"].ToString();
+                                    day25 = dr["25"].ToString().Trim();
                                     if (day25.Length == 0 || day25 == "0")
                                     {
                                         day25 = "A";
                                     }
 
-                                    day26 = dr["26"].ToString();
+                                    day26 = dr["26"].ToString().Trim();
                                     if (day26.Length == 0 || day26 == "0")
                                     {
                                         day26 = "A";
                                     }
 
-                                    day27 = dr["27"].ToString();
+                                    day27 = dr["27"].ToString().Trim();
                                     if (day27.Length == 0 || day27 == "0")
                                     {
                                         day27 = "A";
                                     }
 
-                                    day28 = dr["28"].ToString();
+                                    day28 = dr["28"].ToString().Trim();
                                     if (day28.Length == 0 || day28 == "0")
                                     {
                                         day28 = "A";
                                     }
 
-                                    day29 = dr["29"].ToString();
+                                    day29 = dr["29"].ToString().Trim();
                                     if (day29.Length == 0 || day29 == "0")
                                     {
                                         day29 = "A";
@@ -2071,163 +2071,163 @@ namespace Kuduma.Portal
                                 }
                                 if (days == 28)
                                 {
-                                    day1 = dr["1"].ToString();
+                                    day1 = dr["1"].ToString().Trim();
                                     if (day1.Trim().Length == 0 || day1 == "0")
                                     { day1 = "A"; }
 
-                                    day2 = dr["2"].ToString();
+                                    day2 = dr["2"].ToString().Trim();
                                     if (day2.Length == 0 || day2 == "0")
                                     { day2 = "A"; }
 
-                                    day3 = dr["3"].ToString();
+                                    day3 = dr["3"].ToString().Trim();
                                     if (day3.Length == 0 || day3 == "0")
                                     { day3 = "A"; }
 
-                                    day4 = dr["4"].ToString();
+                                    day4 = dr["4"].ToString().Trim();
                                     if (day4.Length == 0 || day4 == "0")
                                     {
                                         day4 = "A";
                                     }
 
-                                    day5 = dr["5"].ToString();
+                                    day5 = dr["5"].ToString().Trim();
                                     if (day5.Length == 0 || day5 == "0")
                                     {
                                         day5 = "A";
                                     }
 
-                                    day6 = dr["6"].ToString();
+                                    day6 = dr["6"].ToString().Trim();
                                     if (day6.Length == 0 || day6 == "0")
                                     {
                                         day6 = "A";
                                     }
 
-                                    day7 = dr["7"].ToString();
+                                    day7 = dr["7"].ToString().Trim();
                                     if (day7.Length == 0 || day7 == "0")
                                     {
                                         day7 = "A";
                                     }
 
-                                    day8 = dr["8"].ToString();
+                                    day8 = dr["8"].ToString().Trim();
                                     if (day8.Length == 0 || day8 == "0")
                                     {
                                         day8 = "A";
                                     }
 
-                                    day9 = dr["9"].ToString();
+                                    day9 = dr["9"].ToString().Trim();
                                     if (day9.Length == 0 || day9 == "0")
                                     {
                                         day9 = "A";
                                     }
 
-                                    day10 = dr["10"].ToString();
+                                    day10 = dr["10"].ToString().Trim();
                                     if (day10.Length == 0 || day10 == "0")
                                     {
                                         day10 = "A";
                                     }
 
-                                    day11 = dr["11"].ToString();
+                                    day11 = dr["11"].ToString().Trim();
                                     if (day11.Length == 0 || day11 == "0")
                                     {
                                         day11 = "A";
                                     }
 
-                                    day12 = dr["12"].ToString();
+                                    day12 = dr["12"].ToString().Trim();
                                     if (day12.Length == 0 || day12 == "0")
                                     {
                                         day12 = "A";
                                     }
 
-                                    day13 = dr["13"].ToString();
+                                    day13 = dr["13"].ToString().Trim();
                                     if (day13.Length == 0 || day13 == "0")
                                     {
                                         day13 = "A";
                                     }
 
-                                    day14 = dr["14"].ToString();
+                                    day14 = dr["14"].ToString().Trim();
                                     if (day14.Length == 0 || day14 == "0")
                                     {
                                         day14 = "A";
                                     }
 
-                                    day15 = dr["15"].ToString();
+                                    day15 = dr["15"].ToString().Trim();
                                     if (day15.Length == 0 || day15 == "0")
                                     {
                                         day15 = "A";
                                     }
 
-                                    day16 = dr["16"].ToString();
+                                    day16 = dr["16"].ToString().Trim();
                                     if (day16.Length == 0 || day16 == "0")
                                     {
                                         day16 = "A";
                                     }
 
-                                    day17 = dr["17"].ToString();
+                                    day17 = dr["17"].ToString().Trim();
                                     if (day17.Length == 0 || day17 == "0")
                                     {
                                         day17 = "A";
                                     }
 
-                                    day18 = dr["18"].ToString();
+                                    day18 = dr["18"].ToString().Trim();
                                     if (day18.Length == 0 || day18 == "0")
                                     {
                                         day18 = "A";
                                     }
 
-                                    day19 = dr["19"].ToString();
+                                    day19 = dr["19"].ToString().Trim();
                                     if (day19.Length == 0 || day19 == "0")
                                     {
                                         day19 = "A";
                                     }
 
-                                    day20 = dr["20"].ToString();
+                                    day20 = dr["20"].ToString().Trim();
                                     if (day20.Length == 0 || day20 == "0")
                                     {
                                         day20 = "A";
                                     }
 
-                                    day21 = dr["21"].ToString();
+                                    day21 = dr["21"].ToString().Trim();
                                     if (day21.Length == 0 || day21 == "0")
                                     {
                                         day21 = "A";
                                     }
 
-                                    day22 = dr["22"].ToString();
+                                    day22 = dr["22"].ToString().Trim();
                                     if (day22.Length == 0 || day22 == "0")
                                     {
                                         day22 = "A";
                                     }
 
-                                    day23 = dr["23"].ToString();
+                                    day23 = dr["23"].ToString().Trim();
                                     if (day23.Length == 0 || day23 == "0")
                                     {
                                         day23 = "A";
                                     }
 
-                                    day24 = dr["24"].ToString();
+                                    day24 = dr["24"].ToString().Trim();
                                     if (day24.Length == 0 || day24 == "0")
                                     {
                                         day24 = "A";
                                     }
 
-                                    day25 = dr["25"].ToString();
+                                    day25 = dr["25"].ToString().Trim();
                                     if (day25.Length == 0 || day25 == "0")
                                     {
                                         day25 = "A";
                                     }
 
-                                    day26 = dr["26"].ToString();
+                                    day26 = dr["26"].ToString().Trim();
                                     if (day26.Length == 0 || day26 == "0")
                                     {
                                         day26 = "A";
                                     }
 
-                                    day27 = dr["27"].ToString();
+                                    day27 = dr["27"].ToString().Trim();
                                     if (day27.Length == 0 || day27 == "0")
                                     {
                                         day27 = "A";
                                     }
 
-                                    day28 = dr["28"].ToString();
+                                    day28 = dr["28"].ToString().Trim();
                                     if (day28.Length == 0 || day28 == "0")
                                     {
                                         day28 = "A";
@@ -3317,7 +3317,7 @@ namespace Kuduma.Portal
 
             LoadExcelNos();
             ddlAttendanceMode.SelectedIndex = 0;
-            GetAttSummary(ExcelNo.ToString());
+            GetAttSummary(ExcelNo.ToString().Trim());
 
         }
 
