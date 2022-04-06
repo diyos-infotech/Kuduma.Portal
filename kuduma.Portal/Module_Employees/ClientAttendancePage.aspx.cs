@@ -47,7 +47,9 @@ namespace Kuduma.Portal
                                  <td><input type='text' class='form-control num-txt txt-candav' value='##CANADV##'></td>
                                  <td><input type='text' class='form-control num-txt txt-pen' value='##PEN##'></td>
                                  <td><input type='text' class='form-control num-txt txt-inctvs' value='##INCTVS##'></td> 
-                                 <td><input type='text' class='form-control num-txt txt-Arrears' value='##ARREARS##'></td>           
+                                 <td><input type='text' class='form-control num-txt txt-Arrears' value='##ARREARS##'></td>        
+                                 <td><input type='text' class='form-control num-txt txt-IncentiveHrs' value='##IncentiveHrs##'></td>
+                                 <td><input type='text' class='form-control num-txt txt-LCHrs' value='##LCHrs##'></td>   
                                  <td><label class='txt-linetotal'/></td>           
                                  <td><button type='button' class='btn btn-danger' onclick='DeleteRow(this); return false;'><i class='glyphicon glyphicon-trash'></i></button></td>
                                 </tr>";
@@ -64,7 +66,9 @@ namespace Kuduma.Portal
 			                   EA.CanteenAdv as CanAdv,
 			                   EA.Penalty as Pen,
 			                   EA.Incentivs as Inctvs ,
-                               EA.Arrears as Arrears 
+                               EA.Arrears as Arrears,
+                               EA.IncentiveHrs as IncentiveHrs ,
+                               EA.LCHrs as LCHrs 
 		                from EmpAttendance EA join EmpDetails ED on Ed.EmpId=EA.EmpId join Designations D on D.DesignId=EA.Design 
 		                and EA.ClientId='##CLIENTID##' and EA.Month=##MONTH## and EA.ContractId='##CONTRACTID##'
 		                union all
@@ -80,7 +84,9 @@ namespace Kuduma.Portal
 			                   0 as CanAdv,
 			                   0 as Pen,
 			                   0 as Inctvs ,
-			                   0 as Arrears 
+			                   0 as Arrears ,
+                               0 as IncentiveHrs , 
+                               0 as LCHrs 
 		                from EmpPostingOrder ep
 		                inner join EmpDetails ed on ep.EmpId = ed.EmpId
 		                inner join Designations d on ep.Desgn = d.DesignId
@@ -96,7 +102,9 @@ namespace Kuduma.Portal
 	                                                           cast(sum(ea.Penalty)as nvarchar) PenTotal,
 	                                                           cast(sum(ea.Incentivs)as nvarchar) InctvsTotal,
 	                                                           cast(sum(ea.CanteenAdv)as nvarchar) CanAdvTotal,
-	                                                           cast(sum(ea.Arrears)as nvarchar) ArrearsTotal
+	                                                           cast(sum(ea.Arrears)as nvarchar) ArrearsTotal,
+                                                               cast(sum(ea.IncentiveHrs)as nvarchar) IncentiveHrsTotal,
+                                                               cast(sum(ea.LCHrs)as nvarchar) LCHrsTotal
                                                         from EmpAttendance ea 
                                                         inner join Designations d on d.DesignId = ea.Design
                                                         inner join EmpPostingOrder ep on ea.EmpId = ep.EmpId
@@ -289,7 +297,9 @@ namespace Kuduma.Portal
                                    CanteenAdv = row.Field<float>("CanAdv"),
                                    Penalty = row.Field<float>("Pen"),
                                    Incentivs = row.Field<float>("Inctvs"),
-                                   Arrears = row.Field<float>("Arrears")
+                                   Arrears = row.Field<float>("Arrears"),
+                                   IncentiveHrs = row.Field<float>("IncentiveHrs"),
+                                   LCHrs = row.Field<float>("LCHrs")
                                }).ToList();
 
                     resultobj = new JavaScriptSerializer().Serialize(obj);
@@ -363,7 +373,9 @@ namespace Kuduma.Portal
                                    PenTotal = row.Field<string>("PenTotal"),
                                    InctvsTotal = row.Field<string>("InctvsTotal"),
                                    CanAdvTotal = row.Field<string>("CanAdvTotal"),
-                                   ArrearsTotal = row.Field<string>("ArrearsTotal")
+                                   ArrearsTotal = row.Field<string>("ArrearsTotal"),
+                                   IncentiveHrsTotal = row.Field<string>("IncentiveHrsTotal"),
+                                   LCHrsTotal = row.Field<string>("LCHrsTotal")
                                }).ToList();
                     resultobj = new JavaScriptSerializer().Serialize(obj);
                     result = "success";
@@ -426,6 +438,8 @@ namespace Kuduma.Portal
                                                     + ",CanteenAdv=" + item.CanAdv
                                                     + ",Incentivs=" + item.Incentives
                                                      + ",Arrears=" + item.Arrears
+                                                      + ",IncentiveHrs=" + item.IncentiveHrs
+                                                       + ",LCHrs=" + item.LCHrs
                                                     + ",Design='" + item.EmpDesg
                                                     + "',WO=" + item.WO
                                                     + ",NHS=" + item.NHS
@@ -438,8 +452,8 @@ namespace Kuduma.Portal
                             }
                             else
                             {
-                                query = "insert  EmpAttendance(clientid,empid,[month],Design,contractId,NoofDuties,OT,Penalty,CanteenAdv,WO,NHS,NPOTS,Incentivs,Arrears,DateCreated)" +
-                                "values('" + item.ClientId + "','" + item.EmpId + "'," + Month + ",'" + item.EmpDesg + "','" + contractId + "'," + item.NOD + "," + item.OT + "," + item.Penality + "," + item.CanAdv + "," + item.WO + "," + item.NHS + "," + item.Nposts + "," + item.Incentives + "," + item.Arrears + ",GETDATE() )";
+                                query = "insert  EmpAttendance(clientid,empid,[month],Design,contractId,NoofDuties,OT,Penalty,CanteenAdv,WO,NHS,NPOTS,Incentivs,Arrears,IncentiveHrs,LCHrs,DateCreated)" +
+                                "values('" + item.ClientId + "','" + item.EmpId + "'," + Month + ",'" + item.EmpDesg + "','" + contractId + "'," + item.NOD + "," + item.OT + "," + item.Penality + "," + item.CanAdv + "," + item.WO + "," + item.NHS + "," + item.Nposts + "," + item.Incentives + "," + item.Arrears + "," + item.IncentiveHrs + "," + item.LCHrs + ",GETDATE() )";
                             }
                             var res = SqlHelper.Instance.ExecuteDMLQry(query);
                         }
@@ -1277,6 +1291,8 @@ namespace Kuduma.Portal
         public decimal Penality { get; set; }
         public decimal Incentives { get; set; }
         public decimal Arrears { get; set; }
+        public decimal IncentiveHrs { get; set; }
+        public decimal LCHrs { get; set; }
 
     }
 }

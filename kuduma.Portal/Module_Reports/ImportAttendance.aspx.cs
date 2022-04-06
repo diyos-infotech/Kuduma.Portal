@@ -605,6 +605,10 @@ namespace Kuduma.Portal
                     float daywos = 0;
                     string stoppayment = "";
                     float pldays = 0;
+                    float IncentiveHrs = 0;
+                    float IncentiveAmt = 0;
+                    float LCHrs = 0;
+                    float LCAmt = 0;
 
                     float leavewages = 0;
                     float Bonus = 0;
@@ -913,6 +917,26 @@ namespace Kuduma.Portal
                                 stoppayment = "0";
                             }
 
+
+                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["IncentiveHrs"].ToString().Trim()) == false)
+                            {
+                                IncentiveHrs = float.Parse(ds.Tables[0].Rows[i]["IncentiveHrs"].ToString().Trim());
+                            }
+
+                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["IncentiveAmt"].ToString().Trim()) == false)
+                            {
+                                IncentiveAmt = float.Parse(ds.Tables[0].Rows[i]["IncentiveAmt"].ToString().Trim());
+                            }
+
+                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["LCHrs"].ToString().Trim()) == false)
+                            {
+                                LCHrs = float.Parse(ds.Tables[0].Rows[i]["LCHrs"].ToString().Trim());
+                            }
+
+                            if (String.IsNullOrEmpty(ds.Tables[0].Rows[i]["LCAmt"].ToString().Trim()) == false)
+                            {
+                                LCAmt = float.Parse(ds.Tables[0].Rows[i]["LCAmt"].ToString().Trim());
+                            }
                             #endregion
 
                             #region Begin New code for Stored Procedure as on 29/04/2014 by venkat
@@ -973,6 +997,10 @@ namespace Kuduma.Portal
                             Httable.Add("@Stoppayment", stoppayment);
                             Httable.Add("@RentDed", RentDed);
                             Httable.Add("@BGVDed", BGVDed);
+                            Httable.Add("@IncentiveHrs", IncentiveHrs);
+                            Httable.Add("@IncentiveAmt", IncentiveAmt);
+                            Httable.Add("@LCHrs", LCHrs);
+                            Httable.Add("@LCAmt", LCAmt);
                             Httable.Add("@RowNo", i+2);
 
                             #endregion
@@ -1167,6 +1195,10 @@ namespace Kuduma.Portal
                 float FoodAllw = 0;
                 float OtperHour = 0;
                 float OtHour = 0;
+                float IncentiveHrs = 0;
+                float IncentiveAmt = 0;
+                float LCHrs = 0;
+                float LCAmt = 0;
                 float OtAmt = 0;
                 float Advance = 0;
 
@@ -1198,6 +1230,8 @@ namespace Kuduma.Portal
                     float Arrears = 0;
                     float AttBonus = 0;
                     string stoppayment = "";
+                    
+
 
 
                     string day1 = string.Empty;
@@ -1535,7 +1569,25 @@ namespace Kuduma.Portal
                                 {
                                     stoppayment = "0";
                                 }
+                                if (String.IsNullOrEmpty(dr["IncentiveHrs"].ToString().Trim()) == false)
+                                {
+                                    IncentiveHrs = float.Parse(dr["IncentiveHrs"].ToString().Trim());
+                                }
 
+                                if (String.IsNullOrEmpty(dr["IncentiveAmt"].ToString().Trim()) == false)
+                                {
+                                    IncentiveAmt = float.Parse(dr["IncentiveAmt"].ToString().Trim());
+                                }
+
+                                if (String.IsNullOrEmpty(dr["LCHrs"].ToString().Trim()) == false)
+                                {
+                                    LCHrs = float.Parse(dr["LCHrs"].ToString().Trim());
+                                }
+
+                                if (String.IsNullOrEmpty(dr["LCAmt"].ToString().Trim()) == false)
+                                {
+                                    LCAmt = float.Parse(dr["LCAmt"].ToString().Trim());
+                                }
                                 #endregion
 
                                 #region Day wise Even data insert
@@ -3274,7 +3326,11 @@ namespace Kuduma.Portal
                             Httable.Add("@RemarksText", RemarksText);
                             Httable.Add("@Stoppayment", stoppayment);
                             Httable.Add("@RentDed", RentDed);
-                            Httable.Add("@BGVDed", BGVDed);
+                            Httable.Add("@BGVDed", BGVDed); 
+                            Httable.Add("@IncentiveHrs", IncentiveHrs);
+                            Httable.Add("@IncentiveAmt", IncentiveAmt);
+                            Httable.Add("@LCHrs", LCHrs);
+                            Httable.Add("@LCAmt", LCAmt);
                             Httable.Add("@RowNo", j+2);
                             #endregion
 

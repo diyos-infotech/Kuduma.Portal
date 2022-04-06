@@ -181,7 +181,7 @@ namespace Kuduma.Portal
 
                 string sqlqry = "Select  EP.Empid,EP.Clientid,C.Clientname,(E.Empfname + E.EmpMname + E.emplname) as EmpMname ," +
                              " ( rtrim(ltrim(E.Empbankacno)) ) as Empbankacno,E.EmpBankCardRef, EP.basic,EP.da,EP.HRA,d.Design, " +
-                             " EP.CCA,EP.Conveyance,EP.Washallowance,EP.OtherAllowance,EP.noofduties,EA.ot,EP.Proftax, " +
+                             " EP.CCA,EP.Conveyance,EP.Washallowance,EP.OtherAllowance,EP.noofduties,EA.ot,EP.Proftax,isnull(EP.IncentiveHrs,0)as IncentiveHrs,isnull(ep.LCHrs,0) as LCHrs,isnull(EP.IncentiveAmt,0)as IncentiveAmt,isnull(ep.LCAmt,0) as LCAmt, " +
                              " EP.gross as totalgross,EP.otamt,EP.pf,EP.esi,EP.penalty,EP.actualamount,EP.owf,EP.saladvded,EP.CanteenAdv,EP.UniformDed,EP.OtherDed, " +
                              " EP.HRA,EP.CCA,EP.Conveyance,EP.OtherDed,EP.WashAllowance as  wa,  " +
                              " EP.OtherAllowance as  oa,EP.LeaveEncashAmt,EP.CLPLAmt,EP.WOAmt,EP.TotalDeductions   from  emppaysheet EP " +
@@ -214,7 +214,7 @@ namespace Kuduma.Portal
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
 
-                e.Row.Cells[33].Attributes.Add("class", "text");
+                e.Row.Cells[37].Attributes.Add("class", "text");
             }
         }
 

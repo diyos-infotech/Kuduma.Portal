@@ -142,6 +142,7 @@ namespace Kuduma.Portal
                 dt.Columns.Add(new DataColumn("OtherAllowance", typeof(float)));
                 dt.Columns.Add(new DataColumn("NFhs", typeof(float)));
                 dt.Columns.Add(new DataColumn("RC", typeof(float)));
+             
                 //dt.Columns.Add(new DataColumn("LWF", typeof(float)));
 
                 for (int i = 1; i < 6; i++)
@@ -292,6 +293,8 @@ namespace Kuduma.Portal
                 dt.Columns.Add(new DataColumn("WCDed", typeof(float)));
                 dt.Columns.Add(new DataColumn("UniformDed", typeof(float)));
                 dt.Columns.Add(new DataColumn("ServiceWeightage", typeof(float)));
+                dt.Columns.Add(new DataColumn("IncentiveRate", typeof(float)));
+                dt.Columns.Add(new DataColumn("LCRate", typeof(float)));
 
 
                 //dt.Columns.Add(new DataColumn("addlhrallw", typeof(float)));
@@ -1182,6 +1185,8 @@ namespace Kuduma.Portal
                     string ESIEmpr = "0";
                     string SCEmp = "0";
                     string CTC = "0";
+                    string IncentiveRate = "0";
+                    string LCRate = "0";
 
                     #endregion for variables declaration
 
@@ -1259,6 +1264,8 @@ namespace Kuduma.Portal
                     TextBox txtESIEmpr = gvSWDesignations.Rows[i].FindControl("txtESIEmpr") as TextBox;
                     TextBox txtSCEmp = gvSWDesignations.Rows[i].FindControl("txtSCEmp") as TextBox;
                     TextBox txtCTC = gvSWDesignations.Rows[i].FindControl("txtCTC") as TextBox;
+                    TextBox TxtIncentiveRate = gvSWDesignations.Rows[i].FindControl("TxtIncentiveRate") as TextBox;
+                    TextBox TxtLCRate = gvSWDesignations.Rows[i].FindControl("TxtLCRate") as TextBox;
 
 
 
@@ -2117,6 +2124,33 @@ namespace Kuduma.Portal
                         CTC = txtCTC.Text;
                     }
 
+
+                    if (txtCTC.Text == "")
+                    {
+                        CTC = "0";
+                    }
+                    else
+                    {
+                        CTC = txtCTC.Text;
+                    }
+                    if (TxtIncentiveRate.Text == "")
+                    {
+                        IncentiveRate = "0";
+                    }
+                    else
+                    {
+                        IncentiveRate = TxtIncentiveRate.Text;
+                    }
+
+                    if (TxtLCRate.Text == "")
+                    {
+                        LCRate = "0";
+                    }
+                    else
+                    {
+                        LCRate = TxtLCRate.Text;
+                    }
+
                     //New component Shift start
                     if (ddlshift.SelectedIndex >= 0)
                     {
@@ -2233,6 +2267,8 @@ namespace Kuduma.Portal
                         HtContracts.Add("@ESIEmpr", ESIEmpr);
                         HtContracts.Add("@SCEmp", SCEmp);
                         HtContracts.Add("@CTC", CTC);
+                        HtContracts.Add("@IncentiveRate", IncentiveRate);
+                        HtContracts.Add("@LCRate", LCRate);
 
 
                         HtContracts.Add("@testrecord", specialdesigncount);
@@ -2498,6 +2534,8 @@ namespace Kuduma.Portal
                         TextBox txtESIEmpr = gvSWDesignations.Rows[rowIndex].Cells[68].FindControl("txtESIEmpr") as TextBox;
                         TextBox txtSCEmp = gvSWDesignations.Rows[rowIndex].Cells[69].FindControl("txtSCEmp") as TextBox;
                         TextBox txtCTC = gvSWDesignations.Rows[rowIndex].Cells[70].FindControl("txtCTC") as TextBox;
+                        TextBox TxtIncentiveRate = gvSWDesignations.Rows[rowIndex].Cells[71].FindControl("TxtIncentiveRate") as TextBox;
+                        TextBox TxtLCRate = gvSWDesignations.Rows[rowIndex].Cells[72].FindControl("TxtLCRate") as TextBox;
 
 
                         drCurrentRow = dtCurrentTable.NewRow();
@@ -2575,6 +2613,8 @@ namespace Kuduma.Portal
                         dtCurrentTable.Rows[i - 1]["ESIEmpr"] = txtESIEmpr.Text.Trim() == "" ? 0 : Convert.ToSingle(txtESIEmpr.Text);
                         dtCurrentTable.Rows[i - 1]["SCEmp"] = txtSCEmp.Text.Trim() == "" ? 0 : Convert.ToSingle(txtSCEmp.Text);
                         dtCurrentTable.Rows[i - 1]["CTC"] = txtCTC.Text.Trim() == "" ? 0 : Convert.ToSingle(txtCTC.Text);
+                        dtCurrentTable.Rows[i - 1]["IncentiveRate"] = TxtIncentiveRate.Text.Trim() == "" ? 0 : Convert.ToSingle(TxtIncentiveRate.Text);
+                        dtCurrentTable.Rows[i - 1]["LCRate"] = TxtLCRate.Text.Trim() == "" ? 0 : Convert.ToSingle(TxtLCRate.Text);
 
 
 
@@ -2987,6 +3027,8 @@ namespace Kuduma.Portal
                         TextBox txtESIEmpr = gvSWDesignations.Rows[rowIndex].Cells[68].FindControl("txtESIEmpr") as TextBox;
                         TextBox txtSCEmp = gvSWDesignations.Rows[rowIndex].Cells[69].FindControl("txtSCEmp") as TextBox;
                         TextBox txtCTC = gvSWDesignations.Rows[rowIndex].Cells[70].FindControl("txtCTC") as TextBox;
+                        TextBox TxtIncentiveRate = gvSWDesignations.Rows[rowIndex].Cells[71].FindControl("TxtIncentiveRate") as TextBox;
+                        TextBox TxtLCRate = gvSWDesignations.Rows[rowIndex].Cells[71].FindControl("TxtLCRate") as TextBox;
 
 
                         DropDownList CDesgnsw = gvSWDesignations.Rows[i].FindControl("DdlDesign") as DropDownList;
@@ -3696,6 +3738,8 @@ namespace Kuduma.Portal
                         txtESIEmpr.Text = dt.Rows[i]["ESIEmpr"].ToString();
                         txtSCEmp.Text = dt.Rows[i]["SCEmp"].ToString();
                         txtCTC.Text = dt.Rows[i]["CTC"].ToString();
+                        TxtIncentiveRate.Text = dt.Rows[i]["IncentiveRate"].ToString();
+                        TxtLCRate.Text = dt.Rows[i]["LCRate"].ToString();
 
                         //txtmiscded.Text = dt.Rows[i]["MiscDed"].ToString();
 
@@ -3851,6 +3895,13 @@ namespace Kuduma.Portal
 
             TextBox txtCTC = (TextBox)gvSWDesignations.Rows[row].FindControl("txtCTC");
             txtCTC.Text = "";
+
+            TextBox TxtIncentiveRate = (TextBox)gvSWDesignations.Rows[row].FindControl("TxtIncentiveRate");
+            TxtIncentiveRate.Text = "";
+
+
+            TextBox TxtLCRate = (TextBox)gvSWDesignations.Rows[row].FindControl("TxtLCRate");
+            TxtLCRate.Text = "";
 
             TextBox Cgrosssw = (TextBox)gvSWDesignations.Rows[row].FindControl("Txtgross");
             Cgrosssw.Text = "";
@@ -7308,6 +7359,10 @@ namespace Kuduma.Portal
                         txtSCEmp.Text = dtspecialwage.Rows[i]["SCemp"].ToString();
                         TextBox txtCTC = (TextBox)gvSWDesignations.Rows[i].FindControl("txtCTC");
                         txtCTC.Text = dtspecialwage.Rows[i]["CTC"].ToString();
+                        TextBox TxtIncentiveRate = (TextBox)gvSWDesignations.Rows[i].FindControl("TxtIncentiveRate");
+                        TxtIncentiveRate.Text = dtspecialwage.Rows[i]["IncentiveRate"].ToString();
+                        TextBox TxtLCRate = (TextBox)gvSWDesignations.Rows[i].FindControl("TxtLCRate");
+                        TxtLCRate.Text = dtspecialwage.Rows[i]["LCRate"].ToString();
 
 
 
@@ -10107,6 +10162,9 @@ namespace Kuduma.Portal
                     TextBox txtSCEmp = gvSWDesignations.Rows[i].FindControl("txtSCEmp") as TextBox;
                     TextBox txtCTC = gvSWDesignations.Rows[i].FindControl("txtCTC") as TextBox;
 
+                    TextBox TxtIncentiveRate = gvSWDesignations.Rows[i].FindControl("TxtIncentiveRate") as TextBox;
+                    TextBox TxtLCRate = gvSWDesignations.Rows[i].FindControl("TxtLCRate") as TextBox;
+
 
 
                     #region start values
@@ -10334,8 +10392,10 @@ namespace Kuduma.Portal
                     ht.Add("@OTAmtC", TxtOTRate.Text.Trim());
                     ht.Add("@NHSAmtC", TxtNHSRate.Text.Trim());
                     ht.Add("@WoAmtC", TxtWORate.Text.Trim());
-                   
+                    //ht.Add("@IncentiveRate", TxtIncentiveRate.Text.Trim());
+                    //ht.Add("@LCRate", TxtLCRate.Text.Trim());
                     ht.Add("@ServChrge", servicecharge);
+                    
 
 
 

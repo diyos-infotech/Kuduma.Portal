@@ -57,7 +57,10 @@ public class FameService : System.Web.Services.WebService
                                isnull(EA.UniformDed,0) as UNIDED,
                                isnull(EA.OtherDed,0) as ATMDED,
 			                   isnull(EA.Incentivs,0) as Inctvs,
-                               isnull(EA.Arrears,0) as Arrears,isnull(cast(EA.stoppayment as bit),1) as stoppayment 
+                               isnull(EA.Arrears,0) as Arrears,
+                               isnull(EA.IncentiveHrs,0) as IncentiveHrs,
+                               isnull(EA.LCHrs,0) as LCHrs,isnull(cast(EA.stoppayment as bit),1) as stoppayment 
+                             
 		                from EmpAttendance EA join EmpDetails ED on Ed.EmpId=EA.EmpId join Designations D on D.DesignId=EA.Design 
 		                and EA.ClientId='##CLIENTID##' and EA.Month=##MONTH## and EA.ContractId='##CONTRACTID##' and ( (ea.NoOfDuties+EA.Ot+EA.WO+EA.NHS+ EA.Npots)>0  or ed.empstatus=1) ";
 
@@ -78,7 +81,9 @@ public class FameService : System.Web.Services.WebService
                                0 as ATMDED,
 			                   0 as Inctvs,
                                0 as Arrears,
-                               cast(0 as bit) as stoppayment 
+                               0 as IncentiveHrs,
+                               0 as LCHrs,
+                               cast(0 as bit) as stoppayment                              
 		                from EmpPostingOrder ep
 		                inner join EmpDetails ed on ep.EmpId = ed.EmpId
 		                inner join Designations d on ep.Desgn = d.DesignId
@@ -101,7 +106,10 @@ public class FameService : System.Web.Services.WebService
                                0 as ATMDED,
 			                   0 as Inctvs,
                                0 as Arrears,
+                               0 as IncentiveHrs,
+                               0 as LCHrs,
                                cast(0 as bit) as  stoppayment
+                              
 		                from EmpPostingOrder ep
 		                inner join EmpDetails ed on ep.EmpId = ed.EmpId
 		                inner join Designations d on ep.Desgn = d.DesignId
@@ -120,7 +128,9 @@ public class FameService : System.Web.Services.WebService
                                                                isnull(cast(sum(ea.UniformDed)as nvarchar),0) UNIDEDTotal, 
                                                                isnull(cast(sum(ea.OtherDed)as nvarchar),0) ATMDEDTotal,
 	                                                           isnull(cast(sum(ea.CanteenAdv)as nvarchar),0) CanAdvTotal,
-	                                                           isnull(cast(sum(ea.Arrears)as nvarchar),0) ArrearsTotal
+	                                                           isnull(cast(sum(ea.Arrears)as nvarchar),0) ArrearsTotal,
+                                                               isnull(cast(sum(ea.IncentiveHrs)as nvarchar),0) IncentiveHrsTotal,
+                                                               isnull(cast(sum(ea.LCHrs)as nvarchar),0) LCHrsTotal
                                                         from EmpAttendance ea 
                                                         inner join Designations d on d.DesignId = ea.Design
                                                         where ea.ClientId = '##CLIENTID##' and ea.[MONTH]= ##MONTH##
@@ -714,7 +724,10 @@ public class FameService : System.Web.Services.WebService
                                    ATMDED = row.Field<float>("ATMDED"),
                                    Incentivs = row.Field<float>("Inctvs"),
                                    Arrears = row.Field<float>("Arrears"),
+                                   IncentiveHrs = row.Field<float>("IncentiveHrs"),
+                                   LCHrs = row.Field<float>("LCHrs"),
                                    stoppayment = row.Field<bool>("stoppayment")
+                                  
                                }).ToList();
                     empdata.AddRange(obj);
                 }
@@ -765,7 +778,10 @@ public class FameService : System.Web.Services.WebService
                                 ATMDED = float.Parse(item["ATMDED"].ToString()),
                                 Incentivs = float.Parse(item["Inctvs"].ToString()),
                                 Arrears = float.Parse(item["Arrears"].ToString()),
+                                IncentiveHrs = float.Parse(item["IncentiveHrs"].ToString()),
+                                LCHrs = float.Parse(item["LCHrs"].ToString()),
                                 stoppayment = bool.Parse(item["stoppayment"].ToString()),
+                               
                             });
                         }
                     }
@@ -844,7 +860,9 @@ public class FameService : System.Web.Services.WebService
                                ATMDEDTotal = row.Field<string>("ATMDEDTotal"),
                                InctvsTotal = row.Field<string>("InctvsTotal"),
                                CanAdvTotal = row.Field<string>("CanAdvTotal"),
-                               ArrearsTotal = row.Field<string>("ArrearsTotal")
+                               ArrearsTotal = row.Field<string>("ArrearsTotal"),
+                               IncentiveHrsTotal = row.Field<string>("IncentiveHrsTotal"),
+                               LCHrsTotal = row.Field<string>("LCHrsTotal")
 
                            }).ToList();
                 resultobj = new JavaScriptSerializer().Serialize(obj);
@@ -961,7 +979,9 @@ public class FameService : System.Web.Services.WebService
                                             + ",Incentivs=" + item.Incentives
                                             + ",Arrears=" + item.Arrears
                                             + ",stoppayment='" + item.stoppayment
-                                            + "',Design='" + item.EmpDesg
+                                            + "',IncentiveHrs=" + item.IncentiveHrs
+                                            + ",LCHrs=" + item.LCHrs
+                                            + ",Design='" + item.EmpDesg
                                             + "',WO=" + item.WO
                                             + ",NHS=" + item.NHS
                                             + ",PL=" + item.Nposts
@@ -974,8 +994,8 @@ public class FameService : System.Web.Services.WebService
                     }
                     else if (attendancetotal > 0)
                     {
-                        query = "insert  EmpAttendance(clientid,empid,[month],Design,contractId,NoofDuties,OT,Penalty,CanteenAdv,WO,NHS,PL,Incentivs,Arrears,DateCreated,stoppayment, UniformDed,OtherDed,OTHours)" +
-                        "values('" + item.ClientId + "','" + item.EmpId + "'," + Month + ",'" + item.EmpDesg + "','" + contractId + "'," + item.NOD + "," + item.OT + "," + item.Penality + "," + item.CanAdv + "," + item.WO + "," + item.NHS + "," + item.Nposts + "," + item.Incentives + "," + item.Arrears + ",GETDATE(),'" + item.stoppayment + "','" + item.UNIDED + "','" + item.ATMDED + "','" + item.OTHRS + "')";
+                        query = "insert  EmpAttendance(clientid,empid,[month],Design,contractId,NoofDuties,OT,Penalty,CanteenAdv,WO,NHS,PL,Incentivs,Arrears,DateCreated,stoppayment, UniformDed,OtherDed,OTHours,IncentiveHrs,LCHrs)" +
+                        "values('" + item.ClientId + "','" + item.EmpId + "'," + Month + ",'" + item.EmpDesg + "','" + contractId + "'," + item.NOD + "," + item.OT + "," + item.Penality + "," + item.CanAdv + "," + item.WO + "," + item.NHS + "," + item.Nposts + "," + item.Incentives + "," + item.Arrears + ",GETDATE(),'" + item.stoppayment + "','" + item.UNIDED + "','" + item.ATMDED + "','" + item.OTHRS + "','" + item.IncentiveHrs + "','" + item.LCHrs + "')";
                     }
                     if (!string.IsNullOrEmpty(query))
                     {
@@ -1797,6 +1817,8 @@ public class EmpAttendanceGrid
     public float OTHRS { get; set; }
     public float UNIDED { get; set; }
     public float ATMDED { get; set; }
+    public float IncentiveHrs { get; set; }
+    public float LCHrs { get; set; }
 }
 
 
@@ -1830,6 +1852,8 @@ public class EmpAttendance
     public decimal OTHRS { get; set; }
     public decimal UNIDED { get; set; }
     public decimal ATMDED { get; set; }
+    public decimal IncentiveHrs { get; set; }
+    public decimal LCHrs { get; set; }
 }
 
 

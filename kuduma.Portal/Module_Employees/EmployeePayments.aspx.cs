@@ -13286,6 +13286,10 @@ namespace Kuduma.Portal
                     int rc = 0;
                     int cs = 0;
                     int gross = 0;
+                    int IncentiveHrs = 0;
+                    int LCHrs = 0;
+                    int IncentiveAmt = 0;
+                    int LCAmt = 0;
                     int incentivs = 0;
                     int pfonduties = 0;
                     int esionduties = 0;
@@ -13348,6 +13352,10 @@ namespace Kuduma.Portal
                     float rc1 = 0;
                     float cs1 = 0;
                     float gross1 = 0;
+                    float IncentiveHrs1 = 0;
+                    float LCHrs1 = 0;
+                    float IncentiveAmt1 = 0;
+                    float LCAmt1 = 0;
                     float incentivs1 = 0;
                     float pfonduties1 = 0;
                     float esionduties1 = 0;
@@ -13639,6 +13647,49 @@ namespace Kuduma.Portal
                                 gross = 1;
                             }
                         }
+
+
+                        IncentiveHrs1 = float.Parse(dt.Rows[i]["IncentiveHrs"].ToString());
+                        if (IncentiveHrs1 != 0)
+                        {
+                            IncentiveHrs1 += 1;
+                            if (IncentiveHrs1 > 0)
+                            {
+                                IncentiveHrs = 1;
+                            }
+                        }
+
+                        IncentiveAmt1 = float.Parse(dt.Rows[i]["IncentiveAmt"].ToString());
+                        if (IncentiveAmt1 != 0)
+                        {
+                            IncentiveAmt1 += 1;
+                            if (IncentiveAmt1 > 0)
+                            {
+                                IncentiveAmt = 1;
+                            }
+                        }
+
+                        LCAmt1 = float.Parse(dt.Rows[i]["LCAmt"].ToString());
+                        if (LCAmt1 != 0)
+                        {
+                            LCAmt1 += 1;
+                            if (LCAmt1 > 0)
+                            {
+                                LCAmt = 1;
+                            }
+                        }
+
+
+                        LCHrs1 = float.Parse(dt.Rows[i]["LCHrs"].ToString());
+                        if (LCHrs1 != 0)
+                        {
+                            LCHrs1 += 1;
+                            if (LCHrs1 > 0)
+                            {
+                                LCHrs = 1;
+                            }
+                        }
+
 
                         incentivs1 = float.Parse(dt.Rows[i]["incentivs"].ToString());
                         if (incentivs1 != 0)
@@ -14021,7 +14072,7 @@ namespace Kuduma.Portal
                     //uniformDed = 1;
                     netpay = 1;
                     int tableCells = dts + srate + basic + da + hra + cca + conveyance + washallowance + otherallowance + SplAllowance + TravelAllw + PerformanceAllw + MobileAllw + UniformAllw + leavewages +
-                                    gratuity + bonus + nfhs + rc + cs + gross + incentivs + pfonduties + esionduties + proftax +
+                                    gratuity + bonus + nfhs + rc + cs + gross + IncentiveHrs + IncentiveAmt + LCAmt + LCHrs+ incentivs + pfonduties + esionduties + proftax +
                                     salAdvDed + uniformDed + ATMDed + AttBonus + IDCardDed + Extra + otherDed + canteenAdv + penalty + totalDeductions + netpay + sno + ESINo + UANNo +
                                     empid + empname + design + bankacno + ots + otamt + wo + woamt + nhs + nhsamt + advdue + pfonot + esionot + Pf + Esi + GenDedn + SecDepDedn + LoanDed + AdvDed + WCDed + cfoodallowance + cmedicalallowance + owf + Adv1 + Adv2 + Rent + Bgvdedi + Medfitdedi + ReliefFund + advances + Remarks;
 
@@ -14052,6 +14103,10 @@ namespace Kuduma.Portal
                     float totalRc = 0;
                     float totalCs = 0;
                     float totalGross = 0;
+                    float totalIncentiveHrs = 0;
+                    float totalIncentiveAmt = 0;
+                    float totalLCAmt = 0;
+                    float totalLCHrs = 0;
                     float totalIncentivs = 0;
                     float totalPFondts = 0;
                     float totalESIondts = 0;
@@ -14121,6 +14176,10 @@ namespace Kuduma.Portal
                     float GrandtotalRc = 0;
                     float GrandtotalCs = 0;
                     float GrandtotalGross = 0;
+                    float GrandtotalIncentiveHrs = 0;
+                    float GrandtotalIncentiveAmt = 0;
+                    float GrandtotalLCAmt = 0;
+                    float GrandtotalLCHrs = 0;
                     float GrandtotalIncentivs = 0;
                     float GrandtotalPFondts = 0;
                     float GrandtotalESIondts = 0;
@@ -14818,6 +14877,38 @@ namespace Kuduma.Portal
                             COtamt.Border = 13;
                             SecondtableHeadings.AddCell(COtamt);
                         }
+
+                        if (IncentiveHrs != 0)
+                        {
+                            PdfPCell CIncentiveHrs = new PdfPCell(new Phrase("IncentiveHrs", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CIncentiveHrs.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CIncentiveHrs.Border = 13;
+                            SecondtableHeadings.AddCell(CIncentiveHrs);
+                        }
+                        if (IncentiveAmt != 0)
+                        {
+                            PdfPCell CIncentiveAmt = new PdfPCell(new Phrase("IncentiveAmt", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CIncentiveAmt.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CIncentiveAmt.Border = 13;
+                            SecondtableHeadings.AddCell(CIncentiveAmt);
+                        }
+
+                        if (LCAmt != 0)
+                        {
+                            PdfPCell CLCAmt = new PdfPCell(new Phrase("LCAmt", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CLCAmt.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CLCAmt.Border = 13;
+                            SecondtableHeadings.AddCell(CLCAmt);
+                        }
+
+                        if (LCHrs != 0)
+                        {
+                            PdfPCell CLCHrs = new PdfPCell(new Phrase("LCHrs", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CLCHrs.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CLCHrs.Border = 13;
+                            SecondtableHeadings.AddCell(CLCHrs);
+                        }
+
 
                         if (gross != 0)
                         {
@@ -15924,6 +16015,81 @@ namespace Kuduma.Portal
                                     Secondtable.AddCell(CGross1);
                                 }
 
+
+                                if (IncentiveHrs != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["IncentiveHrs"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["IncentiveHrs"].ToString()));
+                                    totalIncentiveHrs += forConvert;
+                                    GrandtotalIncentiveHrs += forConvert;
+
+                                    PdfPCell CIncentiveHrs1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CIncentiveHrs1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CIncentiveHrs1.BorderWidthTop = 0.4f;
+                                    CIncentiveHrs1.BorderWidthBottom = 0.4f;
+                                    CIncentiveHrs1.BorderWidthLeft = 0;
+                                    CIncentiveHrs1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CIncentiveHrs1);
+                                }
+
+
+                                if (IncentiveAmt != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["IncentiveAmt"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["IncentiveAmt"].ToString()));
+                                    totalIncentiveAmt += forConvert;
+                                    GrandtotalIncentiveAmt += forConvert;
+
+                                    PdfPCell CIncentiveAmt1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CIncentiveAmt1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CIncentiveAmt1.BorderWidthTop = 0.4f;
+                                    CIncentiveAmt1.BorderWidthBottom = 0.4f;
+                                    CIncentiveAmt1.BorderWidthLeft = 0;
+                                    CIncentiveAmt1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CIncentiveAmt1);
+                                }
+
+                                if (LCAmt != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["LCAmt"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["LCAmt"].ToString()));
+                                    totalLCAmt += forConvert;
+                                    GrandtotalLCAmt += forConvert;
+
+                                    PdfPCell CLCAmt1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CLCAmt1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CLCAmt1.BorderWidthTop = 0.4f;
+                                    CLCAmt1.BorderWidthBottom = 0.4f;
+                                    CLCAmt1.BorderWidthLeft = 0;
+                                    CLCAmt1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CLCAmt1);
+                                }
+
+
+                                if (LCHrs != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["LCHrs"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["LCHrs"].ToString()));
+                                    totalLCHrs += forConvert;
+                                    GrandtotalLCHrs += forConvert;
+
+                                    PdfPCell CLCHrs1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CLCHrs1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CLCHrs1.BorderWidthTop = 0.4f;
+                                    CLCHrs1.BorderWidthBottom = 0.4f;
+                                    CLCHrs1.BorderWidthLeft = 0;
+                                    CLCHrs1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CLCHrs1);
+                                }
+
+
+
+
+
                                 if (gross != 0)
                                 {
                                     forConvert = 0;
@@ -17019,6 +17185,38 @@ namespace Kuduma.Portal
                             SecondtableFooter.AddCell(FCotamt);
                         }
 
+                        if (IncentiveHrs != 0)
+                        {
+                            PdfPCell FCIncentiveHrs = new PdfPCell(new Phrase(totalIncentiveHrs.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCIncentiveHrs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCIncentiveHrs.Border = 15;
+                            SecondtableFooter.AddCell(FCIncentiveHrs);
+                        }
+
+                        if (IncentiveAmt != 0)
+                        {
+                            PdfPCell FCIncentiveAmt = new PdfPCell(new Phrase(totalIncentiveAmt.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCIncentiveAmt.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCIncentiveAmt.Border = 15;
+                            SecondtableFooter.AddCell(FCIncentiveAmt);
+                        }
+
+                        if (LCAmt != 0)
+                        {
+                            PdfPCell FCLCAmt = new PdfPCell(new Phrase(totalLCAmt.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCLCAmt.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCLCAmt.Border = 15;
+                            SecondtableFooter.AddCell(FCLCAmt);
+                        }
+
+                        if (LCHrs != 0)
+                        {
+                            PdfPCell FCLCHrs = new PdfPCell(new Phrase(totalLCHrs.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCLCHrs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCLCHrs.Border = 15;
+                            SecondtableFooter.AddCell(FCLCHrs);
+                        }
+
                         if (gross != 0)
                         {
                             PdfPCell FCGross1 = new PdfPCell(new Phrase(totalGross.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
@@ -18003,6 +18201,41 @@ namespace Kuduma.Portal
                             GFCOtamt.Border = 15;
                             SecondtablecheckbyFooter.AddCell(GFCOtamt);
                         }
+
+                        if (IncentiveHrs != 0)
+                        {
+                            PdfPCell GFCIncentiveHrs = new PdfPCell(new Phrase(GrandtotalIncentiveHrs.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCIncentiveHrs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCIncentiveHrs.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCIncentiveHrs);
+                        }
+
+
+                        if (IncentiveAmt != 0)
+                        {
+                            PdfPCell GFCIncentiveAmt = new PdfPCell(new Phrase(GrandtotalIncentiveAmt.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCIncentiveAmt.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCIncentiveAmt.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCIncentiveAmt);
+                        }
+
+
+                        if (LCAmt != 0)
+                        {
+                            PdfPCell GFCLCAmt = new PdfPCell(new Phrase(GrandtotalLCAmt.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCLCAmt.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCLCAmt.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCLCAmt);
+                        }
+
+                        if (LCHrs != 0)
+                        {
+                            PdfPCell GFCCHrs = new PdfPCell(new Phrase(GrandtotalLCHrs.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCCHrs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCCHrs.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCCHrs);
+                        }
+
 
                         if (gross != 0)
                         {
