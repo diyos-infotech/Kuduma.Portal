@@ -368,7 +368,10 @@ namespace Kuduma.Portal
                         float totalCrisisDed = 0;
                         float totalMobInstDed = 0;
                         float totalTDSDed = 0;
-
+                        float totalIncentivehrs = 0;
+                        float totalIncentiveamt = 0;
+                        float totallchrs = 0;
+                        float totallcamt = 0;
 
                         float totalSpecialAllowance = 0;
                         float totalMobileAllowance = 0;
@@ -519,6 +522,33 @@ namespace Kuduma.Portal
                                     totalAddlAmount += Convert.ToSingle(strAddlAmount);
                                 }
 
+                                string strIncentivehrs = dt.Rows[i]["IncentiveHrs"].ToString();
+                                if (strIncentivehrs.Trim().Length > 0)
+                                {
+                                    totalIncentivehrs += Convert.ToSingle(strIncentivehrs);
+
+                                }
+
+                                string strIncentiveamt = dt.Rows[i]["IncentiveAmt"].ToString();
+                                if (strIncentiveamt.Trim().Length > 0)
+                                {
+                                    totalIncentiveamt += Convert.ToSingle(strIncentiveamt);
+
+                                }
+
+                                string strlchrs = dt.Rows[i]["LCHrs"].ToString();
+                                if (strlchrs.Trim().Length > 0)
+                                {
+                                    totallchrs += Convert.ToSingle(strlchrs);
+
+                                }
+
+                                string strlcamt = dt.Rows[i]["LCAmt"].ToString();
+                                if (strlcamt.Trim().Length > 0)
+                                {
+                                    totallcamt += Convert.ToSingle(strlcamt);
+
+                                }
                                 string strGross = dt.Rows[i]["Gross"].ToString();
                                 if (strGross.Trim().Length > 0)
                                 {
@@ -917,6 +947,9 @@ namespace Kuduma.Portal
                                     totalPaidHolidayAllw += Convert.ToSingle(strPaidHolidayAllw);
 
                                 }
+
+
+                              
 
                                 string strRegistrationFee = dt.Rows[i]["RegistrationFee"].ToString();
                                 if (strRegistrationFee.Trim().Length > 0)
@@ -1521,15 +1554,70 @@ namespace Kuduma.Portal
                         }
 
 
-                        Label lblTotalGross = gvattendancezero.FooterRow.FindControl("lblTotalGross") as Label;
-                        lblTotalGross.Text = Math.Round(totalGrass).ToString();
-                        if (totalGrass > 0)
+                        Label lblTotalIncentivehrs = gvattendancezero.FooterRow.FindControl("lblTotalIncentivehrs") as Label;
+                        lblTotalIncentivehrs.Text = Math.Round(totalIncentivehrs).ToString();
+                        if (totalIncentivehrs > 0)
                         {
                             gvattendancezero.Columns[54].Visible = true;
+
                         }
                         else
                         {
                             gvattendancezero.Columns[54].Visible = false;
+
+                        }
+
+
+                        Label lblTotalIncentiveamt = gvattendancezero.FooterRow.FindControl("lblTotalIncentiveamt") as Label;
+                        lblTotalIncentiveamt.Text = Math.Round(totalIncentiveamt).ToString();
+                        if (totalIncentiveamt > 0)
+                        {
+                            gvattendancezero.Columns[55].Visible = true;
+
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[55].Visible = false;
+
+                        }
+
+
+                        Label lblTotalLchrs = gvattendancezero.FooterRow.FindControl("lblTotalLchrs") as Label;
+                        lblTotalLchrs.Text = Math.Round(totallchrs).ToString();
+                        if (totallchrs > 0)
+                        {
+                            gvattendancezero.Columns[56].Visible = true;
+
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[56].Visible = false;
+
+                        }
+
+
+                        Label lblTotallcamt = gvattendancezero.FooterRow.FindControl("lblTotallcamt") as Label;
+                        lblTotallcamt.Text = Math.Round(totallcamt).ToString();
+                        if (totallcamt > 0)
+                        {
+                            gvattendancezero.Columns[57].Visible = true;
+
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[57].Visible = false;
+
+                        }
+
+                        Label lblTotalGross = gvattendancezero.FooterRow.FindControl("lblTotalGross") as Label;
+                        lblTotalGross.Text = Math.Round(totalGrass).ToString();
+                        if (totalGrass > 0)
+                        {
+                            gvattendancezero.Columns[58].Visible = true;
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[58].Visible = false;
 
                         }
 
@@ -1538,11 +1626,11 @@ namespace Kuduma.Portal
 
                         if (totalOTAmount > 0)
                         {
-                            gvattendancezero.Columns[55].Visible = true;
+                            gvattendancezero.Columns[59].Visible = true;
                         }
                         else
                         {
-                            gvattendancezero.Columns[55].Visible = false;
+                            gvattendancezero.Columns[59].Visible = false;
 
                         }
 
@@ -1551,11 +1639,11 @@ namespace Kuduma.Portal
 
                         if (totalTransport > 0)
                         {
-                            gvattendancezero.Columns[56].Visible = true;
+                            gvattendancezero.Columns[60].Visible = true;
                         }
                         else
                         {
-                            gvattendancezero.Columns[56].Visible = false;
+                            gvattendancezero.Columns[60].Visible = false;
 
                         }
 
@@ -1569,57 +1657,6 @@ namespace Kuduma.Portal
                         lblTotalProfTax.Text = Math.Round(totalProfTax).ToString();
                         if (totalProfTax > 0)
                         {
-                            gvattendancezero.Columns[59].Visible = true;
-                        }
-                        else
-                        {
-                            gvattendancezero.Columns[59].Visible = false;
-
-                        }
-
-
-                        Label lblTotalsaladv = gvattendancezero.FooterRow.FindControl("lblTotalsaladv") as Label;
-                        lblTotalsaladv.Text = Math.Round(totalSalAdv).ToString();
-
-                        if (totalSalAdv > 0)
-                        {
-                            gvattendancezero.Columns[60].Visible = true;
-                        }
-                        else
-                        {
-                            gvattendancezero.Columns[60].Visible = false;
-
-                        }
-
-                        Label lblTotaladvded = gvattendancezero.FooterRow.FindControl("lblTotaladvded") as Label;
-                        lblTotaladvded.Text = Math.Round(totalAdvDed).ToString();
-                        if (totalAdvDed > 0)
-                        {
-                            gvattendancezero.Columns[61].Visible = true;
-                        }
-                        else
-                        {
-                            gvattendancezero.Columns[61].Visible = false;
-
-                        }
-
-                        Label lblTotalwcded = gvattendancezero.FooterRow.FindControl("lblTotalwcded") as Label;
-                        lblTotalwcded.Text = Math.Round(totalWCDed).ToString();
-                        if (totalWCDed > 0)
-                        {
-                            gvattendancezero.Columns[62].Visible = true;
-                        }
-                        else
-                        {
-                            gvattendancezero.Columns[62].Visible = false;
-
-                        }
-
-                        Label lblTotalUniformDed = gvattendancezero.FooterRow.FindControl("lblTotalUniformDed") as Label;
-                        lblTotalUniformDed.Text = Math.Round(totalUniformDed).ToString();
-
-                        if (totalUniformDed > 0)
-                        {
                             gvattendancezero.Columns[63].Visible = true;
                         }
                         else
@@ -1629,10 +1666,10 @@ namespace Kuduma.Portal
                         }
 
 
-                        Label lblTotalOtherDed = gvattendancezero.FooterRow.FindControl("lblTotalOtherDed") as Label;
-                        lblTotalOtherDed.Text = Math.Round(totalOtherDed).ToString();
+                        Label lblTotalsaladv = gvattendancezero.FooterRow.FindControl("lblTotalsaladv") as Label;
+                        lblTotalsaladv.Text = Math.Round(totalSalAdv).ToString();
 
-                        if (totalOtherDed > 0)
+                        if (totalSalAdv > 0)
                         {
                             gvattendancezero.Columns[64].Visible = true;
                         }
@@ -1642,10 +1679,9 @@ namespace Kuduma.Portal
 
                         }
 
-                        Label lbltotalloanded = gvattendancezero.FooterRow.FindControl("lblTotaltotalloanded") as Label;
-                        lbltotalloanded.Text = Math.Round(totalloanded).ToString();
-
-                        if (totalloanded > 0)
+                        Label lblTotaladvded = gvattendancezero.FooterRow.FindControl("lblTotaladvded") as Label;
+                        lblTotaladvded.Text = Math.Round(totalAdvDed).ToString();
+                        if (totalAdvDed > 0)
                         {
                             gvattendancezero.Columns[65].Visible = true;
                         }
@@ -1655,16 +1691,68 @@ namespace Kuduma.Portal
 
                         }
 
-                        Label lblTotalCanteenAdv = gvattendancezero.FooterRow.FindControl("lblTotalcantadv") as Label;
-                        lblTotalCanteenAdv.Text = Math.Round(totalCanteenAdv).ToString();
-
-                        if (totalCanteenAdv > 0)
+                        Label lblTotalwcded = gvattendancezero.FooterRow.FindControl("lblTotalwcded") as Label;
+                        lblTotalwcded.Text = Math.Round(totalWCDed).ToString();
+                        if (totalWCDed > 0)
                         {
                             gvattendancezero.Columns[66].Visible = true;
                         }
                         else
                         {
                             gvattendancezero.Columns[66].Visible = false;
+
+                        }
+
+                        Label lblTotalUniformDed = gvattendancezero.FooterRow.FindControl("lblTotalUniformDed") as Label;
+                        lblTotalUniformDed.Text = Math.Round(totalUniformDed).ToString();
+
+                        if (totalUniformDed > 0)
+                        {
+                            gvattendancezero.Columns[67].Visible = true;
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[67].Visible = false;
+
+                        }
+
+
+                        Label lblTotalOtherDed = gvattendancezero.FooterRow.FindControl("lblTotalOtherDed") as Label;
+                        lblTotalOtherDed.Text = Math.Round(totalOtherDed).ToString();
+
+                        if (totalOtherDed > 0)
+                        {
+                            gvattendancezero.Columns[68].Visible = true;
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[68].Visible = false;
+
+                        }
+
+                        Label lbltotalloanded = gvattendancezero.FooterRow.FindControl("lblTotaltotalloanded") as Label;
+                        lbltotalloanded.Text = Math.Round(totalloanded).ToString();
+
+                        if (totalloanded > 0)
+                        {
+                            gvattendancezero.Columns[69].Visible = true;
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[69].Visible = false;
+
+                        }
+
+                        Label lblTotalCanteenAdv = gvattendancezero.FooterRow.FindControl("lblTotalcantadv") as Label;
+                        lblTotalCanteenAdv.Text = Math.Round(totalCanteenAdv).ToString();
+
+                        if (totalCanteenAdv > 0)
+                        {
+                            gvattendancezero.Columns[70].Visible = true;
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[70].Visible = false;
 
                         }
 
@@ -1675,11 +1763,11 @@ namespace Kuduma.Portal
 
                         if (totalSecDepDed > 0)
                         {
-                            gvattendancezero.Columns[67].Visible = true;
+                            gvattendancezero.Columns[71].Visible = true;
                         }
                         else
                         {
-                            gvattendancezero.Columns[67].Visible = false;
+                            gvattendancezero.Columns[71].Visible = false;
 
                         }
 
@@ -1691,60 +1779,6 @@ namespace Kuduma.Portal
 
                         if (totalGenDed > 0)
                         {
-                            gvattendancezero.Columns[68].Visible = true;
-                        }
-                        else
-                        {
-                            gvattendancezero.Columns[68].Visible = false;
-
-                        }
-
-                        Label lblTotalowf = gvattendancezero.FooterRow.FindControl("lblTotalowf") as Label;
-                        lblTotalowf.Text = Math.Round(totalOWF).ToString();
-
-                        if (totalOWF > 0)
-                        {
-                            gvattendancezero.Columns[69].Visible = true;
-                        }
-                        else
-                        {
-                            gvattendancezero.Columns[69].Visible = false;
-
-                        }
-
-                        Label lblTotalPenalty = gvattendancezero.FooterRow.FindControl("lblTotalPenalty") as Label;
-                        lblTotalPenalty.Text = Math.Round(totalPenalty).ToString();
-
-                        if (totalPenalty > 0)
-                        {
-                            gvattendancezero.Columns[70].Visible = true;
-                        }
-                        else
-                        {
-                            gvattendancezero.Columns[70].Visible = false;
-
-                        }
-
-
-                        Label lblTotalRentDed = gvattendancezero.FooterRow.FindControl("lblTotalRentDed") as Label;
-                        lblTotalRentDed.Text = Math.Round(totalRentDed).ToString();
-
-                        if (totalRentDed > 0)
-                        {
-                            gvattendancezero.Columns[71].Visible = true;
-                        }
-                        else
-                        {
-                            gvattendancezero.Columns[71].Visible = false;
-
-                        }
-
-
-                        Label lblTotalMedicalDed = gvattendancezero.FooterRow.FindControl("lblTotalMedicalDed") as Label;
-                        lblTotalMedicalDed.Text = Math.Round(totalMedicalDed).ToString();
-
-                        if (totalMedicalDed > 0)
-                        {
                             gvattendancezero.Columns[72].Visible = true;
                         }
                         else
@@ -1753,10 +1787,10 @@ namespace Kuduma.Portal
 
                         }
 
-                        Label lblTotalMLWFDed = gvattendancezero.FooterRow.FindControl("lblTotalMLWFDed") as Label;
-                        lblTotalMLWFDed.Text = Math.Round(totalMLWFDed).ToString();
+                        Label lblTotalowf = gvattendancezero.FooterRow.FindControl("lblTotalowf") as Label;
+                        lblTotalowf.Text = Math.Round(totalOWF).ToString();
 
-                        if (totalMLWFDed > 0)
+                        if (totalOWF > 0)
                         {
                             gvattendancezero.Columns[73].Visible = true;
                         }
@@ -1766,16 +1800,70 @@ namespace Kuduma.Portal
 
                         }
 
-                        Label lblTotalFoodDed = gvattendancezero.FooterRow.FindControl("lblTotalFoodDed") as Label;
-                        lblTotalFoodDed.Text = Math.Round(totalFoodDed).ToString();
+                        Label lblTotalPenalty = gvattendancezero.FooterRow.FindControl("lblTotalPenalty") as Label;
+                        lblTotalPenalty.Text = Math.Round(totalPenalty).ToString();
 
-                        if (totalFoodDed > 0)
+                        if (totalPenalty > 0)
                         {
                             gvattendancezero.Columns[74].Visible = true;
                         }
                         else
                         {
                             gvattendancezero.Columns[74].Visible = false;
+
+                        }
+
+
+                        Label lblTotalRentDed = gvattendancezero.FooterRow.FindControl("lblTotalRentDed") as Label;
+                        lblTotalRentDed.Text = Math.Round(totalRentDed).ToString();
+
+                        if (totalRentDed > 0)
+                        {
+                            gvattendancezero.Columns[75].Visible = true;
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[75].Visible = false;
+
+                        }
+
+
+                        Label lblTotalMedicalDed = gvattendancezero.FooterRow.FindControl("lblTotalMedicalDed") as Label;
+                        lblTotalMedicalDed.Text = Math.Round(totalMedicalDed).ToString();
+
+                        if (totalMedicalDed > 0)
+                        {
+                            gvattendancezero.Columns[76].Visible = true;
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[76].Visible = false;
+
+                        }
+
+                        Label lblTotalMLWFDed = gvattendancezero.FooterRow.FindControl("lblTotalMLWFDed") as Label;
+                        lblTotalMLWFDed.Text = Math.Round(totalMLWFDed).ToString();
+
+                        if (totalMLWFDed > 0)
+                        {
+                            gvattendancezero.Columns[77].Visible = true;
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[77].Visible = false;
+
+                        }
+
+                        Label lblTotalFoodDed = gvattendancezero.FooterRow.FindControl("lblTotalFoodDed") as Label;
+                        lblTotalFoodDed.Text = Math.Round(totalFoodDed).ToString();
+
+                        if (totalFoodDed > 0)
+                        {
+                            gvattendancezero.Columns[78].Visible = true;
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[78].Visible = false;
 
                         }
 
@@ -1787,11 +1875,11 @@ namespace Kuduma.Portal
 
                         if (totalElectricityDed > 0)
                         {
-                            gvattendancezero.Columns[75].Visible = true;
+                            gvattendancezero.Columns[79].Visible = true;
                         }
                         else
                         {
-                            gvattendancezero.Columns[75].Visible = false;
+                            gvattendancezero.Columns[79].Visible = false;
                         }
 
                         Label lblTotalTransportDed = gvattendancezero.FooterRow.FindControl("lblTotalTransportDed") as Label;
@@ -1799,11 +1887,11 @@ namespace Kuduma.Portal
 
                         if (totalTransportDed > 0)
                         {
-                            gvattendancezero.Columns[76].Visible = true;
+                            gvattendancezero.Columns[80].Visible = true;
                         }
                         else
                         {
-                            gvattendancezero.Columns[76].Visible = false;
+                            gvattendancezero.Columns[80].Visible = false;
                         }
 
 
@@ -1812,11 +1900,11 @@ namespace Kuduma.Portal
 
                         if (totalDccDed > 0)
                         {
-                            gvattendancezero.Columns[77].Visible = true;
+                            gvattendancezero.Columns[81].Visible = true;
                         }
                         else
                         {
-                            gvattendancezero.Columns[77].Visible = false;
+                            gvattendancezero.Columns[81].Visible = false;
                         }
 
                         Label lblTotalLeaveDed = gvattendancezero.FooterRow.FindControl("lblTotalLeaveDed") as Label;
@@ -1824,11 +1912,11 @@ namespace Kuduma.Portal
 
                         if (totalLeaveDed > 0)
                         {
-                            gvattendancezero.Columns[78].Visible = true;
+                            gvattendancezero.Columns[82].Visible = true;
                         }
                         else
                         {
-                            gvattendancezero.Columns[78].Visible = false;
+                            gvattendancezero.Columns[82].Visible = false;
                         }
 
                         Label lblTotalLicenseDed = gvattendancezero.FooterRow.FindControl("lblTotalLicenseDed") as Label;
@@ -1836,11 +1924,11 @@ namespace Kuduma.Portal
 
                         if (totalLicenseDed > 0)
                         {
-                            gvattendancezero.Columns[79].Visible = true;
+                            gvattendancezero.Columns[83].Visible = true;
                         }
                         else
                         {
-                            gvattendancezero.Columns[79].Visible = false;
+                            gvattendancezero.Columns[83].Visible = false;
                         }
 
 
@@ -1850,55 +1938,6 @@ namespace Kuduma.Portal
                         lblTotalAdv4Ded.Text = Math.Round(totalAdv4Ded).ToString();
                         if (totalAdv4Ded > 0)
                         {
-                            gvattendancezero.Columns[80].Visible = true;
-                        }
-                        else
-                        {
-                            gvattendancezero.Columns[80].Visible = false;
-
-                        }
-
-                        Label lblTotalNightRoundDed = gvattendancezero.FooterRow.FindControl("lblTotalNightRoundDed") as Label;
-                        lblTotalNightRoundDed.Text = Math.Round(totalNightRoundDed).ToString();
-                        if (totalNightRoundDed > 0)
-                        {
-                            gvattendancezero.Columns[81].Visible = true;
-                        }
-                        else
-                        {
-                            gvattendancezero.Columns[81].Visible = false;
-
-                        }
-
-                        Label lblTotalManpowerMobDed = gvattendancezero.FooterRow.FindControl("lblTotalManpowerMobDed") as Label;
-                        lblTotalManpowerMobDed.Text = Math.Round(totalManpowerMobDed).ToString();
-                        if (totalManpowerMobDed > 0)
-                        {
-                            gvattendancezero.Columns[82].Visible = true;
-                        }
-                        else
-                        {
-                            gvattendancezero.Columns[82].Visible = false;
-
-                        }
-
-
-                        Label lblTotalMobileusageDed = gvattendancezero.FooterRow.FindControl("lblTotalMobileusageDed") as Label;
-                        lblTotalMobileusageDed.Text = Math.Round(totalMobileusageDed).ToString();
-                        if (totalMobileusageDed > 0)
-                        {
-                            gvattendancezero.Columns[83].Visible = true;
-                        }
-                        else
-                        {
-                            gvattendancezero.Columns[83].Visible = false;
-
-                        }
-
-                        Label lblTotalMediClaimDed = gvattendancezero.FooterRow.FindControl("lblTotalMediClaimDed") as Label;
-                        lblTotalMediClaimDed.Text = Math.Round(totalMediClaimDed).ToString();
-                        if (totalMediClaimDed > 0)
-                        {
                             gvattendancezero.Columns[84].Visible = true;
                         }
                         else
@@ -1907,10 +1946,9 @@ namespace Kuduma.Portal
 
                         }
 
-
-                        Label lblTotalCrisisDed = gvattendancezero.FooterRow.FindControl("lblTotalCrisisDed") as Label;
-                        lblTotalCrisisDed.Text = Math.Round(totalCrisisDed).ToString();
-                        if (totalCrisisDed > 0)
+                        Label lblTotalNightRoundDed = gvattendancezero.FooterRow.FindControl("lblTotalNightRoundDed") as Label;
+                        lblTotalNightRoundDed.Text = Math.Round(totalNightRoundDed).ToString();
+                        if (totalNightRoundDed > 0)
                         {
                             gvattendancezero.Columns[85].Visible = true;
                         }
@@ -1920,9 +1958,9 @@ namespace Kuduma.Portal
 
                         }
 
-                        Label lblTotalTelephoneBillDed = gvattendancezero.FooterRow.FindControl("lblTotalTelephoneBillDed") as Label;
-                        lblTotalTelephoneBillDed.Text = Math.Round(totalTelephoneBillDed).ToString();
-                        if (totalTelephoneBillDed > 0)
+                        Label lblTotalManpowerMobDed = gvattendancezero.FooterRow.FindControl("lblTotalManpowerMobDed") as Label;
+                        lblTotalManpowerMobDed.Text = Math.Round(totalManpowerMobDed).ToString();
+                        if (totalManpowerMobDed > 0)
                         {
                             gvattendancezero.Columns[86].Visible = true;
                         }
@@ -1933,26 +1971,76 @@ namespace Kuduma.Portal
                         }
 
 
-                        Label lblTotalRegistrationFee = gvattendancezero.FooterRow.FindControl("lblTotalRegistrationFee") as Label;
-                        lblTotalRegistrationFee.Text = Math.Round(totalRegistrationFee).ToString();
-                        if (totalRegistrationFee > 0)
+                        Label lblTotalMobileusageDed = gvattendancezero.FooterRow.FindControl("lblTotalMobileusageDed") as Label;
+                        lblTotalMobileusageDed.Text = Math.Round(totalMobileusageDed).ToString();
+                        if (totalMobileusageDed > 0)
                         {
                             gvattendancezero.Columns[87].Visible = true;
                         }
                         else
                         {
                             gvattendancezero.Columns[87].Visible = false;
+
                         }
 
-                        Label lblTotalBGVDed = gvattendancezero.FooterRow.FindControl("lblTotalBGVDed") as Label;
-                        lblTotalBGVDed.Text = Math.Round(totalBGVDed).ToString();
-                        if (totalBGVDed > 0)
+                        Label lblTotalMediClaimDed = gvattendancezero.FooterRow.FindControl("lblTotalMediClaimDed") as Label;
+                        lblTotalMediClaimDed.Text = Math.Round(totalMediClaimDed).ToString();
+                        if (totalMediClaimDed > 0)
                         {
                             gvattendancezero.Columns[88].Visible = true;
                         }
                         else
                         {
                             gvattendancezero.Columns[88].Visible = false;
+
+                        }
+
+
+                        Label lblTotalCrisisDed = gvattendancezero.FooterRow.FindControl("lblTotalCrisisDed") as Label;
+                        lblTotalCrisisDed.Text = Math.Round(totalCrisisDed).ToString();
+                        if (totalCrisisDed > 0)
+                        {
+                            gvattendancezero.Columns[89].Visible = true;
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[89].Visible = false;
+
+                        }
+
+                        Label lblTotalTelephoneBillDed = gvattendancezero.FooterRow.FindControl("lblTotalTelephoneBillDed") as Label;
+                        lblTotalTelephoneBillDed.Text = Math.Round(totalTelephoneBillDed).ToString();
+                        if (totalTelephoneBillDed > 0)
+                        {
+                            gvattendancezero.Columns[90].Visible = true;
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[90].Visible = false;
+
+                        }
+
+
+                        Label lblTotalRegistrationFee = gvattendancezero.FooterRow.FindControl("lblTotalRegistrationFee") as Label;
+                        lblTotalRegistrationFee.Text = Math.Round(totalRegistrationFee).ToString();
+                        if (totalRegistrationFee > 0)
+                        {
+                            gvattendancezero.Columns[91].Visible = true;
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[91].Visible = false;
+                        }
+
+                        Label lblTotalBGVDed = gvattendancezero.FooterRow.FindControl("lblTotalBGVDed") as Label;
+                        lblTotalBGVDed.Text = Math.Round(totalBGVDed).ToString();
+                        if (totalBGVDed > 0)
+                        {
+                            gvattendancezero.Columns[92].Visible = true;
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[92].Visible = false;
                         }
 
                         //New code add as on 24/12/2013 by venkat
@@ -33927,7 +34015,7 @@ CFixedTelephoneAllw, CFixedReimbursement, CFixedHardshipAllw, CFixedPaidHolidayA
 
                     float totalADDL4HR, totalQTRALLOW, totalRELALLOW, totalOTESICWAGES, totalSITEALLOW, totalGunAllw, totalFireAllw,
 totalFixedADDL4HR, totalFixedQTRALLOW, totalFixedRELALLOW, totalFixedOTESICWAGES, totalFixedSITEALLOW, totalFixedGunAllw, totalFixedFireAllw,
-totalTelephoneAllw, totalReimbursement, totalHardshipAllw, totalPaidHolidayAllw, totalServiceCharge,
+totalTelephoneAllw, totalReimbursement, totalHardshipAllw, totalPaidHolidayAllw,  totalServiceCharge,
 totalFixedTelephoneAllw, totalFixedReimbursement, totalFixedHardshipAllw, totalFixedPaidHolidayAllw, totalFixedServiceCharge = 0;
 
                     float totalCanteenAdv = 0;

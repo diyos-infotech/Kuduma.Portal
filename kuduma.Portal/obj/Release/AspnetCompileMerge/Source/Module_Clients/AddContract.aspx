@@ -2666,6 +2666,22 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
+                                              <asp:TemplateField HeaderText="IncentiveRate">
+                                            <ItemTemplate>
+                                                <asp:TextBox ID="TxtIncentiveRate" runat="server" CssClass="form-control" Width="50px" Style="text-align: center"> </asp:TextBox>
+                                                <cc1:FilteredTextBoxExtender ID="FilterIncentiveRate" runat="server" Enabled="True" TargetControlID="TxtIncentiveRate"
+                                                    ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                              <asp:TemplateField HeaderText="LCRate">
+                                            <ItemTemplate>
+                                                <asp:TextBox ID="TxtLCRate" runat="server" CssClass="form-control" Width="50px" Style="text-align: center"> </asp:TextBox>
+                                                <cc1:FilteredTextBoxExtender ID="FilterLCRate" runat="server" Enabled="True" TargetControlID="TxtLCRate"
+                                                    ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
                                         </Columns>
                                     </asp:GridView>
 

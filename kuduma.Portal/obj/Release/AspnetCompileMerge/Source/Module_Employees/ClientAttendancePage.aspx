@@ -583,7 +583,8 @@
                        var atmded = $("#txt-add-atmded").val();
                        var inctvs = $("#txt-add-inctvs").val();
                        var Arrears = $("#txt-add-arrears").val();
-
+                       var IncentiveHrs = $("#txt-add-IncentiveHrs").val();    
+                       var LCHrs = $("#txt-add-LCHrs").val();    
                        var empstatus = $("#<%=lblempstatus.ClientID %>").val();
                        var stoppayment = $("#chkstoppayment").is(":checked");
                        var updated = false;
@@ -628,6 +629,8 @@
                                                    $(row).find(".txt-atmded").val(atmded);
                                                    $(row).find(".txt-inctvs").val(inctvs);
                                                    $(row).find(".txt-Arrears").val(Arrears);
+                                                   $(row).find(".txt-IncentiveHrs").val(IncentiveHrs);
+                                                   $(row).find(".txt-LCHrs").val(LCHrs);
                                                    $(row).find("#chkstoppayment").val(stoppayment);
                                                    alert("Employee attendance updated.");
                                                    updated = true;
@@ -647,9 +650,11 @@
                                                            " <td><input type='text' class='form-control num-txt txt-candav' value='##CANADV##'></td>" +
                                                            " <td><input type='text' class='form-control num-txt txt-pen' value='##PEN##'></td>" +
                                                             " <td><input type='text' class='form-control num-txt txt-unided' value='##UNIDED##'></td>" +
-                                                             " <td><input type='text' class='form-control num-txt txt-atmded' value='##ATMDED##'></td>" +
+                                                           " <td><input type='text' class='form-control num-txt txt-atmded' value='##ATMDED##'></td>" +
                                                            " <td><input type='text' class='form-control num-txt txt-inctvs' value='##INCTVS##'></td>  " +
                                                            " <td><input type='text' class='form-control num-txt txt-Arrears' value='##ARREARS##'></td>  " +
+                                                           " <td><input type='text' class='form-control num-txt txt-IncentiveHrs' value='##IncentiveHrs##'></td>  " +
+                                                           " <td><input type='text' class='form-control num-txt txt-LCHrs' value='##LCHrs##'></td>  " +
                                                            " <td><label class='txt-linetotal'/> " +
                                                            " <td><button type='button' class='btn btn-danger' onclick='DeleteRow(this); return false;'><i class='glyphicon glyphicon-trash'></i></button></td>" +
                                                           " </tr>";
@@ -678,6 +683,8 @@
                                                         .replace('##ATMDED##', atmded)
                                                              .replace('##INCTVS##', inctvs)
                                                        .replace('##ARREARS##', Arrears)
+                                                       .replace('##IncentiveHrs##', IncentiveHrs)
+                                                       .replace('##LCHrs##', LCHrs)
                                                        .replace('##STOPPAYMENT##', stoppayment);
 
                                                    $("#tblattendancegrid >tbody").append(newrow);
@@ -723,6 +730,8 @@
                        $("#txt-add-atmded").val("0");
                        $("#txt-add-inctvs").val("0");
                        $("#txt-add-arrears").val("0");
+                       $("#txt-add-IncentiveHrs").val("0");
+                       $("#txt-add-LCHrs").val("0");
                        $("#<%=lblempstatus.ClientID %>").val("");
                  <%-- $("#<%=txtEmpId.ClientID %>").focus();--%>
                        $("#<%=txtoldEmpId.ClientID %>").focus();
@@ -911,7 +920,9 @@
                                        " <td><input type='text' class='form-control num-txt txt-unided' value='##UNIDED##'></td>" +
                                        " <td><input type='text' class='form-control num-txt txt-atmded' value='##ATMDED##'></td>" +
                                      " <td><input type='text' class='form-control num-txt txt-inctvs' value='##INCTVS##'></td>  " +
-                                     " <td><input type='text' class='form-control num-txt txt-Arrears' value='##ARREARS##'></td>  " +
+                                    " <td><input type='text' class='form-control num-txt txt-Arrears' value='##ARREARS##'></td>  " +
+                         " <td><input type='text' class='form-control num-txt txt-IncentiveHrs' value='##IncentiveHrs##'></td>  " +
+                         " <td><input type='text' class='form-control num-txt txt-LCHrs' value='##LCHrs##'></td>  " +
                                      " <td><label class='txt-linetotal'/> " +
                                      " <td><button type='button' class='btn btn-danger' onclick='DeleteRow(this); return false;'><i class='glyphicon glyphicon-trash'></i></button></td>" +
                                     " </tr>";
@@ -932,7 +943,9 @@
                            .replace('##UNIDED##', item.UNIDED)
                            .replace('##ATMDED##', item.ATMDED)
                                .replace('##INCTVS##', item.Incentivs)
-                               .replace('##ARREARS##', item.Arrears);
+                         .replace('##ARREARS##', item.Arrears)
+                         .replace('##IncentiveHrs##', item.IncentiveHrs)
+                         .replace('##LCHrs##', item.LCHrs);
                      $("#tblattendancegrid >tbody").append(newrow);
                      if (item.stoppayment == false) {
                          $("#tblattendancegrid > tbody >tr[data-emp-id=" + item.EmpId + "]").find("input[type=checkbox]").prop("checked", false);
@@ -1003,7 +1016,9 @@
                            "<td><label class='lbl-tunided lbl-thin'>##TUNIDED##</label></td>" +
                              "<td><label class='lbl-tatmded lbl-thin'>##TATMDED##</label></td>" +
                          "<td><label class='lbl-tinctvs lbl-thin'>##TINTVS##</label></td>" +
-                         "<td><label class='lbl-tarrears lbl-thin'>##TARREARS##</label></td></tr>";
+                         "<td><label class='lbl-tarrears lbl-thin'>##TARREARS##</label></td>" +
+                         "<td><label class='lbl-tIncentiveHrs lbl-thin'>##TIncentiveHrs##</label></td>" +
+                     "<td><label class='lbl-tLCHrs lbl-thin'>##TLCHrs##</label></td></tr>";
                      var newrow = strr.replace("##Designation##", item.DesgName)
                                  .replace('##TNOD##', item.NODTotal)
                                  .replace('##TOT##', item.OTTotal)
@@ -1016,7 +1031,9 @@
                           .replace('##TUNIDED##', item.UNIDEDTotal)
                           .replace('##TATMDED##', item.ATMDEDTotal)
                                  .replace('##TINTVS##', item.CanAdvTotal)
-                                 .replace('##TARREARS##', item.ArrearsTotal);
+                         .replace('##TARREARS##', item.ArrearsTotal)
+                         .replace('##TIncentiveHrs##', item.IncentiveHrsTotal)
+                         .replace('##TLCHrs##', item.LCHrsTotal);
                      $("#tblSummary >tbody").append(newrow);
                  });
                  CalculateSummaryTotals();
@@ -1125,6 +1142,24 @@
                  $("#lblArrears").text(Arrearstotal);
 
 
+                 var IncentiveHrstotal = 0;
+                 $('.txt-IncentiveHrs').each(function () {
+                     if ($(this).val() != "" && $(this).val() != undefined) {
+                         IncentiveHrstotal += parseFloat($(this).val());
+                     }
+                 });
+                 $("#lblIncentiveHrs").text(IncentiveHrstotal);
+
+
+                 var LCHrstotal = 0;
+                 $('.txt-LCHrs').each(function () {
+                     if ($(this).val() != "" && $(this).val() != undefined) {
+                         LCHrstotal += parseFloat($(this).val());
+                     }
+                 });
+                 $("#lblLCHrs").text(LCHrstotal);
+
+
                  $(".tr-emp-att").each(function () {
                      var linetotal = 0;
                      $(this).find(".line-cal").each(function () {
@@ -1226,7 +1261,18 @@
                  });
                  $("#lblTARREARS").text(Arrearstotal);
 
+                 var IncentiveHrstotal = 0;
+                 $('.lbl-tIncentiveHrs').each(function () {
+                     IncentiveHrstotal += parseFloat($(this).text());
+                 });
+                 $("#lblTIncentiveHrs").text(IncentiveHrstotal);
 
+
+                 var LCHrstotal = 0;
+                 $('.lbl-tLCHrs').each(function () {
+                     LCHrstotal += parseFloat($(this).text());
+                 });
+                 $("#lblTLCHrs").text(LCHrstotal);
 
 
                  $(".tr-emp-summary").each(function () {
@@ -1296,6 +1342,8 @@
                              ATMDED: parseFloat($(row).find(".txt-atmded").val()),
                              Incentives: parseFloat($(row).find(".txt-inctvs").val()),
                              Arrears: parseFloat($(row).find(".txt-Arrears").val()),
+                             IncentiveHrs: parseFloat($(row).find(".txt-IncentiveHrs").val()),
+                             LCHrs: parseFloat($(row).find(".txt-LCHrs").val()),
                              stoppayment: $(row).find("#chkstoppayment").is(":checked"),
                              OTtype: ottype
                          };
@@ -1426,6 +1474,8 @@
             var ATMDED = $("#txt-add-atmded").val();
             var inctvs = $("#txt-add-inctvs").val();
             var Arrears = $("#txt-add-arrears").val();
+            var IncentiveHrs = $("#txt-add-IncentiveHrs").val();
+            var LCHrs = $("#txt-add-LCHrs").val();
 
             //var isnewrow = $(row).hasClass("new-row");
             var TempEmpAttendance = {
@@ -1451,6 +1501,8 @@
                 ATMDED: ATMDED,
                 Incentives: inctvs,
                 Arrears: Arrears,
+                IncentiveHrs: IncentiveHrs,
+                LCHrs: LCHrs,
                 OTtype: ottype
             };
             datalst.push(TempEmpAttendance);
@@ -1834,6 +1886,10 @@
                                 </th>
                                 <th>Arrears
                                 </th>
+                                 <th>IncentiveHrs
+                                </th>
+                                 <th>LCHrs
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1894,6 +1950,14 @@
                                 </td>
                                 <td>
                                     <label id="lblTARREARS">
+                                    </label>
+                                </td>
+                                 <td>
+                                    <label id="lblTIncentiveHrs">
+                                    </label>
+                                </td>
+                                 <td>
+                                    <label id="lblTLCHrs">
                                     </label>
                                 </td>
                             </tr>
@@ -1995,6 +2059,12 @@
                                     <td>
                                         <input type="text" class="form-control num-txt" id="txt-add-arrears" value="0" />
                                     </td>
+                                     <td>
+                                        <input type="text" class="form-control num-txt" id="txt-add-IncentiveHrs" value="0" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control num-txt" id="txt-add-LCHrs" value="0" />
+                                    </td>
                                     <td rowspan="2"></td>
                                     <td rowspan="2">
                                         <button class="btn btn-primary" onclick="AddNewEmp(this);return false;" style="height: 60px;">
@@ -2038,7 +2108,9 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
 
                                 </tr>
 
@@ -2075,7 +2147,10 @@
                                     </th>
                                     <th>Arrears
                                     </th>
-
+                                     <th>IncentiveHrs
+                                    </th>
+                                     <th>LCHrs
+                                    </th>
                                     <th>Totals
                                     </th>
                                     <th></th>
@@ -2142,6 +2217,14 @@
                                     </th>
                                     <th>
                                         <label id="lblArrears">
+                                        </label>
+                                    </th>
+                                     <th>
+                                        <label id="lblIncentiveHrs">
+                                        </label>
+                                    </th>
+                                    <th>
+                                        <label id="lblLCHrs">
                                         </label>
                                     </th>
                                     <th>

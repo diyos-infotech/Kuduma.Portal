@@ -196,6 +196,10 @@
                                         <asp:BoundField DataField="OTAmt" HeaderText="OTAmt" DataFormatString="{0:0.00}" />
                                         <asp:BoundField DataField="clplamt" HeaderText="CLPLAmt" DataFormatString="{0:0.00}" />
                                         <asp:BoundField DataField="woamt" HeaderText="W.O.Amt" DataFormatString="{0:0.00}" />
+                                          <asp:BoundField DataField="IncentiveHrs" HeaderText="IncentiveHrs" DataFormatString="{0:0.00}" />
+                                        <asp:BoundField DataField="IncentiveAmt" HeaderText="IncentiveAmt" DataFormatString="{0:0.00}" />
+                                          <asp:BoundField DataField="LCHrs" HeaderText="LCHrs" DataFormatString="{0:0.00}" />
+                                        <asp:BoundField DataField="LCAmt" HeaderText="LCAmt" DataFormatString="{0:0.00}" />
                                         <asp:BoundField DataField="totalgross" HeaderText="Gross" DataFormatString="{0:0.00}" />
                                         <asp:BoundField DataField="pf" HeaderText="PF" DataFormatString="{0:0.00}" />
                                         <asp:BoundField DataField="esi" HeaderText="ESI" DataFormatString="{0:0.00}" />
