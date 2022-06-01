@@ -126,3 +126,35 @@ Source: System.Web
 TargetSite: Boolean HandleError(System.Exception)
 -----------------------------------------------------------
 
+Time: 05/05/2022 03:28:13 PM
+-----------------------------------------------------------
+Message: 
+StackTrace:    at System.Web.UI.Page.HandleError(Exception e)
+   at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+   at System.Web.UI.Page.ProcessRequest(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+   at System.Web.UI.Page.ProcessRequest()
+   at System.Web.UI.Page.ProcessRequest(HttpContext context)
+   at ASP.module_reports_importattendance_aspx.ProcessRequest(HttpContext context) in c:\Users\5570\AppData\Local\Temp\Temporary ASP.NET Files\vs\e62ffec7\237e56c8\App_Web_tqwjahuc.0.cs:line 0
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+TargetSite: Boolean HandleError(System.Exception)
+-----------------------------------------------------------
+
+Time: 05/05/2022 03:37:34 PM
+-----------------------------------------------------------
+Message: 
+StackTrace:    at System.Web.UI.Page.HandleError(Exception e)
+   at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+   at System.Web.UI.Page.ProcessRequest(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+   at System.Web.UI.Page.ProcessRequest()
+   at System.Web.UI.Page.ProcessRequest(HttpContext context)
+   at ASP.module_reports_importattendance_aspx.ProcessRequest(HttpContext context) in c:\Users\5570\AppData\Local\Temp\Temporary ASP.NET Files\vs\e62ffec7\237e56c8\App_Web_j5xxzedp.1.cs:line 0
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+TargetSite: Boolean HandleError(System.Exception)
+-----------------------------------------------------------
+
