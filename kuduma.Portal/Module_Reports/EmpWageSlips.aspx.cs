@@ -589,14 +589,35 @@ namespace Kuduma.Portal
                             string EmpMaritalStatus = "";
 
 
-                            EmpSex = dt.Rows[0]["EmpSex"].ToString();
-                            EmpMaritalStatus = dt.Rows[0]["EmpMaritalStatus"].ToString();
+                            EmpSex = dt.Rows[i]["EmpSex"].ToString();
+                            EmpMaritalStatus = dt.Rows[i]["EmpMaritalStatus"].ToString();
+
+
                             if (EmpSex.Length > 0)
                             {
                                 if (EmpSex == "M")
                                 {
 
-                                    EmpSex = "S/o";
+                                    if (EmpMaritalStatus == "M")
+                                    {
+
+                                        EmpSex = "S/o";
+                                    }
+
+
+                                    else if (EmpMaritalStatus == "S")
+                                    {
+
+                                        EmpSex = "S/o";
+
+                                    }
+
+                                    else if (EmpMaritalStatus == "W")
+                                    {
+
+                                        EmpSex = "S/o";
+
+                                    }
 
 
                                 }
@@ -631,7 +652,7 @@ namespace Kuduma.Portal
                             }
 
 
-                            PdfPCell cellHead5 = new PdfPCell(new Phrase("NAME : " + dt.Rows[i]["EmpmName"].ToString() + "           " + EmpSex + " : " + dt.Rows[i]["EmpfatherName"].ToString(), FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
+                            PdfPCell cellHead5 = new PdfPCell(new Phrase("NAME : " + dt.Rows[i]["EmpmName"].ToString() + "             " + EmpSex + " : " + dt.Rows[i]["EmpfatherName"].ToString(), FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
                             cellHead5.HorizontalAlignment = 0;
                             cellHead5.Colspan = 3;
                             cellHead5.PaddingTop = 5;
