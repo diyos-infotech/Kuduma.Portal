@@ -2853,8 +2853,8 @@ namespace Kuduma.Portal
                             string EmpMaritalStatus = "";
                           
 
-                            EmpSex = dt.Rows[i]["EmpSex"].ToString();
-                            EmpMaritalStatus = dt.Rows[i]["EmpMaritalStatus"].ToString();
+                            EmpSex = dt.Rows[0]["EmpSex"].ToString();
+                            EmpMaritalStatus = dt.Rows[0]["EmpMaritalStatus"].ToString();
 
 
                             if (EmpSex.Length > 0)
@@ -2862,26 +2862,7 @@ namespace Kuduma.Portal
                                 if (EmpSex == "M")
                                 {
 
-                                    if (EmpMaritalStatus == "M")
-                                    {
-
-                                        EmpSex = "S/o";
-                                    }
-
-
-                                    else if (EmpMaritalStatus == "S")
-                                    {
-
-                                        EmpSex = "S/o";
-
-                                    }
-
-                                    else if (EmpMaritalStatus == "W")
-                                    {
-
-                                        EmpSex = "S/o";
-
-                                    }
+                                    EmpSex = "S/o";
 
 
                                 }
@@ -13275,18 +13256,443 @@ namespace Kuduma.Portal
 
             if (ddlpaymenttype.SelectedIndex == 4)
             {
-                btnpaysheetstaticWoAllw_Click(sender, e);
+                btnSalarySheet_Excel(sender, e);
                 return;
             }
 
             if (ddlpaymenttype.SelectedIndex == 5)
             {
-                lbtn_ExportNew_Click(sender, e);
+                btnNavami_Excel(sender, e);
                 return;
             }
-            
+
+            if (ddlpaymenttype.SelectedIndex == 6)
+            {
+                btnstone_Excel(sender, e);
+                return;
+            }
 
 
+
+
+        }
+
+        protected void btnstone_Excel(object sender, EventArgs e)
+        {
+            try
+            {
+
+                if (ddlClients.SelectedIndex <= 0)
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Showalert()", "alert('Please Select Client ID/Name')", true);
+                    return;
+                }
+
+                var formatInfoinfo = new DateTimeFormatInfo();
+                string[] monthName = formatInfoinfo.MonthNames;
+                int payMonth = GetMonth(ddlmonth.SelectedValue);
+
+                int month = GetMonthBasedOnSelectionDateorMonth();
+                string selectmonth = string.Empty;
+
+                var clientid = ddlClients.SelectedValue;
+                //var Paysheetoption = ddlpaymenttype.SelectedIndex;
+
+                var list = new List<string>();
+
+                if (gvattendancezero.Rows.Count > 0)
+                {
+                    for (int i = 0; i < gvattendancezero.Rows.Count; i++)
+                    {
+                        CheckBox chkEmpid = gvattendancezero.Rows[i].FindControl("chkindividual") as CheckBox;
+                        Label lblempid = gvattendancezero.Rows[i].FindControl("lblempid") as Label;
+
+                        if (chkEmpid.Checked == true)
+                        {
+                            list.Add(lblempid.Text);
+                        }
+
+                    }
+                }
+
+                string Empids = string.Join(",", list.ToArray());
+
+                if (list.Count == 0)
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showlalert", "alert('Please Select Empids');", true);
+                    return;
+                }
+
+                DataTable dtEmpidsList = new DataTable();
+                dtEmpidsList.Columns.Add("Empid");
+                if (list.Count != 0)
+                {
+                    foreach (string s in list)
+                    {
+                        DataRow row = dtEmpidsList.NewRow();
+                        row["Empid"] = s;
+                        dtEmpidsList.Rows.Add(row);
+                    }
+                }
+
+                string strQry = "Select * from CompanyInfo  where   ClientidPrefix='" + CmpIDPrefix + "'";
+                DataTable compInfo = SqlHelper.Instance.GetTableByQuery(strQry);
+                string companyName = "Your Company Name";
+                string companyAddress = "Your Company Address";
+                string date = "";
+                if (compInfo.Rows.Count > 0)
+                {
+                    companyName = compInfo.Rows[0]["CompanyName"].ToString();
+                    companyAddress = compInfo.Rows[0]["Address"].ToString();
+                }
+
+
+
+
+                string selectclientaddress = "select * from clients where clientid= '" + ddlClients.SelectedValue + "'";
+
+                DataTable dtclientaddress = SqlHelper.Instance.GetTableByQuery(selectclientaddress);
+
+                string AddrHno = ""; string AddrColony = ""; string AddrArea = ""; string AddrStreet = ""; string Addrcity = ""; string Addrstate = ""; string Addrpin = "";
+                string clientname = "";
+                if (dtclientaddress.Rows.Count > 0)
+                {
+                    clientname = dtclientaddress.Rows[0]["ClientName"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrHno"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrStreet"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrArea"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrColony"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrcity"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrstate"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrpin"].ToString() + "";
+                }
+
+                string selectcontracts = "select typeofwork from Contracts where clientid= '" + ddlClients.SelectedValue + "'";
+                DataTable dtcontraccts = SqlHelper.Instance.GetTableByQuery(selectcontracts);
+                string typeofwork = "";
+
+                if (dtcontraccts.Rows.Count > 0)
+                {
+                    typeofwork = dtcontraccts.Rows[0]["typeofwork"].ToString() + "";
+                }
+
+
+                int Paysheetoption = 9;
+                var SPName = "";
+                Hashtable HTPaysheet = new Hashtable();
+
+                SPName = "IMEPaysheetpdfs";
+                HTPaysheet.Add("@ClientId", clientid);
+                HTPaysheet.Add("@month", month);
+                HTPaysheet.Add("@PaymentOption", Paysheetoption);
+                HTPaysheet.Add("@EmpIDList", dtEmpidsList);
+
+
+
+                DataTable dt = config.ExecuteAdaptorAsyncWithParams(SPName, HTPaysheet).Result;
+
+                string Filename = "SalarySheet " + ".xls";
+
+                if (dt.Rows.Count > 0)
+                {
+                    int count = dt.Columns.Count;
+                    string line = " ";
+                    string line1 = "KUDUMA LABOUR CONTRACT";
+                    string line2 = "UNIT NAME :" + clientname;
+                    string line3 = "WAGES SHEET FOR THE MONTH OF";
+
+
+
+
+                    gve.EXPORTEXCELSUPANGITA("STONE.xls", dt, line, line1, line2, line3, count);
+                }
+            }
+            catch (Exception Ex)
+            {
+
+            }
+        }
+
+
+
+
+
+
+
+
+        protected void btnNavami_Excel(object sender, EventArgs e)
+        {
+            try
+            {
+
+                if (ddlClients.SelectedIndex <= 0)
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Showalert()", "alert('Please Select Client ID/Name')", true);
+                    return;
+                }
+
+                var formatInfoinfo = new DateTimeFormatInfo();
+                string[] monthName = formatInfoinfo.MonthNames;
+                int payMonth = GetMonth(ddlmonth.SelectedValue);
+
+                int month = GetMonthBasedOnSelectionDateorMonth();
+                string selectmonth = string.Empty;
+
+                var clientid = ddlClients.SelectedValue;
+                //var Paysheetoption = ddlpaymenttype.SelectedIndex;
+
+                var list = new List<string>();
+
+                if (gvattendancezero.Rows.Count > 0)
+                {
+                    for (int i = 0; i < gvattendancezero.Rows.Count; i++)
+                    {
+                        CheckBox chkEmpid = gvattendancezero.Rows[i].FindControl("chkindividual") as CheckBox;
+                        Label lblempid = gvattendancezero.Rows[i].FindControl("lblempid") as Label;
+
+                        if (chkEmpid.Checked == true)
+                        {
+                            list.Add(lblempid.Text);
+                        }
+
+                    }
+                }
+
+                string Empids = string.Join(",", list.ToArray());
+
+                if (list.Count == 0)
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showlalert", "alert('Please Select Empids');", true);
+                    return;
+                }
+
+                DataTable dtEmpidsList = new DataTable();
+                dtEmpidsList.Columns.Add("Empid");
+                if (list.Count != 0)
+                {
+                    foreach (string s in list)
+                    {
+                        DataRow row = dtEmpidsList.NewRow();
+                        row["Empid"] = s;
+                        dtEmpidsList.Rows.Add(row);
+                    }
+                }
+
+                string strQry = "Select * from CompanyInfo  where   ClientidPrefix='" + CmpIDPrefix + "'";
+                DataTable compInfo = SqlHelper.Instance.GetTableByQuery(strQry);
+                string companyName = "Your Company Name";
+                string companyAddress = "Your Company Address";
+                string date = "";
+                if (compInfo.Rows.Count > 0)
+                {
+                    companyName = compInfo.Rows[0]["CompanyName"].ToString();
+                    companyAddress = compInfo.Rows[0]["Address"].ToString();
+                }
+
+
+
+
+                string selectclientaddress = "select * from clients where clientid= '" + ddlClients.SelectedValue + "'";
+
+                DataTable dtclientaddress = SqlHelper.Instance.GetTableByQuery(selectclientaddress);
+
+                string AddrHno = ""; string AddrColony = ""; string AddrArea = ""; string AddrStreet = ""; string Addrcity = ""; string Addrstate = ""; string Addrpin = "";
+                string clientname = "";
+                if (dtclientaddress.Rows.Count > 0)
+                {
+                    clientname = dtclientaddress.Rows[0]["ClientName"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrHno"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrStreet"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrArea"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrColony"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrcity"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrstate"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrpin"].ToString() + "";
+                }
+
+                string selectcontracts = "select typeofwork from Contracts where clientid= '" + ddlClients.SelectedValue + "'";
+                DataTable dtcontraccts = SqlHelper.Instance.GetTableByQuery(selectcontracts);
+                string typeofwork = "";
+
+                if (dtcontraccts.Rows.Count > 0)
+                {
+                    typeofwork = dtcontraccts.Rows[0]["typeofwork"].ToString() + "";
+                }
+
+
+                int Paysheetoption = 8;
+                var SPName = "";
+                Hashtable HTPaysheet = new Hashtable();
+
+                SPName = "IMEPaysheetpdfs";
+                HTPaysheet.Add("@ClientId", clientid);
+                HTPaysheet.Add("@month", month);
+                HTPaysheet.Add("@PaymentOption", Paysheetoption);
+                HTPaysheet.Add("@EmpIDList", dtEmpidsList);
+
+
+
+                DataTable dt = config.ExecuteAdaptorAsyncWithParams(SPName, HTPaysheet).Result;
+
+                string Filename = "SalarySheet " + ".xls";
+
+                if (dt.Rows.Count > 0)
+                {
+                    int count = dt.Columns.Count;
+                    string line = " ";
+                    string line1 = "KUDUMA LABOUR CONTRACT";
+                    string line2 = "UNIT NAME :" + clientname;
+                    string line3 = "WAGES SHEET FOR THE MONTH OF";
+
+
+
+
+                    gve.EXPORTEXCELSUPANGITA("NAVAMI ENGINEERS.xls", dt, line, line1, line2, line3, count);
+                }
+            }
+            catch (Exception Ex)
+            {
+
+            }
+        }
+
+
+
+
+        protected void btnSalarySheet_Excel(object sender, EventArgs e)
+        {
+            try
+            {
+
+                if (ddlClients.SelectedIndex <= 0)
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Showalert()", "alert('Please Select Client ID/Name')", true);
+                    return;
+                }
+
+                var formatInfoinfo = new DateTimeFormatInfo();
+                string[] monthName = formatInfoinfo.MonthNames;
+                int payMonth = GetMonth(ddlmonth.SelectedValue);
+
+                int month = GetMonthBasedOnSelectionDateorMonth();
+                string selectmonth = string.Empty;
+
+                var clientid = ddlClients.SelectedValue;
+                //var Paysheetoption = ddlpaymenttype.SelectedIndex;
+
+                var list = new List<string>();
+
+                if (gvattendancezero.Rows.Count > 0)
+                {
+                    for (int i = 0; i < gvattendancezero.Rows.Count; i++)
+                    {
+                        CheckBox chkEmpid = gvattendancezero.Rows[i].FindControl("chkindividual") as CheckBox;
+                        Label lblempid = gvattendancezero.Rows[i].FindControl("lblempid") as Label;
+
+                        if (chkEmpid.Checked == true)
+                        {
+                            list.Add(lblempid.Text);
+                        }
+
+                    }
+                }
+
+                string Empids = string.Join(",", list.ToArray());
+
+                if (list.Count == 0)
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showlalert", "alert('Please Select Empids');", true);
+                    return;
+                }
+
+                DataTable dtEmpidsList = new DataTable();
+                dtEmpidsList.Columns.Add("Empid");
+                if (list.Count != 0)
+                {
+                    foreach (string s in list)
+                    {
+                        DataRow row = dtEmpidsList.NewRow();
+                        row["Empid"] = s;
+                        dtEmpidsList.Rows.Add(row);
+                    }
+                }
+
+                string strQry = "Select * from CompanyInfo  where   ClientidPrefix='" + CmpIDPrefix + "'";
+                DataTable compInfo = SqlHelper.Instance.GetTableByQuery(strQry);
+                string companyName = "Your Company Name";
+                string companyAddress = "Your Company Address";
+                string date = "";
+                if (compInfo.Rows.Count > 0)
+                {
+                    companyName = compInfo.Rows[0]["CompanyName"].ToString();
+                    companyAddress = compInfo.Rows[0]["Address"].ToString();
+                }
+               
+
+                
+
+                string selectclientaddress = "select * from clients where clientid= '" + ddlClients.SelectedValue + "'";
+
+                DataTable dtclientaddress = SqlHelper.Instance.GetTableByQuery(selectclientaddress);
+
+                string AddrHno = ""; string AddrColony = ""; string AddrArea = ""; string AddrStreet = ""; string Addrcity = ""; string Addrstate = ""; string Addrpin = "";
+                string clientname = "";
+                if (dtclientaddress.Rows.Count > 0)
+                {
+                    clientname = dtclientaddress.Rows[0]["ClientName"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrHno"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrStreet"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrArea"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrColony"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrcity"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrstate"].ToString() + "";
+                    AddrHno += dtclientaddress.Rows[0]["ClientAddrpin"].ToString() + "";
+                }
+
+                string selectcontracts = "select typeofwork from Contracts where clientid= '" + ddlClients.SelectedValue + "'";
+                DataTable dtcontraccts = SqlHelper.Instance.GetTableByQuery(selectcontracts);
+                string typeofwork = "";
+
+                if (dtcontraccts.Rows.Count > 0)
+                {
+                    typeofwork = dtcontraccts.Rows[0]["typeofwork"].ToString() + "";
+                }
+
+
+                int Paysheetoption = 7;
+                var SPName = "";
+                Hashtable HTPaysheet = new Hashtable();
+                
+                    SPName = "IMEPaysheetpdfs";
+                    HTPaysheet.Add("@ClientId", clientid);
+                    HTPaysheet.Add("@month", month);
+                    HTPaysheet.Add("@PaymentOption", Paysheetoption);
+                    HTPaysheet.Add("@EmpIDList", dtEmpidsList);
+               
+                
+
+                DataTable dt = config.ExecuteAdaptorAsyncWithParams(SPName, HTPaysheet).Result;
+
+                string Filename = "SalarySheet " + ".xls";
+
+                if (dt.Rows.Count > 0)
+                {
+                    int count = dt.Columns.Count;
+                    string line = " ";
+                    string line1 = "KUDUMA LABOUR CONTRACT";
+                    string line2 = "UNIT NAME :"+clientname;
+                    string line3 = "WAGES SHEET FOR THE MONTH OF";
+                    
+
+
+
+                    gve.EXPORTEXCELSUPANGITA("SUPANGITA ENGINEERS.xls", dt, line, line1, line2, line3,  count);
+                }
+            }
+            catch (Exception Ex)
+            {
+
+            }
 
         }
         protected void btnformt_Click(object sender, EventArgs e)
@@ -13331,7 +13737,7 @@ namespace Kuduma.Portal
                 }
                 var Noofattendance = ddlnoofattendance.SelectedIndex;
                 //var pfesioptions = ddl_Pf_Esi_Options.SelectedIndex;
-
+                
                 var SPName = "";
                 Hashtable HTPaysheet = new Hashtable();
                 SPName = "IMEPaysheetpdfs";
@@ -26303,10 +26709,52 @@ namespace Kuduma.Portal
                             cellHead4.Border = 0;
                             //cellHead4.PaddingTop = -13;
                             tablewageslip.AddCell(cellHead4);
+                            string EmpSex = "";
+                            string EmpMaritalStatus = "";
+
+
+                            EmpSex = dt.Rows[0]["EmpSex"].ToString();
+                            EmpMaritalStatus = dt.Rows[0]["EmpMaritalStatus"].ToString();
+                            if (EmpSex.Length > 0)
+                            {
+                                if (EmpSex == "M")
+                                {
+
+                                    EmpSex = "S/o";
+
+
+                                }
 
 
 
-                            PdfPCell cellHead5 = new PdfPCell(new Phrase("NAME : " + dt.Rows[i]["EmpmName"].ToString() + "            S/o : " + dt.Rows[i]["EmpfatherName"].ToString(), FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
+                                else if (EmpSex == "F")
+                                {
+                                    if (EmpMaritalStatus == "M")
+                                    {
+
+                                        EmpSex = "W/o";
+                                    }
+
+
+                                    else if (EmpMaritalStatus == "S")
+                                    {
+
+                                        EmpSex = "D/o";
+
+                                    }
+
+                                    else if (EmpMaritalStatus == "W")
+                                    {
+
+                                        EmpSex = "D/o";
+
+                                    }
+
+                                }
+
+                            }
+
+                            PdfPCell cellHead5 = new PdfPCell(new Phrase("NAME : " + dt.Rows[i]["EmpmName"].ToString() + "           "+ EmpSex + " : " + dt.Rows[i]["EmpfatherName"].ToString(), FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
                             cellHead5.HorizontalAlignment = 0;
                             cellHead5.Colspan = 3;
                             cellHead5.PaddingTop = 5;

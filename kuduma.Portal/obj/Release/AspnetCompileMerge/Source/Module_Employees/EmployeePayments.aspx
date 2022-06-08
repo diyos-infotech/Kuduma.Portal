@@ -422,6 +422,9 @@
                                                     <asp:ListItem>Only Duties</asp:ListItem>
                                                     <asp:ListItem>Only OTs</asp:ListItem>                                                     
                                                     <asp:ListItem>ALL</asp:ListItem>
+                                                    <asp:ListItem>SUPANGITA ENGINEERS</asp:ListItem>
+                                                    <asp:ListItem>NAVAMI ENGINEERS</asp:ListItem>
+                                                    <asp:ListItem>STONE EXCEL</asp:ListItem>
                                                 </asp:DropDownList>
 
                                             </td>
