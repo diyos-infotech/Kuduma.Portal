@@ -25,6 +25,7 @@ namespace Kuduma.Portal
         string Fontstyle = "";
         string CFontstyle = "";
         string BranchID = "";
+        // code changes done by dhanalakshmi on 11-6-2022  ref:009261
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -13786,6 +13787,7 @@ namespace Kuduma.Portal
                     int cca = 0;
                     int conveyance = 0;
                     int washallowance = 0;
+                    int FoodAllowance = 0;
                     int otherallowance = 0;
                     int SplAllowance = 0;
                     int TravelAllw = 0;
@@ -13851,6 +13853,7 @@ namespace Kuduma.Portal
                     float hra1 = 0;
                     float cca1 = 0;
                     float conveyance1 = 0;
+                    float FoodAllowance1 = 0;
                     float washallowance1 = 0;
                     float otherallowance1 = 0;
                     float SplAllowance1 = 0;
@@ -14024,6 +14027,16 @@ namespace Kuduma.Portal
                             if (conveyance1 > 0)
                             {
                                 conveyance = 1;
+                            }
+                        }
+
+                        FoodAllowance1 = float.Parse(dt.Rows[i]["FoodAllowance"].ToString());
+                        if (FoodAllowance1 != 0)
+                        {
+                            FoodAllowance1 += 1;
+                            if (FoodAllowance1 > 0)
+                            {
+                                FoodAllowance = 1;
                             }
                         }
 
@@ -14215,15 +14228,15 @@ namespace Kuduma.Portal
                         }
 
 
-                        cfoodallowance1 = float.Parse(dt.Rows[i]["foodallowance"].ToString());
-                        if (cfoodallowance1 != 0)
-                        {
-                            cfoodallowance1 += 1;
-                            if (cfoodallowance1 > 0)
-                            {
-                                cfoodallowance = 1;
-                            }
-                        }
+                        //cfoodallowance1 = float.Parse(dt.Rows[i]["FoodAllowance"].ToString());
+                        //if (cfoodallowance1 != 0)
+                        //{
+                        //    cfoodallowance1 += 1;
+                        //    if (cfoodallowance1 > 0)
+                        //    {
+                        //        cfoodallowance = 1;
+                        //    }
+                        //}
 
                         cmedicalallowance1 = float.Parse(dt.Rows[i]["medicalallowance"].ToString());
                         if (cmedicalallowance1 != 0)
@@ -14584,7 +14597,7 @@ namespace Kuduma.Portal
                     //salAdvDed = 1;
                     //uniformDed = 1;
                     netpay = 1;
-                    int tableCells = dts + srate + basic + da + hra + cca + conveyance + washallowance + otherallowance + SplAllowance + TravelAllw + PerformanceAllw + MobileAllw + UniformAllw + leavewages +
+                    int tableCells = dts + srate + basic + da + hra + cca + conveyance + FoodAllowance +  washallowance + otherallowance + SplAllowance + TravelAllw + PerformanceAllw + MobileAllw + UniformAllw + leavewages +
                                     gratuity + bonus + nfhs + rc + cs + gross + IncentiveHrs + IncentiveAmt + LCAmt + LCHrs+ incentivs + pfonduties + esionduties + proftax +
                                     salAdvDed + uniformDed + ATMDed + AttBonus + IDCardDed + Extra + otherDed + canteenAdv + penalty + totalDeductions + netpay + sno + ESINo + UANNo +
                                     empid + empname + design + bankacno + ots + otamt + wo + woamt + nhs + nhsamt + advdue + pfonot + esionot + Pf + Esi + GenDedn + SecDepDedn + LoanDed + AdvDed + WCDed + cfoodallowance + cmedicalallowance + owf + Adv1 + Adv2 + Rent + Bgvdedi + Medfitdedi + ReliefFund + advances + Remarks;
@@ -14604,6 +14617,7 @@ namespace Kuduma.Portal
                     float totalConveyance = 0;
                     float totalWA = 0;
                     float totalOA = 0;
+                    float totalFoodAllowance = 0;
                     float totalSplAllowance = 0;
                     float totalTravelAllw = 0;
                     float totalPerformanceAllw = 0;
@@ -14677,6 +14691,7 @@ namespace Kuduma.Portal
                     float GrandtotalConveyance = 0;
                     float GrandtotalWA = 0;
                     float GrandtotalOA = 0;
+                    float GrandtotalFoodAllowance = 0;
                     float GrandtotalSplAllowance = 0;
                     float GrandtotalTravelAllw = 0;
                     float GrandtotalPerformanceAllw = 0;
@@ -15214,6 +15229,14 @@ namespace Kuduma.Portal
                             SecondtableHeadings.AddCell(Cconveyance);
                         }
 
+                        if (FoodAllowance != 0)
+                        {
+                            PdfPCell Cwa = new PdfPCell(new Phrase("Food Allw", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            Cwa.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                            Cwa.Border = 13;
+                            SecondtableHeadings.AddCell(Cwa);
+                        }
+
                         //12
                         if (washallowance != 0)
                         {
@@ -15329,13 +15352,13 @@ namespace Kuduma.Portal
                             SecondtableHeadings.AddCell(CCs);
                         }
 
-                        if (cfoodallowance != 0)
-                        {
-                            PdfPCell CFoodAllw = new PdfPCell(new Phrase("Food Allw", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
-                            CFoodAllw.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                            CFoodAllw.Border = 13;
-                            SecondtableHeadings.AddCell(CFoodAllw);
-                        }
+                        //if (cfoodallowance != 0)
+                        //{
+                        //    PdfPCell CFoodAllw = new PdfPCell(new Phrase("Food Allw", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                        //    CFoodAllw.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                        //    CFoodAllw.Border = 13;
+                        //    SecondtableHeadings.AddCell(CFoodAllw);
+                        //}
 
                         if (cmedicalallowance != 0)
                         {
@@ -16179,6 +16202,22 @@ namespace Kuduma.Portal
                                     Secondtable.AddCell(CConveyance);
                                 }
 
+                                if (FoodAllowance != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["FoodAllowance"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["FoodAllowance"].ToString()));
+                                    totalFoodAllowance += forConvert;
+                                    GrandtotalFoodAllowance += forConvert;
+
+                                    PdfPCell Cfa = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    Cfa.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    Cfa.BorderWidthTop = 0.4f;
+                                    Cfa.BorderWidthBottom = 0.4f;
+                                    Cfa.BorderWidthLeft = 0;
+                                    Cfa.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(Cfa);
+                                }
 
                                 //12
                                 if (washallowance != 0)
@@ -16401,21 +16440,21 @@ namespace Kuduma.Portal
                                 }
 
 
-                                if (cfoodallowance != 0)
-                                {
-                                    forConvert = 0;
-                                    if (dt.Rows[i]["foodallowance"].ToString().Trim().Length > 0)
-                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["foodallowance"].ToString()));
-                                    totalfoodallowance += forConvert;
-                                    Grandtotalfoodallowance += forConvert;
-                                    PdfPCell CFoodAllw1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
-                                    CFoodAllw1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
-                                    CFoodAllw1.BorderWidthTop = 0.4f;
-                                    CFoodAllw1.BorderWidthBottom = 0.4f;
-                                    CFoodAllw1.BorderWidthLeft = 0;
-                                    CFoodAllw1.BorderWidthRight = 0.4f;
-                                    Secondtable.AddCell(CFoodAllw1);
-                                }
+                                ////if (cfoodallowance != 0)
+                                ////{
+                                ////    forConvert = 0;
+                                ////    if (dt.Rows[i]["FoodAllowance"].ToString().Trim().Length > 0)
+                                ////        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["FoodAllowance"].ToString()));
+                                ////    totalfoodallowance += forConvert;
+                                ////    Grandtotalfoodallowance += forConvert;
+                                ////    PdfPCell CFoodAllw1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                ////    CFoodAllw1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                ////    CFoodAllw1.BorderWidthTop = 0.4f;
+                                ////    CFoodAllw1.BorderWidthBottom = 0.4f;
+                                ////    CFoodAllw1.BorderWidthLeft = 0;
+                                ////    CFoodAllw1.BorderWidthRight = 0.4f;
+                                ////    Secondtable.AddCell(CFoodAllw1);
+                                ////}
 
 
                                 if (cmedicalallowance != 0)
@@ -17520,7 +17559,13 @@ namespace Kuduma.Portal
                             SecondtableFooter.AddCell(FCConveyance);
                         }
 
-
+                        if (FoodAllowance != 0)
+                        {
+                            PdfPCell FCfa = new PdfPCell(new Phrase(totalFoodAllowance.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCfa.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCfa.Border = 15;
+                            SecondtableFooter.AddCell(FCfa);
+                        }
                         //12
                         if (washallowance != 0)
                         {
@@ -18540,7 +18585,13 @@ namespace Kuduma.Portal
                             SecondtablecheckbyFooter.AddCell(GFCConveyance);
                         }
 
-
+                        if (FoodAllowance != 0)
+                        {
+                            PdfPCell GFCfa = new PdfPCell(new Phrase(GrandtotalFoodAllowance.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCfa.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCfa.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCfa);
+                        }
                         //12
                         if (washallowance != 0)
                         {
