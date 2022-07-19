@@ -103,7 +103,7 @@ namespace Kuduma.Portal
 
         public void VisibleGeneratebutton()
         {
-           
+
         }
 
         protected void Fillcname()
@@ -950,7 +950,7 @@ namespace Kuduma.Portal
                                 }
 
 
-                              
+
 
                                 string strRegistrationFee = dt.Rows[i]["RegistrationFee"].ToString();
                                 if (strRegistrationFee.Trim().Length > 0)
@@ -1583,42 +1583,17 @@ namespace Kuduma.Portal
                         }
 
 
-                        Label lblTotalLchrs = gvattendancezero.FooterRow.FindControl("lblTotalLchrs") as Label;
-                        lblTotalLchrs.Text = Math.Round(totallchrs).ToString();
-                        if (totallchrs > 0)
-                        {
-                            gvattendancezero.Columns[56].Visible = true;
-
-                        }
-                        else
-                        {
-                            gvattendancezero.Columns[56].Visible = false;
-
-                        }
-
-
-                        Label lblTotallcamt = gvattendancezero.FooterRow.FindControl("lblTotallcamt") as Label;
-                        lblTotallcamt.Text = Math.Round(totallcamt).ToString();
-                        if (totallcamt > 0)
-                        {
-                            gvattendancezero.Columns[57].Visible = true;
-
-                        }
-                        else
-                        {
-                            gvattendancezero.Columns[57].Visible = false;
-
-                        }
+                       
 
                         Label lblTotalGross = gvattendancezero.FooterRow.FindControl("lblTotalGross") as Label;
                         lblTotalGross.Text = Math.Round(totalGrass).ToString();
                         if (totalGrass > 0)
                         {
-                            gvattendancezero.Columns[58].Visible = true;
+                            gvattendancezero.Columns[56].Visible = true;
                         }
                         else
                         {
-                            gvattendancezero.Columns[58].Visible = false;
+                            gvattendancezero.Columns[56].Visible = false;
 
                         }
 
@@ -1627,11 +1602,11 @@ namespace Kuduma.Portal
 
                         if (totalOTAmount > 0)
                         {
-                            gvattendancezero.Columns[59].Visible = true;
+                            gvattendancezero.Columns[57].Visible = true;
                         }
                         else
                         {
-                            gvattendancezero.Columns[59].Visible = false;
+                            gvattendancezero.Columns[57].Visible = false;
 
                         }
 
@@ -1640,11 +1615,11 @@ namespace Kuduma.Portal
 
                         if (totalTransport > 0)
                         {
-                            gvattendancezero.Columns[60].Visible = true;
+                            gvattendancezero.Columns[58].Visible = true;
                         }
                         else
                         {
-                            gvattendancezero.Columns[60].Visible = false;
+                            gvattendancezero.Columns[58].Visible = false;
 
                         }
 
@@ -1658,7 +1633,35 @@ namespace Kuduma.Portal
                         lblTotalProfTax.Text = Math.Round(totalProfTax).ToString();
                         if (totalProfTax > 0)
                         {
+                            gvattendancezero.Columns[61].Visible = true;
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[61].Visible = false;
+
+                        }
+
+
+                        Label lblTotalLchrs = gvattendancezero.FooterRow.FindControl("lblTotalLchrs") as Label;
+                        lblTotalLchrs.Text = Math.Round(totallchrs).ToString();
+                        if (totallchrs > 0)
+                        {
+                            gvattendancezero.Columns[62].Visible = true;
+
+                        }
+                        else
+                        {
+                            gvattendancezero.Columns[62].Visible = false;
+
+                        }
+
+
+                        Label lblTotallcamt = gvattendancezero.FooterRow.FindControl("lblTotallcamt") as Label;
+                        lblTotallcamt.Text = Math.Round(totallcamt).ToString();
+                        if (totallcamt > 0)
+                        {
                             gvattendancezero.Columns[63].Visible = true;
+
                         }
                         else
                         {
@@ -1677,7 +1680,6 @@ namespace Kuduma.Portal
                         else
                         {
                             gvattendancezero.Columns[64].Visible = false;
-
                         }
 
                         Label lblTotaladvded = gvattendancezero.FooterRow.FindControl("lblTotaladvded") as Label;
@@ -2778,7 +2780,7 @@ namespace Kuduma.Portal
                             float totalcdFixedRankAllw = 0;
 
 
-                          
+
                             #region
 
 
@@ -2813,7 +2815,7 @@ namespace Kuduma.Portal
                                 tablewageslip.AddCell(companylogo);
                             }
 
-                            
+
 
                             PdfPCell cellHead2 = new PdfPCell(new Phrase(companyName, FontFactory.GetFont(fontsyle, 13, Font.NORMAL, BaseColor.BLACK)));
                             cellHead2.HorizontalAlignment = 1;
@@ -2827,7 +2829,7 @@ namespace Kuduma.Portal
                             cellHead31.HorizontalAlignment = 1;
                             cellHead31.Colspan = 5;
                             cellHead31.Border = 0;
-                           // cellHead31.PaddingTop = -40;
+                            // cellHead31.PaddingTop = -40;
                             //cellHead31.PaddingBottom = -10;
                             cellHead31.SetLeading(0, 1.2f);
                             tablewageslip.AddCell(cellHead31);
@@ -2852,7 +2854,7 @@ namespace Kuduma.Portal
 
                             string EmpSex = "";
                             string EmpMaritalStatus = "";
-                          
+
 
                             EmpSex = dt.Rows[0]["EmpSex"].ToString();
                             EmpMaritalStatus = dt.Rows[0]["EmpMaritalStatus"].ToString();
@@ -2896,11 +2898,11 @@ namespace Kuduma.Portal
                                 }
 
                             }
-                    
-                            
 
 
-                            PdfPCell cellHead5 = new PdfPCell(new Phrase("NAME : " + dt.Rows[i]["EmpmName"].ToString() + "               " + EmpSex+ " : " + dt.Rows[i]["EmpfatherName"].ToString(), FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
+
+
+                            PdfPCell cellHead5 = new PdfPCell(new Phrase("NAME : " + dt.Rows[i]["EmpmName"].ToString() + "               " + EmpSex + " : " + dt.Rows[i]["EmpfatherName"].ToString(), FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
                             cellHead5.HorizontalAlignment = 0;
                             cellHead5.Colspan = 3;
                             //cellHead5.PaddingTop = 20;
@@ -5216,7 +5218,7 @@ namespace Kuduma.Portal
                                 companylogo.AddElement(cmplogo);
                                 companylogo.HorizontalAlignment = 0;
                                 companylogo.Colspan = 1;
-                                 companylogo.PaddingLeft = 10;
+                                companylogo.PaddingLeft = 10;
                                 companylogo.Border = 0;
                                 tablewageslip.AddCell(companylogo);
                             }
@@ -5225,8 +5227,8 @@ namespace Kuduma.Portal
                             cellHead1.HorizontalAlignment = 0;
                             cellHead1.Colspan = 4;
                             cellHead1.Border = 0;
-                           cellHead1.PaddingLeft = 140;
-                           cellHead1.PaddingTop = -5;
+                            cellHead1.PaddingLeft = 140;
+                            cellHead1.PaddingTop = -5;
                             cellHead1.PaddingBottom = -10;
                             tablewageslip.AddCell(cellHead1);
 
@@ -5309,7 +5311,7 @@ namespace Kuduma.Portal
 
                             }
 
-                            PdfPCell cellHead5 = new PdfPCell(new Phrase("NAME : " + dt.Rows[i]["EmpmName"].ToString() + "               " + EmpSex + " : "+ dt.Rows[i]["EmpfatherName"].ToString(), FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
+                            PdfPCell cellHead5 = new PdfPCell(new Phrase("NAME : " + dt.Rows[i]["EmpmName"].ToString() + "               " + EmpSex + " : " + dt.Rows[i]["EmpfatherName"].ToString(), FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
                             cellHead5.HorizontalAlignment = 0;
                             cellHead5.Colspan = 3;
                             //cellHead5.PaddingTop = 20;
@@ -13628,9 +13630,9 @@ namespace Kuduma.Portal
                     companyName = compInfo.Rows[0]["CompanyName"].ToString();
                     companyAddress = compInfo.Rows[0]["Address"].ToString();
                 }
-               
 
-                
+
+
 
                 string selectclientaddress = "select * from clients where clientid= '" + ddlClients.SelectedValue + "'";
 
@@ -13663,14 +13665,14 @@ namespace Kuduma.Portal
                 int Paysheetoption = 7;
                 var SPName = "";
                 Hashtable HTPaysheet = new Hashtable();
-                
-                    SPName = "IMEPaysheetpdfs";
-                    HTPaysheet.Add("@ClientId", clientid);
-                    HTPaysheet.Add("@month", month);
-                    HTPaysheet.Add("@PaymentOption", Paysheetoption);
-                    HTPaysheet.Add("@EmpIDList", dtEmpidsList);
-               
-                
+
+                SPName = "IMEPaysheetpdfs";
+                HTPaysheet.Add("@ClientId", clientid);
+                HTPaysheet.Add("@month", month);
+                HTPaysheet.Add("@PaymentOption", Paysheetoption);
+                HTPaysheet.Add("@EmpIDList", dtEmpidsList);
+
+
 
                 DataTable dt = config.ExecuteAdaptorAsyncWithParams(SPName, HTPaysheet).Result;
 
@@ -13681,13 +13683,13 @@ namespace Kuduma.Portal
                     int count = dt.Columns.Count;
                     string line = " ";
                     string line1 = "KUDUMA LABOUR CONTRACT";
-                    string line2 = "UNIT NAME :"+clientname;
+                    string line2 = "UNIT NAME :" + clientname;
                     string line3 = "WAGES SHEET FOR THE MONTH OF";
-                    
 
 
 
-                    gve.EXPORTEXCELSUPANGITA("SUPANGITA ENGINEERS.xls", dt, line, line1, line2, line3,  count);
+
+                    gve.EXPORTEXCELSUPANGITA("SUPANGITA ENGINEERS.xls", dt, line, line1, line2, line3, count);
                 }
             }
             catch (Exception Ex)
@@ -13738,7 +13740,7 @@ namespace Kuduma.Portal
                 }
                 var Noofattendance = ddlnoofattendance.SelectedIndex;
                 //var pfesioptions = ddl_Pf_Esi_Options.SelectedIndex;
-                
+
                 var SPName = "";
                 Hashtable HTPaysheet = new Hashtable();
                 SPName = "IMEPaysheetpdfs";
@@ -14597,8 +14599,8 @@ namespace Kuduma.Portal
                     //salAdvDed = 1;
                     //uniformDed = 1;
                     netpay = 1;
-                    int tableCells = dts + srate + basic + da + hra + cca + conveyance + FoodAllowance +  washallowance + otherallowance + SplAllowance + TravelAllw + PerformanceAllw + MobileAllw + UniformAllw + leavewages +
-                                    gratuity + bonus + nfhs + rc + cs + gross + IncentiveHrs + IncentiveAmt + LCAmt + LCHrs+ incentivs + pfonduties + esionduties + proftax +
+                    int tableCells = dts + srate + basic + da + hra + cca + conveyance + FoodAllowance + washallowance + otherallowance + SplAllowance + TravelAllw + PerformanceAllw + MobileAllw + UniformAllw + leavewages +
+                                    gratuity + bonus + nfhs + rc + cs + gross + IncentiveHrs + IncentiveAmt + LCAmt + LCHrs + incentivs + pfonduties + esionduties + proftax +
                                     salAdvDed + uniformDed + ATMDed + AttBonus + IDCardDed + Extra + otherDed + canteenAdv + penalty + totalDeductions + netpay + sno + ESINo + UANNo +
                                     empid + empname + design + bankacno + ots + otamt + wo + woamt + nhs + nhsamt + advdue + pfonot + esionot + Pf + Esi + GenDedn + SecDepDedn + LoanDed + AdvDed + WCDed + cfoodallowance + cmedicalallowance + owf + Adv1 + Adv2 + Rent + Bgvdedi + Medfitdedi + ReliefFund + advances + Remarks;
 
@@ -15178,6 +15180,14 @@ namespace Kuduma.Portal
                             SecondtableHeadings.AddCell(Cnhs);
                         }
 
+                        if (LCHrs != 0)
+                        {
+                            PdfPCell CLCHrs = new PdfPCell(new Phrase("LCHrs", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CLCHrs.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CLCHrs.Border = 13;
+                            SecondtableHeadings.AddCell(CLCHrs);
+                        }
+
                         //6
 
                         //6A
@@ -15429,21 +15439,9 @@ namespace Kuduma.Portal
                             SecondtableHeadings.AddCell(CIncentiveAmt);
                         }
 
-                        if (LCAmt != 0)
-                        {
-                            PdfPCell CLCAmt = new PdfPCell(new Phrase("LCAmt", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
-                            CLCAmt.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                            CLCAmt.Border = 13;
-                            SecondtableHeadings.AddCell(CLCAmt);
-                        }
 
-                        if (LCHrs != 0)
-                        {
-                            PdfPCell CLCHrs = new PdfPCell(new Phrase("LCHrs", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
-                            CLCHrs.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                            CLCHrs.Border = 13;
-                            SecondtableHeadings.AddCell(CLCHrs);
-                        }
+
+
 
 
                         if (gross != 0)
@@ -15526,6 +15524,15 @@ namespace Kuduma.Portal
                             CPT.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
                             CPT.Border = 13;
                             SecondtableHeadings.AddCell(CPT);
+                        }
+
+
+                        if (LCAmt != 0)
+                        {
+                            PdfPCell CLCAmt = new PdfPCell(new Phrase("LCAmt", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CLCAmt.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CLCAmt.Border = 13;
+                            SecondtableHeadings.AddCell(CLCAmt);
                         }
 
                         //30
@@ -16109,6 +16116,24 @@ namespace Kuduma.Portal
                                     Secondtable.AddCell(Cnhss);
                                 }
 
+
+                                if (LCHrs != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["LCHrs"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["LCHrs"].ToString()));
+                                    totalLCHrs += forConvert;
+                                    GrandtotalLCHrs += forConvert;
+
+                                    PdfPCell CLCHrs1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CLCHrs1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CLCHrs1.BorderWidthTop = 0.4f;
+                                    CLCHrs1.BorderWidthBottom = 0.4f;
+                                    CLCHrs1.BorderWidthLeft = 0;
+                                    CLCHrs1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CLCHrs1);
+                                }
+
                                 //6
 
 
@@ -16603,40 +16628,10 @@ namespace Kuduma.Portal
                                     Secondtable.AddCell(CIncentiveAmt1);
                                 }
 
-                                if (LCAmt != 0)
-                                {
-                                    forConvert = 0;
-                                    if (dt.Rows[i]["LCAmt"].ToString().Trim().Length > 0)
-                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["LCAmt"].ToString()));
-                                    totalLCAmt += forConvert;
-                                    GrandtotalLCAmt += forConvert;
-
-                                    PdfPCell CLCAmt1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
-                                    CLCAmt1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
-                                    CLCAmt1.BorderWidthTop = 0.4f;
-                                    CLCAmt1.BorderWidthBottom = 0.4f;
-                                    CLCAmt1.BorderWidthLeft = 0;
-                                    CLCAmt1.BorderWidthRight = 0.4f;
-                                    Secondtable.AddCell(CLCAmt1);
-                                }
 
 
-                                if (LCHrs != 0)
-                                {
-                                    forConvert = 0;
-                                    if (dt.Rows[i]["LCHrs"].ToString().Trim().Length > 0)
-                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["LCHrs"].ToString()));
-                                    totalLCHrs += forConvert;
-                                    GrandtotalLCHrs += forConvert;
 
-                                    PdfPCell CLCHrs1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
-                                    CLCHrs1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
-                                    CLCHrs1.BorderWidthTop = 0.4f;
-                                    CLCHrs1.BorderWidthBottom = 0.4f;
-                                    CLCHrs1.BorderWidthLeft = 0;
-                                    CLCHrs1.BorderWidthRight = 0.4f;
-                                    Secondtable.AddCell(CLCHrs1);
-                                }
+
 
 
 
@@ -16802,6 +16797,23 @@ namespace Kuduma.Portal
                                     CProTax1.BorderWidthLeft = 0;
                                     CProTax1.BorderWidthRight = 0.4f;
                                     Secondtable.AddCell(CProTax1);
+                                }
+
+                                if (LCAmt != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["LCAmt"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["LCAmt"].ToString()));
+                                    totalLCAmt += forConvert;
+                                    GrandtotalLCAmt += forConvert;
+
+                                    PdfPCell CLCAmt1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CLCAmt1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CLCAmt1.BorderWidthTop = 0.4f;
+                                    CLCAmt1.BorderWidthBottom = 0.4f;
+                                    CLCAmt1.BorderWidthLeft = 0;
+                                    CLCAmt1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CLCAmt1);
                                 }
 
                                 //30
@@ -17508,6 +17520,15 @@ namespace Kuduma.Portal
                             SecondtableFooter.AddCell(FCnhs);
                         }
 
+
+                        if (LCHrs != 0)
+                        {
+                            PdfPCell FCLCHrs = new PdfPCell(new Phrase(totalLCHrs.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCLCHrs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCLCHrs.Border = 15;
+                            SecondtableFooter.AddCell(FCLCHrs);
+                        }
+
                         //6
 
 
@@ -17759,21 +17780,9 @@ namespace Kuduma.Portal
                             SecondtableFooter.AddCell(FCIncentiveAmt);
                         }
 
-                        if (LCAmt != 0)
-                        {
-                            PdfPCell FCLCAmt = new PdfPCell(new Phrase(totalLCAmt.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
-                            FCLCAmt.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
-                            FCLCAmt.Border = 15;
-                            SecondtableFooter.AddCell(FCLCAmt);
-                        }
 
-                        if (LCHrs != 0)
-                        {
-                            PdfPCell FCLCHrs = new PdfPCell(new Phrase(totalLCHrs.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
-                            FCLCHrs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
-                            FCLCHrs.Border = 15;
-                            SecondtableFooter.AddCell(FCLCHrs);
-                        }
+
+
 
                         if (gross != 0)
                         {
@@ -17855,6 +17864,15 @@ namespace Kuduma.Portal
                             FCProTax1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
                             FCProTax1.Border = 15;
                             SecondtableFooter.AddCell(FCProTax1);
+                        }
+
+
+                        if (LCAmt != 0)
+                        {
+                            PdfPCell FCLCAmt = new PdfPCell(new Phrase(totalLCAmt.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FCLCAmt.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FCLCAmt.Border = 15;
+                            SecondtableFooter.AddCell(FCLCAmt);
                         }
 
                         //30
@@ -18532,6 +18550,14 @@ namespace Kuduma.Portal
                         }
 
 
+                        if (LCHrs != 0)
+                        {
+                            PdfPCell GFCCHrs = new PdfPCell(new Phrase(GrandtotalLCHrs.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCCHrs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCCHrs.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCCHrs);
+                        }
+
                         //6
 
 
@@ -18784,21 +18810,7 @@ namespace Kuduma.Portal
                         }
 
 
-                        if (LCAmt != 0)
-                        {
-                            PdfPCell GFCLCAmt = new PdfPCell(new Phrase(GrandtotalLCAmt.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
-                            GFCLCAmt.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
-                            GFCLCAmt.Border = 15;
-                            SecondtablecheckbyFooter.AddCell(GFCLCAmt);
-                        }
 
-                        if (LCHrs != 0)
-                        {
-                            PdfPCell GFCCHrs = new PdfPCell(new Phrase(GrandtotalLCHrs.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
-                            GFCCHrs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
-                            GFCCHrs.Border = 15;
-                            SecondtablecheckbyFooter.AddCell(GFCCHrs);
-                        }
 
 
                         if (gross != 0)
@@ -18883,6 +18895,16 @@ namespace Kuduma.Portal
                             GFCProTax1.Border = 15;
                             SecondtablecheckbyFooter.AddCell(GFCProTax1);
                         }
+
+                        if (LCAmt != 0)
+                        {
+                            PdfPCell GFCLCAmt = new PdfPCell(new Phrase(GrandtotalLCAmt.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFCLCAmt.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFCLCAmt.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFCLCAmt);
+                        }
+
+
 
                         //30
                         if (salAdvDed != 0)
@@ -26360,9 +26382,9 @@ namespace Kuduma.Portal
                 else
                 {
                     btnFreeze.Visible = false;
-                   
-                        btnUnFreeze.Visible = true;
-                    
+
+                    btnUnFreeze.Visible = true;
+
                     btnpayment.Enabled = false;
                 }
             }
@@ -26401,7 +26423,7 @@ namespace Kuduma.Portal
             {
                 btnpayment.Enabled = true;
                 btnUnFreeze.Visible = false;
-              
+
                 btnFreeze.Visible = true;
             }
         }
@@ -26425,7 +26447,7 @@ namespace Kuduma.Portal
                 btnFreeze.Visible = true;
                 btnpayment.Enabled = true;
                 btnUnFreeze.Visible = false;
-            
+
                 int month = GetMonthBasedOnSelectionDateorMonth();
 
                 string Qry = "";
@@ -26805,7 +26827,7 @@ namespace Kuduma.Portal
 
                             }
 
-                            PdfPCell cellHead5 = new PdfPCell(new Phrase("NAME : " + dt.Rows[i]["EmpmName"].ToString() + "           "+ EmpSex + " : " + dt.Rows[i]["EmpfatherName"].ToString(), FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
+                            PdfPCell cellHead5 = new PdfPCell(new Phrase("NAME : " + dt.Rows[i]["EmpmName"].ToString() + "           " + EmpSex + " : " + dt.Rows[i]["EmpfatherName"].ToString(), FontFactory.GetFont(fontsyle, Fontsize, Font.NORMAL, BaseColor.BLACK)));
                             cellHead5.HorizontalAlignment = 0;
                             cellHead5.Colspan = 3;
                             cellHead5.PaddingTop = 5;
@@ -34269,7 +34291,7 @@ namespace Kuduma.Portal
                     float ADDL4HR, QTRALLOW, RELALLOW, OTESICWAGES, SITEALLOW, GunAllw, FireAllw,
 FixedADDL4HR, FixedQTRALLOW, FixedRELALLOW, FixedOTESICWAGES, FixedSITEALLOW, FixedGunAllw, FixedFireAllw,
 TelephoneAllw, Reimbursement, HardshipAllw, PaidHolidayAllw, ServiceCharge,
-FixedTelephoneAllw, FixedReimbursement, FixedHardshipAllw, FixedPaidHolidayAllw, FixedServiceCharge = 0, RankAllw = 0, FixedRankAllw = 0, FixedLeavewages=0, Leavewages=0, OTPerHour=0;
+FixedTelephoneAllw, FixedReimbursement, FixedHardshipAllw, FixedPaidHolidayAllw, FixedServiceCharge = 0, RankAllw = 0, FixedRankAllw = 0, FixedLeavewages = 0, Leavewages = 0, OTPerHour = 0;
 
 
 
@@ -34533,7 +34555,7 @@ CFixedTelephoneAllw, CFixedReimbursement, CFixedHardshipAllw, CFixedPaidHolidayA
 
                     float totalADDL4HR, totalQTRALLOW, totalRELALLOW, totalOTESICWAGES, totalSITEALLOW, totalGunAllw, totalFireAllw,
 totalFixedADDL4HR, totalFixedQTRALLOW, totalFixedRELALLOW, totalFixedOTESICWAGES, totalFixedSITEALLOW, totalFixedGunAllw, totalFixedFireAllw,
-totalTelephoneAllw, totalReimbursement, totalHardshipAllw, totalPaidHolidayAllw,  totalServiceCharge,
+totalTelephoneAllw, totalReimbursement, totalHardshipAllw, totalPaidHolidayAllw, totalServiceCharge,
 totalFixedTelephoneAllw, totalFixedReimbursement, totalFixedHardshipAllw, totalFixedPaidHolidayAllw, totalFixedServiceCharge = 0;
 
                     float totalCanteenAdv = 0;
@@ -39748,7 +39770,7 @@ ATotalCFixedTelephoneAllw = ""; string ATotalCFixedReimbursement = ""; string AT
                     cell.SetLeading(0, 1.2f);
                     Maintable2.AddCell(cell);
 
-                    if (ddlpaymenttype.SelectedIndex == 4) 
+                    if (ddlpaymenttype.SelectedIndex == 4)
                     {
                         cell = new PdfPCell(new Phrase(AtotalTotalDed + "\n" + AtotalAdvbonus, FontFactory.GetFont(Fontstyle, 8, Font.BOLD, BaseColor.BLACK)));
                         cell.HorizontalAlignment = 2;

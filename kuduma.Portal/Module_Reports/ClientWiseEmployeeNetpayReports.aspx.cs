@@ -4178,13 +4178,15 @@ namespace Kuduma.Portal
                         }
 
 
-                        Label lblTotalLCHrs = GVListEmployees.FooterRow.FindControl("lblTotalLCHrs") as Label;
-                        lblTotalLCHrs.Text = Math.Round(totalLCHrs).ToString();
+                       
 
-                        if (totalLCHrs > 0)
+
+
+                        Label lblTotalGross = GVListEmployees.FooterRow.FindControl("lblTotalGross") as Label;
+                        lblTotalGross.Text = Math.Round(totalGrass).ToString();
+                        if (totalGrass > 0)
                         {
                             GVListEmployees.Columns[108].Visible = true;
-
                         }
                         else
                         {
@@ -4192,13 +4194,11 @@ namespace Kuduma.Portal
 
                         }
 
-                        Label lblTotalLCAmt = GVListEmployees.FooterRow.FindControl("lblTotalLCAmt") as Label;
-                        lblTotalLCAmt.Text = Math.Round(totalLCAmt).ToString();
-
-                        if (totalLCAmt > 0)
+                        Label lblTotalPF = GVListEmployees.FooterRow.FindControl("lblTotalPF") as Label;
+                        lblTotalPF.Text = Math.Round(totalPF).ToString();
+                        if (totalPF > 0)
                         {
                             GVListEmployees.Columns[109].Visible = true;
-
                         }
                         else
                         {
@@ -4206,11 +4206,9 @@ namespace Kuduma.Portal
 
                         }
 
-
-
-                        Label lblTotalGross = GVListEmployees.FooterRow.FindControl("lblTotalGross") as Label;
-                        lblTotalGross.Text = Math.Round(totalGrass).ToString();
-                        if (totalGrass > 0)
+                        Label lblTotalESI = GVListEmployees.FooterRow.FindControl("lblTotalESI") as Label;
+                        lblTotalESI.Text = Math.Round(totalESI).ToString();
+                        if (totalESI > 0)
                         {
                             GVListEmployees.Columns[110].Visible = true;
                         }
@@ -4220,11 +4218,12 @@ namespace Kuduma.Portal
 
                         }
 
-                        Label lblTotalPF = GVListEmployees.FooterRow.FindControl("lblTotalPF") as Label;
-                        lblTotalPF.Text = Math.Round(totalPF).ToString();
-                        if (totalPF > 0)
+                        Label lblTotalProfTax = GVListEmployees.FooterRow.FindControl("lblTotalProfTax") as Label;
+                        lblTotalProfTax.Text = Math.Round(totalProfTax).ToString();
+                        if (totalProfTax > 0)
                         {
                             GVListEmployees.Columns[111].Visible = true;
+
                         }
                         else
                         {
@@ -4232,11 +4231,14 @@ namespace Kuduma.Portal
 
                         }
 
-                        Label lblTotalESI = GVListEmployees.FooterRow.FindControl("lblTotalESI") as Label;
-                        lblTotalESI.Text = Math.Round(totalESI).ToString();
-                        if (totalESI > 0)
+
+                        Label lblTotalLCHrs = GVListEmployees.FooterRow.FindControl("lblTotalLCHrs") as Label;
+                        lblTotalLCHrs.Text = Math.Round(totalLCHrs).ToString();
+
+                        if (totalLCHrs > 0)
                         {
                             GVListEmployees.Columns[112].Visible = true;
+
                         }
                         else
                         {
@@ -4244,9 +4246,10 @@ namespace Kuduma.Portal
 
                         }
 
-                        Label lblTotalProfTax = GVListEmployees.FooterRow.FindControl("lblTotalProfTax") as Label;
-                        lblTotalProfTax.Text = Math.Round(totalProfTax).ToString();
-                        if (totalProfTax > 0)
+                        Label lblTotalLCAmt = GVListEmployees.FooterRow.FindControl("lblTotalLCAmt") as Label;
+                        lblTotalLCAmt.Text = Math.Round(totalLCAmt).ToString();
+
+                        if (totalLCAmt > 0)
                         {
                             GVListEmployees.Columns[113].Visible = true;
 
@@ -4256,7 +4259,6 @@ namespace Kuduma.Portal
                             GVListEmployees.Columns[113].Visible = false;
 
                         }
-
 
                         Label lblTotalsaladv = GVListEmployees.FooterRow.FindControl("lblTotalsaladv") as Label;
                         lblTotalsaladv.Text = Math.Round(totalSalAdv).ToString();

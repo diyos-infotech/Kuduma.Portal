@@ -305,9 +305,11 @@
                                     <asp:TextBox ID="txtStartingDate" Width="190px" TabIndex="3" AutoComplete="off" runat="server" class="form-control"
                                         MaxLength="10" onkeyup="dtval(this,event)"></asp:TextBox>
                                     <cc1:CalendarExtender ID="CEStartingDate" runat="server" Enabled="true" TargetControlID="txtStartingDate"
-                                        Format="dd/MM/yyyy"></cc1:CalendarExtender>
+                                        Format="dd/MM/yyyy">
+                                    </cc1:CalendarExtender>
                                     <cc1:FilteredTextBoxExtender ID="FTBEStartingDate" runat="server" Enabled="True"
-                                        TargetControlID="txtStartingDate" ValidChars="/0123456789"></cc1:FilteredTextBoxExtender>
+                                        TargetControlID="txtStartingDate" ValidChars="/0123456789">
+                                    </cc1:FilteredTextBoxExtender>
                                 </td>
 
                                 <td></td>
@@ -318,9 +320,11 @@
                                     <asp:TextBox ID="txtEndingDate" TabIndex="4" Width="190px" runat="server" AutoComplete="off" class="form-control" MaxLength="10"
                                         onkeyup="dtval(this,event)"></asp:TextBox>
                                     <cc1:CalendarExtender ID="CEEndingDate" runat="server" Enabled="true" TargetControlID="txtEndingDate"
-                                        Format="dd/MM/yyyy"></cc1:CalendarExtender>
+                                        Format="dd/MM/yyyy">
+                                    </cc1:CalendarExtender>
                                     <cc1:FilteredTextBoxExtender ID="FTBEEndingDate" runat="server" Enabled="True" TargetControlID="txtEndingDate"
-                                        ValidChars="/0123456789"></cc1:FilteredTextBoxExtender>
+                                        ValidChars="/0123456789">
+                                    </cc1:FilteredTextBoxExtender>
                                 </td>
 
                                 <td></td>
@@ -334,7 +338,8 @@
                                 <td>
                                     <asp:TextBox runat="server" ID="txtBGAmount" Width="190px" TabIndex="5" class="form-control"></asp:TextBox>
                                     <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender8" runat="server" Enabled="True"
-                                        TargetControlID="txtBGAmount" FilterMode="ValidChars" FilterType="Numbers"></cc1:FilteredTextBoxExtender>
+                                        TargetControlID="txtBGAmount" FilterMode="ValidChars" FilterType="Numbers">
+                                    </cc1:FilteredTextBoxExtender>
                                 </td>
                                 <td></td>
 
@@ -360,9 +365,11 @@
                                     <asp:TextBox ID="txtValidityDate" TabIndex="14" Width="190px" AutoComplete="off" runat="server" class="form-control" MaxLength="10"
                                         onkeyup="dtval(this,event)"></asp:TextBox>
                                     <cc1:CalendarExtender ID="CEValidityDate" runat="server" Enabled="true" TargetControlID="txtValidityDate"
-                                        Format="dd/MM/yyyy"></cc1:CalendarExtender>
+                                        Format="dd/MM/yyyy">
+                                    </cc1:CalendarExtender>
                                     <cc1:FilteredTextBoxExtender ID="FTBEValidityDate" runat="server" Enabled="True"
-                                        TargetControlID="txtValidityDate" ValidChars="/0123456789"></cc1:FilteredTextBoxExtender>
+                                        TargetControlID="txtValidityDate" ValidChars="/0123456789">
+                                    </cc1:FilteredTextBoxExtender>
                                 </td>
 
                                 <td></td>
@@ -489,7 +496,8 @@
                                                         <td class="auto-style14">
                                                             <asp:TextBox runat="server" ID="txtSecurityDeposit" class="form-control" Style="display: none"></asp:TextBox>
                                                             <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender1" runat="server" Enabled="True"
-                                                                TargetControlID="txtSecurityDeposit" FilterMode="ValidChars" FilterType="Numbers"></cc1:FilteredTextBoxExtender>
+                                                                TargetControlID="txtSecurityDeposit" FilterMode="ValidChars" FilterType="Numbers">
+                                                            </cc1:FilteredTextBoxExtender>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -498,7 +506,8 @@
                                                         <td class="auto-style14">
                                                             <asp:TextBox runat="server" ID="txtMaterial" Width="190px" TabIndex="15" class="form-control"></asp:TextBox>
                                                             <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender3" runat="server" Enabled="True"
-                                                                TargetControlID="txtMaterial" ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                                TargetControlID="txtMaterial" ValidChars="0123456789.">
+                                                            </cc1:FilteredTextBoxExtender>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -507,7 +516,8 @@
                                                         <td class="auto-style14">
                                                             <asp:TextBox runat="server" ID="txtMachinary" Width="190px" TabIndex="18" class="form-control"></asp:TextBox>
                                                             <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender4" runat="server" Enabled="True"
-                                                                TargetControlID="txtMachinary" ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                                TargetControlID="txtMachinary" ValidChars="0123456789.">
+                                                            </cc1:FilteredTextBoxExtender>
                                                         </td>
                                                     </tr>
 
@@ -527,7 +537,8 @@
                                                             <asp:TextBox ID="txtservicecharge" Width="190px" runat="server" Text="0" class="form-control"> </asp:TextBox>
 
                                                             <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender2" runat="server" Enabled="True"
-                                                                TargetControlID="txtservicecharge" ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                                TargetControlID="txtservicecharge" ValidChars="0123456789.">
+                                                            </cc1:FilteredTextBoxExtender>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -698,7 +709,8 @@
                                         <td>
                                             <asp:TextBox ID="txtTds" Text="2" runat="server" TabIndex="44" class="form-control" Width="190px"> </asp:TextBox>
                                             <cc1:FilteredTextBoxExtender ID="FilteredTextBoxTds" runat="server" Enabled="True" TargetControlID="txtTds"
-                                                ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                ValidChars="0123456789.">
+                                            </cc1:FilteredTextBoxExtender>
                                         </td>
                                     </tr>
 
@@ -735,11 +747,11 @@
 
                                         </td>
                                     </tr>
-                                     <tr>
+                                    <tr>
                                         <td></td>
                                         <td>
                                             <asp:CheckBox ID="chkrcm" runat="server" TabIndex="40" Text="RCM" AutoPostBack="true" OnCheckedChanged="chkrcm_CheckedChanged" />
-                                             <asp:TextBox ID="txtrcmtext" Text="" runat="server" TextMode="MultiLine" class="form-control" Width="190px"> </asp:TextBox>
+                                            <asp:TextBox ID="txtrcmtext" Text="" runat="server" TextMode="MultiLine" class="form-control" Width="190px"> </asp:TextBox>
                                         </td>
                                     </tr>
                                 </table>
@@ -754,7 +766,8 @@
                                                     <td class="auto-style11">
                                                         <asp:TextBox runat="server" ID="txtEMDValue" class="form-control" Style="display: none"></asp:TextBox>
                                                         <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender6" runat="server" Enabled="True"
-                                                            TargetControlID="txtEMDValue" FilterMode="ValidChars" FilterType="Numbers"></cc1:FilteredTextBoxExtender>
+                                                            TargetControlID="txtEMDValue" FilterMode="ValidChars" FilterType="Numbers">
+                                                        </cc1:FilteredTextBoxExtender>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -772,7 +785,8 @@
                                                     <td class="auto-style11">
                                                         <asp:TextBox runat="server" ID="txtPerGurante" class="form-control" Style="display: none"></asp:TextBox>
                                                         <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender10" runat="server" Enabled="True"
-                                                            TargetControlID="txtPerGurante" FilterMode="ValidChars" FilterType="Numbers"></cc1:FilteredTextBoxExtender>
+                                                            TargetControlID="txtPerGurante" FilterMode="ValidChars" FilterType="Numbers">
+                                                        </cc1:FilteredTextBoxExtender>
                                                     </td>
                                                 </tr>
                                                 <tr style="display: none">
@@ -899,7 +913,8 @@
                                                     <td>
                                                         <asp:TextBox ID="txtPfLimit" runat="server" TabIndex="31" class="form-control" Style="width: 100px"></asp:TextBox>
                                                         <cc1:FilteredTextBoxExtender ID="FilteredPfLimit" runat="server" Enabled="True" TargetControlID="txtPfLimit"
-                                                            ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                            ValidChars="0123456789.">
+                                                        </cc1:FilteredTextBoxExtender>
                                                     </td>
 
                                                     <td>
@@ -1046,8 +1061,6 @@
                                                     <%--<td style="width: 80px">
                                                         <asp:CheckBox ID="ChkpfonNFHS" runat="server" TabIndex="32" Text="&nbsp;NFHS" />
                                                     </td>--%>
-
-
                                                 </tr>
 
 
@@ -1091,7 +1104,8 @@
                                                     <td>
                                                         <asp:TextBox ID="txtEsiLimit" runat="server" TabIndex="33" class="form-control" Style="width: 100px"></asp:TextBox>
                                                         <cc1:FilteredTextBoxExtender ID="FilteredEsiLimit" runat="server" Enabled="True"
-                                                            TargetControlID="txtEsiLimit" ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                            TargetControlID="txtEsiLimit" ValidChars="0123456789.">
+                                                        </cc1:FilteredTextBoxExtender>
                                                     </td>
 
                                                     <td>
@@ -1238,8 +1252,6 @@
                                                     <%--<td style="width: 80px">
                                                         <asp:CheckBox ID="ChkESIonNFHS" runat="server" TabIndex="32" Text="&nbsp;NFHS" />
                                                     </td>--%>
-
-
                                                 </tr>
 
 
@@ -1389,7 +1401,8 @@
                                                     <td class="auto-style11">
                                                         <asp:TextBox ID="txtotsalaryrate" runat="server" class="form-control"></asp:TextBox>
                                                         <cc1:FilteredTextBoxExtender ID="FTBEotsalaryrate" runat="server" Enabled="True"
-                                                            TargetControlID="txtotsalaryrate" ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                            TargetControlID="txtotsalaryrate" ValidChars="0123456789.">
+                                                        </cc1:FilteredTextBoxExtender>
                                                     </td>
                                                 </tr>
                                                 <tr runat="server" visible="false">
@@ -1422,7 +1435,8 @@
                                                     <td class="auto-style11">
                                                         <asp:TextBox ID="txtOWF" Text="0" runat="server" TabIndex="43" class="form-control" Style="margin-left: 14px; width: 30px"> </asp:TextBox>
                                                         <cc1:FilteredTextBoxExtender ID="FTBEOWF" runat="server" Enabled="True" TargetControlID="txtOWF"
-                                                            ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                            ValidChars="0123456789.">
+                                                        </cc1:FilteredTextBoxExtender>
                                                     </td>
                                                 </tr>
                                                 <tr runat="server" visible="false">
@@ -1432,7 +1446,8 @@
                                                     <td class="auto-style11">
                                                         <asp:TextBox ID="txtadmincharges" Text="0" runat="server" TabIndex="43" class="form-control" Style="margin-left: 14px; width: 30px"> </asp:TextBox>
                                                         <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender5" runat="server" Enabled="True" TargetControlID="txtadmincharges"
-                                                            ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                            ValidChars="0123456789.">
+                                                        </cc1:FilteredTextBoxExtender>
                                                     </td>
                                                 </tr>
                                                 <tr runat="server" visible="false">
@@ -1469,7 +1484,8 @@
                                                     <td class="auto-style11">
                                                         <asp:TextBox ID="txtExpectdateofreceipt" Text="" runat="server" TabIndex="46" class="sinput" Style="margin-left: 14px; width: 60px"> </asp:TextBox>
                                                         <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtenderExpectdate" runat="server" Enabled="True" TargetControlID="txtExpectdateofreceipt"
-                                                            ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                            ValidChars="0123456789.">
+                                                        </cc1:FilteredTextBoxExtender>
                                                     </td>
                                                 </tr>
 
@@ -1629,14 +1645,16 @@
                                                 <asp:TextBox ID="txtquantity" CssClass="form-control" runat="server" Width="30px" Style="text-align: center"></asp:TextBox>
 
                                                 <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender2" runat="server" Enabled="True"
-                                                    TargetControlID="txtquantity" ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    TargetControlID="txtquantity" ValidChars="0123456789.">
+                                                </cc1:FilteredTextBoxExtender>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="P.R">
                                             <ItemTemplate>
                                                 <asp:TextBox ID="txtPayRate" CssClass="form-control" runat="server" Width="70px" Style="text-align: center"> </asp:TextBox>
                                                 <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender10" runat="server" Enabled="True"
-                                                    TargetControlID="txtPayRate" ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    TargetControlID="txtPayRate" ValidChars="0123456789.">
+                                                </cc1:FilteredTextBoxExtender>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="D.T">
@@ -1734,7 +1752,8 @@
                                             <ItemTemplate>
                                                 <asp:TextBox ID="TxtScPer" CssClass="form-control" runat="server" Width="60px" Style="text-align: center" Visible="false"> </asp:TextBox>
                                                 <cc1:FilteredTextBoxExtender ID="FilterSCPer" runat="server" Enabled="True" TargetControlID="TxtScPer"
-                                                    ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    ValidChars="0123456789.">
+                                                </cc1:FilteredTextBoxExtender>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
@@ -1742,7 +1761,8 @@
                                             <ItemTemplate>
                                                 <asp:TextBox ID="TxtCs" runat="server" CssClass="form-control" Width="60px" Style="text-align: center"> </asp:TextBox>
                                                 <cc1:FilteredTextBoxExtender ID="Filtercs" runat="server" Enabled="True" TargetControlID="TxtCs"
-                                                    ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    ValidChars="0123456789.">
+                                                </cc1:FilteredTextBoxExtender>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
@@ -1757,7 +1777,8 @@
                                             <ItemTemplate>
                                                 <asp:TextBox ID="TxtOTRate" runat="server" CssClass="form-control" Width="50px" Style="text-align: center"> </asp:TextBox>
                                                 <cc1:FilteredTextBoxExtender ID="Filterotrate" runat="server" Enabled="True" TargetControlID="TxtOTRate"
-                                                    ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    ValidChars="0123456789.">
+                                                </cc1:FilteredTextBoxExtender>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
@@ -1799,7 +1820,8 @@
                                             <ItemTemplate>
                                                 <asp:TextBox ID="TxtBasic" runat="server" CssClass="form-control" Width="35px" Style="text-align: center"> </asp:TextBox>
                                                 <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender9" runat="server" Enabled="True"
-                                                    TargetControlID="TxtBasic" ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    TargetControlID="TxtBasic" ValidChars="0123456789.">
+                                                </cc1:FilteredTextBoxExtender>
                                             </ItemTemplate>
                                             <HeaderStyle HorizontalAlign="Center" />
                                             <ItemStyle HorizontalAlign="Center" />
@@ -1808,84 +1830,96 @@
                                             <ItemTemplate>
                                                 <asp:TextBox ID="txtda" runat="server" CssClass="form-control" Width="35px" Style="text-align: center"> </asp:TextBox>
                                                 <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender7" runat="server" Enabled="True"
-                                                    TargetControlID="txtda" ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    TargetControlID="txtda" ValidChars="0123456789.">
+                                                </cc1:FilteredTextBoxExtender>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="HRA" Visible="false">
                                             <ItemTemplate>
                                                 <asp:TextBox ID="txthra" runat="server" Width="35px" CssClass="form-control" Style="text-align: center"></asp:TextBox>
                                                 <cc1:FilteredTextBoxExtender ID="F1" runat="server" Enabled="True" TargetControlID="txthra"
-                                                    ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    ValidChars="0123456789.">
+                                                </cc1:FilteredTextBoxExtender>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Conv" Visible="false">
                                             <ItemTemplate>
                                                 <asp:TextBox ID="txtConveyance" runat="server" CssClass="form-control" Width="35px" Style="text-align: center"> </asp:TextBox>
                                                 <cc1:FilteredTextBoxExtender ID="F2" runat="server" Enabled="True" TargetControlID="txtConveyance"
-                                                    ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    ValidChars="0123456789.">
+                                                </cc1:FilteredTextBoxExtender>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="CCA" Visible="false">
                                             <ItemTemplate>
                                                 <asp:TextBox ID="txtcca" runat="server" CssClass="form-control" Width="35px" Style="text-align: center"> </asp:TextBox>
                                                 <cc1:FilteredTextBoxExtender ID="F3" runat="server" Enabled="True" TargetControlID="txtcca"
-                                                    ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    ValidChars="0123456789.">
+                                                </cc1:FilteredTextBoxExtender>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="L A" Visible="false">
                                             <ItemTemplate>
                                                 <asp:TextBox ID="txtleaveamount" runat="server" CssClass="form-control" Width="35px" Style="text-align: center"> </asp:TextBox>
                                                 <cc1:FilteredTextBoxExtender ID="F4" runat="server" Enabled="True" TargetControlID="txtleaveamount"
-                                                    ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    ValidChars="0123456789.">
+                                                </cc1:FilteredTextBoxExtender>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Gratuity" Visible="false">
                                             <ItemTemplate>
                                                 <asp:TextBox ID="txtgratuty" runat="server" CssClass="form-control" Width="45px" Style="text-align: center"> </asp:TextBox>
                                                 <cc1:FilteredTextBoxExtender ID="F5" runat="server" Enabled="True" TargetControlID="txtgratuty"
-                                                    ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    ValidChars="0123456789.">
+                                                </cc1:FilteredTextBoxExtender>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Bonus" Visible="false">
                                             <ItemTemplate>
                                                 <asp:TextBox ID="txtbonus" runat="server" CssClass="form-control" Width="35px" Style="text-align: center">  </asp:TextBox>
                                                 <cc1:FilteredTextBoxExtender ID="F6" runat="server" Enabled="True" TargetControlID="txtbonus"
-                                                    ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    ValidChars="0123456789.">
+                                                </cc1:FilteredTextBoxExtender>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Att Bonus" Visible="false">
                                             <ItemTemplate>
                                                 <asp:TextBox ID="txtattbonus" runat="server" CssClass="form-control" Width="35px" Style="text-align: center">  </asp:TextBox>
                                                 <cc1:FilteredTextBoxExtender ID="FTBAttBonus" runat="server" Enabled="True" TargetControlID="txtattbonus"
-                                                    ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    ValidChars="0123456789.">
+                                                </cc1:FilteredTextBoxExtender>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="W A" Visible="false">
                                             <ItemTemplate>
                                                 <asp:TextBox ID="txtwa" runat="server" CssClass="form-control" Width="35px" Style="text-align: center"> </asp:TextBox>
                                                 <cc1:FilteredTextBoxExtender ID="F7" runat="server" Enabled="True" TargetControlID="txtwa"
-                                                    ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    ValidChars="0123456789.">
+                                                </cc1:FilteredTextBoxExtender>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="O A" Visible="false">
                                             <ItemTemplate>
                                                 <asp:TextBox ID="txtoa" runat="server" CssClass="form-control" Width="35px" Style="text-align: center"> </asp:TextBox>
                                                 <cc1:FilteredTextBoxExtender ID="F8" runat="server" Enabled="True" TargetControlID="txtoa"
-                                                    ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    ValidChars="0123456789.">
+                                                </cc1:FilteredTextBoxExtender>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="NFHs" Visible="false">
                                             <ItemTemplate>
                                                 <asp:TextBox ID="txtNfhs" runat="server" CssClass="form-control" Width="35px" Style="text-align: center"> </asp:TextBox>
                                                 <cc1:FilteredTextBoxExtender ID="Fnfhs" runat="server" Enabled="True" TargetControlID="txtNfhs"
-                                                    ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    ValidChars="0123456789.">
+                                                </cc1:FilteredTextBoxExtender>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="R.C" Visible="false">
                                             <ItemTemplate>
                                                 <asp:TextBox ID="Txtrc" runat="server" CssClass="form-control" Width="35px" Style="text-align: center"> </asp:TextBox>
                                                 <cc1:FilteredTextBoxExtender ID="Filterrc" runat="server" Enabled="True" TargetControlID="Txtrc"
-                                                    ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    ValidChars="0123456789.">
+                                                </cc1:FilteredTextBoxExtender>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
@@ -1899,7 +1933,8 @@
                                 <div style="margin-right: 10px; float: right">
                                     <asp:TextBox ID="txtnoofrows" Text="1" runat="server" Width="30px"></asp:TextBox>
                                     <cc1:FilteredTextBoxExtender ID="ftbrows" runat="server" Enabled="true"
-                                        TargetControlID="txtnoofrows" ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                        TargetControlID="txtnoofrows" ValidChars="0123456789.">
+                                    </cc1:FilteredTextBoxExtender>
                                     <asp:Button ID="btnadddesgn" runat="server" class="btn save" Text="Add Designation"
                                         OnClick="btnadddesgn_Click1" Style="width: 125px" /><br />
                                     <asp:Label ID="lblmsgcontractdetails" runat="Server" Text="" Style="color: Red;"></asp:Label>
@@ -2006,7 +2041,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="Txtgross" runat="server" CssClass="form-control" Width="45px" Style="text-align: center" Enabled="false"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="ftbgross" runat="server" Enabled="true"
-                                                        TargetControlID="Txtgross" ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        TargetControlID="Txtgross" ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="5px" />
                                             </asp:TemplateField>
@@ -2016,7 +2052,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtNetPay" runat="server" CssClass="form-control" Width="45px" Style="text-align: center" Enabled="false"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="ftbNetPay" runat="server" Enabled="true"
-                                                        TargetControlID="TxtNetPay" ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        TargetControlID="TxtNetPay" ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="5px" />
                                             </asp:TemplateField>
@@ -2025,7 +2062,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtBasic" runat="server" CssClass="form-control" Width="45px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender9" runat="server" Enabled="True"
-                                                        TargetControlID="TxtBasic" ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        TargetControlID="TxtBasic" ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="5px" />
                                             </asp:TemplateField>
@@ -2033,7 +2071,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtda" runat="server" CssClass="form-control" Width="45px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender7" runat="server" Enabled="True"
-                                                        TargetControlID="txtda" ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        TargetControlID="txtda" ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="5px" />
                                             </asp:TemplateField>
@@ -2041,7 +2080,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txthra" runat="server" CssClass="form-control" Width="45px" Style="text-align: center"></asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="F1" runat="server" Enabled="True" TargetControlID="txthra"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="5px" />
                                             </asp:TemplateField>
@@ -2049,7 +2089,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtConveyance" runat="server" CssClass="form-control" Width="45px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="F2" runat="server" Enabled="True" TargetControlID="txtConveyance"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="9px" />
                                             </asp:TemplateField>
@@ -2058,7 +2099,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtMedicalAllowance" runat="server" CssClass="form-control" Width="65px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filtermedicalallowance" runat="server" Enabled="True" TargetControlID="TxtMedicalAllowance"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2066,7 +2108,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtFoodAllowance" runat="server" CssClass="form-control" Width="65px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filterfoodallowance" runat="server" Enabled="True" TargetControlID="TxtFoodAllowance"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2074,7 +2117,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtsiteAllowance" runat="server" CssClass="form-control" Width="65px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filtersiteallowance" runat="server" Enabled="True" TargetControlID="TxtsiteAllowance"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2082,7 +2126,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtSplAllowance" runat="server" CssClass="form-control" Width="65px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filtersplallowance" runat="server" Enabled="True" TargetControlID="TxtSplAllowance"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2110,7 +2155,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtoa" runat="server" CssClass="form-control" Width="45px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="F8" runat="server" Enabled="True" TargetControlID="txtoa"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="15px" />
                                             </asp:TemplateField>
@@ -2119,7 +2165,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtaddlhrallw" runat="server" CssClass="form-control" Width="45px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="ftdtxtallhrallw" runat="server" Enabled="True" TargetControlID="txtaddlhrallw"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="15px" />
                                             </asp:TemplateField>
@@ -2128,7 +2175,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtqtrallw" runat="server" Width="45px" CssClass="form-control" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="ftdqtrallw" runat="server" Enabled="True" TargetControlID="txtqtrallw"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="15px" />
                                             </asp:TemplateField>
@@ -2137,7 +2185,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtwa" runat="server" Width="45px" CssClass="form-control" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="F7" runat="server" Enabled="True" TargetControlID="txtwa"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="9px" />
                                             </asp:TemplateField>
@@ -2146,7 +2195,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtrelallw" runat="server" Width="45px" CssClass="form-control" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="ftdtxtrelallw" runat="server" Enabled="True" TargetControlID="txtrelallw"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="9px" />
                                             </asp:TemplateField>
@@ -2156,7 +2206,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtGunallw" runat="server" Width="45px" CssClass="form-control" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="ftdtxtGunallw" runat="server" Enabled="True" TargetControlID="txtGunallw"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="9px" />
                                             </asp:TemplateField>
@@ -2174,7 +2225,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtFireallw" runat="server" CssClass="form-control" Width="45px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="ftdtxtFireallw" runat="server" Enabled="True" TargetControlID="txtFireallw"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="9px" />
                                             </asp:TemplateField>
@@ -2183,7 +2235,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtbonus" runat="server" CssClass="form-control" Width="45px" Style="text-align: center">  </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="F6" runat="server" Enabled="True" TargetControlID="txtbonus"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="9px" />
                                             </asp:TemplateField>
@@ -2204,7 +2257,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtgratuty" runat="server" CssClass="form-control" Width="45px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="F5" runat="server" Enabled="True" TargetControlID="txtgratuty"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="9px" />
                                             </asp:TemplateField>
@@ -2224,7 +2278,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtleaveamount" CssClass="form-control" runat="server" Width="45px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="F4" runat="server" Enabled="True" TargetControlID="txtleaveamount"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="9px" />
                                             </asp:TemplateField>
@@ -2244,7 +2299,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtOTRate" runat="server" CssClass="form-control" Width="35px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filterotrate" runat="server" Enabled="True" TargetControlID="TxtOTRate"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2276,7 +2332,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtESIRate" runat="server" CssClass="form-control" Width="47px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filteresirate" runat="server" Enabled="True" TargetControlID="TxtESIRate"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2304,7 +2361,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtotesiwages" runat="server" CssClass="form-control" Width="47px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="ftdotesiwages" runat="server" Enabled="True" TargetControlID="txtotesiwages"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2336,7 +2394,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtPFRate" runat="server" CssClass="form-control" Width="47px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filterpfrate" runat="server" Enabled="True" TargetControlID="TxtPFRate"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2380,7 +2439,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtcca" runat="server" CssClass="form-control" Width="45px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="F3" runat="server" Enabled="True" TargetControlID="txtcca"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="9px" />
                                             </asp:TemplateField>
@@ -2389,7 +2449,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtattbonus" runat="server" CssClass="form-control" Width="35px" Style="text-align: center">  </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="FTBAttBonus" runat="server" Enabled="True" TargetControlID="txtattbonus"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2410,8 +2471,9 @@
                                             <asp:TemplateField HeaderText="NFHs" Visible="false">
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtNfhs1" Visible="false" runat="server" CssClass="form-control" Width="45px" Style="text-align: center"> </asp:TextBox>
-                                                    <cc1:FilteredTextBoxExtender ID="Fnhs"  runat="server" Enabled="True" TargetControlID="txtNfhs1"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                    <cc1:FilteredTextBoxExtender ID="Fnhs" runat="server" Enabled="True" TargetControlID="txtNfhs1"
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="15px" />
                                             </asp:TemplateField>
@@ -2419,7 +2481,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="Txtrc" runat="server" CssClass="form-control" Width="45px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filterrc" runat="server" Enabled="True" TargetControlID="Txtrc"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2428,7 +2491,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtCSWPLDays" runat="server" CssClass="form-control" Width="55px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="FilterCSWPLDays" runat="server" Enabled="True" TargetControlID="TxtCSWPLDays"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2436,7 +2500,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtCSWPLAmount" runat="server" CssClass="form-control" Width="55px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="FilterCSWPLAmount" runat="server" Enabled="True" TargetControlID="TxtCSWPLAmount"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2444,7 +2509,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtCSWTLDays" runat="server" CssClass="form-control" Width="55px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="FilterCSWTLDays" runat="server" Enabled="True" TargetControlID="TxtCSWTLDays"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2452,7 +2518,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtCSWTLAmount" runat="server" CssClass="form-control" Width="55px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="FilterCSWTLAmount" runat="server" Enabled="True" TargetControlID="TxtCSWTLAmount"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2460,7 +2527,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtCs" runat="server" Width="60px" CssClass="form-control" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filtercs" runat="server" Enabled="True" TargetControlID="TxtCs"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2468,7 +2536,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtScPer" runat="server" Width="60px" CssClass="form-control" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="FilterSCPer" runat="server" Enabled="True" TargetControlID="TxtScPer"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2478,6 +2547,8 @@
                                                         <asp:ListItem>Gen</asp:ListItem>
                                                         <asp:ListItem>G-S</asp:ListItem>
                                                         <asp:ListItem>G-4</asp:ListItem>
+                                                        <asp:ListItem>P.Hr</asp:ListItem>
+                                                        <asp:ListItem>P.Day</asp:ListItem>
                                                         <asp:ListItem>22</asp:ListItem>
                                                         <asp:ListItem>23</asp:ListItem>
                                                         <asp:ListItem>24</asp:ListItem>
@@ -2486,7 +2557,7 @@
                                                         <asp:ListItem>27</asp:ListItem>
                                                         <asp:ListItem>30</asp:ListItem>
                                                         <asp:ListItem>31</asp:ListItem>
-                                                        <asp:ListItem>perday</asp:ListItem>
+
                                                     </asp:DropDownList>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
@@ -2495,7 +2566,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtNHSRate" runat="server" Width="35px" CssClass="form-control" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filternhsrate" runat="server" Enabled="True" TargetControlID="TxtNHSRate"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2521,7 +2593,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtWORate" runat="server" CssClass="form-control" Width="35px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filterworate" runat="server" Enabled="True" TargetControlID="TxtWORate"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2533,7 +2606,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtTravelAllowance" runat="server" CssClass="form-control" Width="65px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filtersplallotrwance" runat="server" Enabled="True" TargetControlID="TxtTravelAllowance"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2541,7 +2615,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtPerformanceAllowance" runat="server" CssClass="form-control" Width="65px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filtersperfallowance" runat="server" Enabled="True" TargetControlID="TxtPerformanceAllowance"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2549,7 +2624,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtMobileAllowance" runat="server" Width="65px" CssClass="form-control" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filtermobileallowance" runat="server" Enabled="True" TargetControlID="TxtMobileAllowance"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2557,7 +2633,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtOThrs" runat="server" Width="35px" CssClass="form-control" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filterothrs" runat="server" Enabled="True" TargetControlID="TxtOThrs"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2565,7 +2642,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtADVDed" runat="server" Width="35px" CssClass="form-control" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filteradvded" runat="server" Enabled="True" TargetControlID="Txtadvded"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2573,7 +2651,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtWCDed" runat="server" Width="35px" CssClass="form-control" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filterwcded" runat="server" Enabled="True" TargetControlID="Txtwcded"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2581,7 +2660,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="TxtUniformDed" runat="server" CssClass="form-control" Width="50px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="FilterUniformDed" runat="server" Enabled="True" TargetControlID="Txtuniformded"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2590,7 +2670,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtservicewt" runat="server" CssClass="form-control" Width="47px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filterservice" runat="server" Enabled="True" TargetControlID="txtservicewt"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2598,7 +2679,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtHardshipAllw" runat="server" Width="47px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="FilterHardshipAllw" runat="server" Enabled="True" TargetControlID="txtHardshipAllw"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2606,7 +2688,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtRankAllw" runat="server" Width="47px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="FilterRankAllw" runat="server" Enabled="True" TargetControlID="txtRankAllw"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2614,7 +2697,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtuniformcharge" runat="server" CssClass="form-control" Width="47px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="Filteruniformcharge" runat="server" Enabled="True" TargetControlID="txtuniformcharge"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2622,7 +2706,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtPFEmp" runat="server" Enabled="false" CssClass="form-control" Width="47px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="FtxtPFEmp" runat="server" Enabled="True" TargetControlID="txtPFEmp"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2630,7 +2715,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtESIEmp" runat="server" Enabled="false" CssClass="form-control" Width="47px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="FtxtESIEmp" runat="server" Enabled="True" TargetControlID="txtESIEmp"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2638,7 +2724,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtPFEmpr" runat="server" Enabled="false" CssClass="form-control" Width="47px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="FtxtPFEmpr" runat="server" Enabled="True" TargetControlID="txtPFEmpr"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2646,7 +2733,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtESIEmpr" runat="server" Enabled="false" CssClass="form-control" Width="47px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="FtxtESIEmpr" runat="server" Enabled="True" TargetControlID="txtESIEmpr"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2654,7 +2742,8 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtSCEmp" runat="server" Enabled="false" CssClass="form-control" Width="47px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="FtxtSCEmp" runat="server" Enabled="True" TargetControlID="txtSCEmp"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -2662,25 +2751,28 @@
                                                 <ItemTemplate>
                                                     <asp:TextBox ID="txtCTC" runat="server" Enabled="false" CssClass="form-control" Width="47px" Style="text-align: center"> </asp:TextBox>
                                                     <cc1:FilteredTextBoxExtender ID="FtxtCTC" runat="server" Enabled="True" TargetControlID="txtCTC"
-                                                        ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
-                                              <asp:TemplateField HeaderText="IncentiveRate">
-                                            <ItemTemplate>
-                                                <asp:TextBox ID="TxtIncentiveRate" runat="server" CssClass="form-control" Width="50px" Style="text-align: center"> </asp:TextBox>
-                                                <cc1:FilteredTextBoxExtender ID="FilterIncentiveRate" runat="server" Enabled="True" TargetControlID="TxtIncentiveRate"
-                                                    ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="IncentiveRate">
+                                                <ItemTemplate>
+                                                    <asp:TextBox ID="TxtIncentiveRate" runat="server" CssClass="form-control" Width="50px" Style="text-align: center"> </asp:TextBox>
+                                                    <cc1:FilteredTextBoxExtender ID="FilterIncentiveRate" runat="server" Enabled="True" TargetControlID="TxtIncentiveRate"
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
 
-                                              <asp:TemplateField HeaderText="LCRate">
-                                            <ItemTemplate>
-                                                <asp:TextBox ID="TxtLCRate" runat="server" CssClass="form-control" Width="50px" Style="text-align: center"> </asp:TextBox>
-                                                <cc1:FilteredTextBoxExtender ID="FilterLCRate" runat="server" Enabled="True" TargetControlID="TxtLCRate"
-                                                    ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="LCRate">
+                                                <ItemTemplate>
+                                                    <asp:TextBox ID="TxtLCRate" runat="server" CssClass="form-control" Width="50px" Style="text-align: center"> </asp:TextBox>
+                                                    <cc1:FilteredTextBoxExtender ID="FilterLCRate" runat="server" Enabled="True" TargetControlID="TxtLCRate"
+                                                        ValidChars="0123456789.">
+                                                    </cc1:FilteredTextBoxExtender>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
 
                                         </Columns>
                                     </asp:GridView>
@@ -2692,7 +2784,8 @@
                             <div>
                                 <asp:TextBox ID="txtnoofrowssw" Text="1" runat="server" Width="30px"></asp:TextBox>
                                 <cc1:FilteredTextBoxExtender ID="ftrowsw" runat="server" Enabled="true"
-                                    TargetControlID="txtnoofrowssw" ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
+                                    TargetControlID="txtnoofrowssw" ValidChars="0123456789.">
+                                </cc1:FilteredTextBoxExtender>
                                 <asp:Button ID="btnadddesgnsw" runat="server" TabIndex="44" class="btn save" Text="Add Designation"
                                     OnClick="btnadddesgnsw_Click" Style="width: 125px" />
                                 <asp:Label ID="lblmsgspecialwages" runat="Server" Text="" Style="color: Red; margin-left: 50%"></asp:Label>
