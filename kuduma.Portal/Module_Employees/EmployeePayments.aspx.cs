@@ -15441,6 +15441,13 @@ namespace Kuduma.Portal
 
 
 
+                        if (incentivs != 0)
+                        {
+                            PdfPCell CIncentivs = new PdfPCell(new Phrase("Incentivs", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            CIncentivs.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                            CIncentivs.Border = 13;
+                            SecondtableHeadings.AddCell(CIncentivs);
+                        }
 
 
 
@@ -15452,14 +15459,7 @@ namespace Kuduma.Portal
                             SecondtableHeadings.AddCell(CGross);
                         }
                         //22
-                        if (incentivs != 0)
-                        {
-                            PdfPCell CIncentivs = new PdfPCell(new Phrase("Incentivs", FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
-                            CIncentivs.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                            CIncentivs.Border = 13;
-                            SecondtableHeadings.AddCell(CIncentivs);
-                        }
-
+                       
 
 
                         //23
@@ -16632,7 +16632,22 @@ namespace Kuduma.Portal
 
 
 
-
+                                //22
+                                if (incentivs != 0)
+                                {
+                                    forConvert = 0;
+                                    if (dt.Rows[i]["Incentivs"].ToString().Trim().Length > 0)
+                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["Incentivs"].ToString()));
+                                    totalIncentivs += forConvert;
+                                    GrandtotalIncentivs += forConvert;
+                                    PdfPCell CIncentivs1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
+                                    CIncentivs1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                                    CIncentivs1.BorderWidthTop = 0.4f;
+                                    CIncentivs1.BorderWidthBottom = 0.4f;
+                                    CIncentivs1.BorderWidthLeft = 0;
+                                    CIncentivs1.BorderWidthRight = 0.4f;
+                                    Secondtable.AddCell(CIncentivs1);
+                                }
 
 
 
@@ -16654,22 +16669,7 @@ namespace Kuduma.Portal
                                     Secondtable.AddCell(CGross1);
                                 }
 
-                                //22
-                                if (incentivs != 0)
-                                {
-                                    forConvert = 0;
-                                    if (dt.Rows[i]["Incentivs"].ToString().Trim().Length > 0)
-                                        forConvert = (float)Math.Round(Convert.ToSingle(dt.Rows[i]["Incentivs"].ToString()));
-                                    totalIncentivs += forConvert;
-                                    GrandtotalIncentivs += forConvert;
-                                    PdfPCell CIncentivs1 = new PdfPCell(new Phrase(forConvert.ToString("0"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.NORMAL, BaseColor.BLACK)));
-                                    CIncentivs1.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
-                                    CIncentivs1.BorderWidthTop = 0.4f;
-                                    CIncentivs1.BorderWidthBottom = 0.4f;
-                                    CIncentivs1.BorderWidthLeft = 0;
-                                    CIncentivs1.BorderWidthRight = 0.4f;
-                                    Secondtable.AddCell(CIncentivs1);
-                                }
+                               
 
                                 //23
                                 if (pfonduties != 0)
@@ -17781,7 +17781,14 @@ namespace Kuduma.Portal
                         }
 
 
-
+                        //22
+                        if (incentivs != 0)
+                        {
+                            PdfPCell FIncentivs = new PdfPCell(new Phrase(totalIncentivs.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            FIncentivs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            FIncentivs.Border = 15;
+                            SecondtableFooter.AddCell(FIncentivs);
+                        }
 
 
                         if (gross != 0)
@@ -17792,14 +17799,7 @@ namespace Kuduma.Portal
                             SecondtableFooter.AddCell(FCGross1);
                         }
 
-                        //22
-                        if (incentivs != 0)
-                        {
-                            PdfPCell FIncentivs = new PdfPCell(new Phrase(totalIncentivs.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
-                            FIncentivs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
-                            FIncentivs.Border = 15;
-                            SecondtableFooter.AddCell(FIncentivs);
-                        }
+                       
 
 
                         //23
@@ -18809,7 +18809,14 @@ namespace Kuduma.Portal
                             SecondtablecheckbyFooter.AddCell(GFCIncentiveAmt);
                         }
 
-
+                        //22
+                        if (incentivs != 0)
+                        {
+                            PdfPCell GFIncentivs = new PdfPCell(new Phrase(GrandtotalIncentivs.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
+                            GFIncentivs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+                            GFIncentivs.Border = 15;
+                            SecondtablecheckbyFooter.AddCell(GFIncentivs);
+                        }
 
 
 
@@ -18821,14 +18828,7 @@ namespace Kuduma.Portal
                             SecondtablecheckbyFooter.AddCell(GFCGross1);
                         }
 
-                        //22
-                        if (incentivs != 0)
-                        {
-                            PdfPCell GFIncentivs = new PdfPCell(new Phrase(GrandtotalIncentivs.ToString("#,#"), FontFactory.GetFont(Fontstyle, FONT_SIZE, Font.BOLD, BaseColor.BLACK)));
-                            GFIncentivs.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
-                            GFIncentivs.Border = 15;
-                            SecondtablecheckbyFooter.AddCell(GFIncentivs);
-                        }
+                       
 
 
 
